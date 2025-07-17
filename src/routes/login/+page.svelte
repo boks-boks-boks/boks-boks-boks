@@ -1,5 +1,5 @@
 <script>
-	import { login, setToken } from '$lib';
+	import { login, setToken, setUser } from '$lib';
 	import { goto } from '$app/navigation';
 	import { FormInput, Button, Alert, Card } from '$lib';
 	
@@ -18,10 +18,37 @@
 		errorMessage = '';
 
 		try {
+			console.log('Starting login process...');
 			const response = await login({ username, password });
-			setToken(response.token);
-			// Redirect to home page after successful login
-			goto('/');
+			console.log('Login response:', response);
+			
+			// Extract token from the correct location in response
+			const token = response.token || response.data?.token;
+			console.log('Extracted token:', token);
+			
+			if (!token) {
+				console.error('Full response object:', response);
+				throw new Error('No token received from server');
+			}
+			
+			// Set token first
+			setToken(token);
+			console.log('Token set in store');
+			
+			// Set user data
+			const userData = { username };
+			setUser(userData);
+			console.log('User set in store:', userData);
+			
+			// Verify localStorage
+			console.log('localStorage auth_token:', localStorage.getItem('auth_token'));
+			console.log('localStorage current_user:', localStorage.getItem('current_user'));
+			
+			// Small delay to ensure stores are updated
+			await new Promise(resolve => setTimeout(resolve, 100));
+			
+			// Navigate to profile
+			goto(`/users/${username}`);
 		} catch (error) {
 			errorMessage = 'Login failed. Please check your credentials.';
 			console.error('Login error:', error);

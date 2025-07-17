@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { page } from '$app/stores';
+	import { isAuthenticated, currentUser } from '$lib/stores/auth';
 </script>
 
 <div class="app">
@@ -16,12 +17,18 @@
 				<a href="/" class="nav-link" class:active={$page.url.pathname === '/'}>
 					Home
 				</a>
-				<a href="/login" class="nav-link" class:active={$page.url.pathname === '/login'}>
-					Login
-				</a>
-				<a href="/register" class="nav-link" class:active={$page.url.pathname === '/register'}>
-					Register
-				</a>
+				{#if $isAuthenticated && $currentUser}
+					<a href="/users/{$currentUser.username}" class="nav-link" class:active={$page.url.pathname.startsWith('/users/')}>
+						Profile
+					</a>
+				{:else}
+					<a href="/login" class="nav-link" class:active={$page.url.pathname === '/login'}>
+						Login
+					</a>
+					<a href="/register" class="nav-link" class:active={$page.url.pathname === '/register'}>
+						Register
+					</a>
+				{/if}
 			</div>
 		</nav>
 	</header>
