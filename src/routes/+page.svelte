@@ -1,6 +1,7 @@
 <script>
 	import { isAuthenticated } from '$lib';
 	import { goto } from '$app/navigation';
+	import { Button, FeatureCard } from '$lib';
 </script>
 
 <svelte:head>
@@ -20,21 +21,21 @@
 		
 		{#if $isAuthenticated}
 			<div class="hero-actions">
-				<button class="btn btn-primary btn-large">
+				<Button variant="primary" size="large">
 					Manage Your Boxes
-				</button>
+				</Button>
 			</div>
 			<div class="welcome-message">
 				<p class="authenticated-text">Welcome back! You are logged in and ready to organize.</p>
 			</div>
 		{:else}
 			<div class="hero-actions">
-				<button on:click={() => goto('/login')} class="btn btn-primary btn-large">
+				<Button variant="primary" size="large" on:click={() => goto('/login')}>
 					Get Started
-				</button>
-				<button on:click={() => goto('/register')} class="btn btn-secondary btn-large">
+				</Button>
+				<Button variant="secondary" size="large" on:click={() => goto('/register')}>
 					Sign Up
-				</button>
+				</Button>
 			</div>
 		{/if}
 	</div>
@@ -50,26 +51,26 @@
 <div class="features">
 	<h2 class="features-title">Why Choose Boks-Boks-Boks?</h2>
 	<div class="features-grid">
-		<div class="feature-card">
-			<div class="feature-icon">📋</div>
-			<h3>Detailed Inventory</h3>
-			<p>Keep comprehensive records of all items in each box with descriptions, categories, and photos.</p>
-		</div>
-		<div class="feature-card">
-			<div class="feature-icon">🔍</div>
-			<h3>Smart Search</h3>
-			<p>Quickly find any item across all your boxes with our powerful search and filtering system.</p>
-		</div>
-		<div class="feature-card">
-			<div class="feature-icon">📊</div>
-			<h3>Organization Tools</h3>
-			<p>Categorize boxes by room, type, or custom labels to maintain perfect organization.</p>
-		</div>
-		<div class="feature-card">
-			<div class="feature-icon">🏷️</div>
-			<h3>Label System</h3>
-			<p>Generate printable labels and QR codes to physically mark your boxes for easy identification.</p>
-		</div>
+		<FeatureCard 
+			icon="📋"
+			title="Detailed Inventory"
+			description="Keep comprehensive records of all items in each box with descriptions, categories, and photos."
+		/>
+		<FeatureCard 
+			icon="🔍"
+			title="Smart Search"
+			description="Quickly find any item across all your boxes with our powerful search and filtering system."
+		/>
+		<FeatureCard 
+			icon="📊"
+			title="Organization Tools"
+			description="Categorize boxes by room, type, or custom labels to maintain perfect organization."
+		/>
+		<FeatureCard 
+			icon="🏷️"
+			title="Label System"
+			description="Generate printable labels and QR codes to physically mark your boxes for easy identification."
+		/>
 	</div>
 </div>
 
@@ -79,12 +80,12 @@
 			<h2>Ready to Get Organized?</h2>
 			<p>Join thousands of users who have transformed their storage with Boks-Boks-Boks</p>
 			<div class="auth-links">
-				<a href="/login" class="btn btn-primary btn-large">
+				<Button variant="primary" size="large" href="/login">
 					Login
-				</a>
-				<a href="/register" class="btn btn-secondary btn-large">
+				</Button>
+				<Button variant="secondary" size="large" href="/register">
 					Register
-				</a>
+				</Button>
 			</div>
 		</div>
 	</div>
@@ -183,38 +184,6 @@
 		gap: 2rem;
 	}
 
-	.feature-card {
-		background: white;
-		padding: 2rem;
-		border-radius: 12px;
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-		text-align: center;
-		transition: transform 0.2s ease, box-shadow 0.2s ease;
-	}
-
-	.feature-card:hover {
-		transform: translateY(-4px);
-		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-	}
-
-	.feature-icon {
-		font-size: 3rem;
-		margin-bottom: 1rem;
-	}
-
-	.feature-card h3 {
-		margin: 0 0 1rem 0;
-		font-size: 1.25rem;
-		font-weight: 600;
-		color: #1f2937;
-	}
-
-	.feature-card p {
-		margin: 0;
-		color: #6b7280;
-		line-height: 1.6;
-	}
-
 	.cta-section {
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 		padding: 3rem 2rem;
@@ -242,47 +211,6 @@
 		gap: 1rem;
 		justify-content: center;
 		flex-wrap: wrap;
-	}
-
-	.btn {
-		display: inline-block;
-		padding: 0.75rem 1.5rem;
-		border-radius: 8px;
-		text-decoration: none;
-		font-weight: 600;
-		text-align: center;
-		transition: all 0.2s ease;
-		border: none;
-		cursor: pointer;
-		font-size: 1rem;
-		font-family: inherit;
-	}
-
-	.btn-primary {
-		background: #3b82f6;
-		color: white;
-	}
-
-	.btn-primary:hover {
-		background: #2563eb;
-		transform: translateY(-1px);
-	}
-
-	.btn-secondary {
-		background: white;
-		color: #3b82f6;
-		border: 2px solid #3b82f6;
-	}
-
-	.btn-secondary:hover {
-		background: #3b82f6;
-		color: white;
-		transform: translateY(-1px);
-	}
-
-	.btn-large {
-		padding: 1rem 2rem;
-		font-size: 1.1rem;
 	}
 
 	@media (max-width: 768px) {
@@ -316,11 +244,6 @@
 		.auth-links {
 			flex-direction: column;
 			align-items: center;
-		}
-
-		.btn-large {
-			width: 100%;
-			max-width: 300px;
 		}
 	}
 </style>
