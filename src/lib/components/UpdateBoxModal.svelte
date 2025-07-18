@@ -3,7 +3,7 @@
 	import Modal from './Modal.svelte';
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
-	import { createBox, type Box, deleteBox } from '$lib/api';
+	import { createBox, type Box, deleteBox, updateBox } from '$lib/api';
 	
 	export let isOpen = false;
 	export let boxId: string;
@@ -51,9 +51,19 @@
 
 	async function handleSubmit(event: Event) {
 		event.preventDefault();
-		// TODO: handle box update in db
+		isLoading = true
 
-    dispatch("itemUpdated", title)
+		try {
+			await updateBox({"id": boxId, "title": title})
+			
+			dispatch("itemUpdated", title)
+			closeModal()
+		} catch(err) {
+			console.error('Error updating box:', err)
+			error = err instanceof Error ? err.message : 'Failed to update box'
+		} finally {
+			isLoading = false
+		}
 	}
 
 	// Clear error when user starts typing

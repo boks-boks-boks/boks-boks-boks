@@ -187,6 +187,11 @@ export interface CreateItemRequest {
     amount: number;
 }
 
+export interface UpdateBoxRequest {
+    id: string
+    title: string
+}
+
 export async function createBox(boxData: CreateBoxRequest): Promise<Box> {
     const response = await protectedRequest(`${baseUrl}/api/boxes`, {
         method: 'POST',
@@ -230,5 +235,18 @@ export async function deleteBox(boxId: string): Promise<void> {
 
     if (!apiResponse.success) {
         throw new Error(apiResponse.error || 'Failed to delete box')
+    }
+}
+
+export async function updateBox(boxData: UpdateBoxRequest): Promise<void> {
+    const response = await protectedRequest(`${baseUrl}/api/boxes`, {
+        method: 'PUT',
+        body: JSON.stringify(boxData)
+    })
+
+    const apiResponse: APIResponse<void> = await response.json()
+
+    if (!apiResponse.success) {
+        throw new Error(apiResponse.error || 'Failed to update box')
     }
 }
