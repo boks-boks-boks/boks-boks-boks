@@ -3,12 +3,33 @@
 	import { isAuthenticated, currentUser } from '$lib';
 	import { goto } from '$app/navigation';
 	import { Button, FeatureCard, BoxCard, Alert } from '$lib';
+	import CreateBoxModal from '$lib/components/CreateBoxModal.svelte';
 	import { getBoxes, type Box } from '$lib/api';
 
 	let boxes: Box[] = [];
 	let loading = false;
 	let error = '';
 	let loadingPromise: Promise<void> | null = null; // Track loading promise to prevent duplicates
+	let showCreateModal = false;
+
+	function openCreateModal() {
+		showCreateModal = true;
+	}
+
+	function closeCreateModal() {
+		showCreateModal = false;
+	}
+
+	function handleBoxCreated(event: CustomEvent<Box>) {
+		const newBox = event.detail;
+		console.log('New box created:', newBox);
+		
+		// Add the new box to the beginning of the list
+		boxes = [newBox, ...boxes];
+		
+		// Close the modal
+		closeCreateModal();
+	}
 
 	async function loadBoxes() {
 		if (!$isAuthenticated) return;
@@ -81,7 +102,7 @@
 			<div class="boxes-section">
 				<div class="section-header">
 					<h2>Your Boxes ({boxes.length})</h2>
-					<Button variant="primary" size="medium">
+					<Button variant="primary" size="medium" on:click={openCreateModal}>
 						+ Add New Box
 					</Button>
 				</div>
@@ -99,7 +120,7 @@
 					<h3>Welcome to your storage manager!</h3>
 					<p>You don't have any boxes yet. Start organizing by creating your first storage box to keep track of your belongings.</p>
 					<div class="empty-actions">
-						<Button variant="primary" size="large">
+						<Button variant="primary" size="large" on:click={openCreateModal}>
 							<span class="button-icon">+</span>
 							Create Your First Box
 						</Button>
@@ -187,6 +208,13 @@
 		</div>
 	</div>
 {/if}
+
+<!-- Create Box Modal -->
+<CreateBoxModal 
+	isOpen={showCreateModal} 
+	on:close={closeCreateModal}
+	on:boxCreated={handleBoxCreated}
+/>
 
 <style>
 	/* Dashboard Styles */

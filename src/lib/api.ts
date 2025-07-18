@@ -177,3 +177,24 @@ export async function getBoxItems(boxId: string): Promise<Item[]> {
     // Handle case where data is null/undefined but success is true (empty result)
     return apiResponse.data || [];
 }
+
+export interface CreateBoxRequest {
+    title: string;
+}
+
+export async function createBox(boxData: CreateBoxRequest): Promise<Box> {
+    const response = await protectedRequest(`${baseUrl}/api/boxes`, {
+        method: 'POST',
+        body: JSON.stringify(boxData)
+    });
+    
+    const apiResponse: APIResponse<Box> = await response.json();
+    
+    console.log('API create box response:', apiResponse);
+    
+    if (!apiResponse.success || !apiResponse.data) {
+        throw new Error(apiResponse.error || 'Failed to create box');
+    }
+    
+    return apiResponse.data;
+}
