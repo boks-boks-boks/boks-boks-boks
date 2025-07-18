@@ -47,8 +47,8 @@
 			// Small delay to ensure stores are updated
 			await new Promise(resolve => setTimeout(resolve, 100));
 			
-			// Navigate to profile
-			goto(`/users/${username}`);
+			// Navigate to home page
+			goto('/');
 		} catch (error) {
 			errorMessage = 'Login failed. Please check your credentials.';
 			console.error('Login error:', error);

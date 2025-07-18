@@ -130,3 +130,50 @@ export async function logout(): Promise<void> {
         localStorage.removeItem('auth_token');
     }
 }
+
+export interface Box {
+    id: string;
+    title: string;
+    items?: Item[];
+}
+
+export interface Item {
+    id: string;
+    title: string;
+    amount?: number; // Optional since DTO might not include it yet
+}
+
+export interface APIResponse<T> {
+    success: boolean;
+    message?: string;
+    data?: T;
+    error?: string;
+}
+
+export async function getBoxes(): Promise<Box[]> {
+    const response = await protectedRequest(`${baseUrl}/api/boxes`);
+    const apiResponse: APIResponse<Box[]> = await response.json();
+    
+    console.log('API boxes response:', apiResponse);
+    
+    if (!apiResponse.success) {
+        throw new Error(apiResponse.error || 'Failed to fetch boxes');
+    }
+    
+    // Handle case where data is null/undefined but success is true (empty result)
+    return apiResponse.data || [];
+}
+
+export async function getBoxItems(boxId: string): Promise<Item[]> {
+    const response = await protectedRequest(`${baseUrl}/api/boxes/${boxId}/items`);
+    const apiResponse: APIResponse<Item[]> = await response.json();
+    
+    console.log('API items response:', apiResponse);
+    
+    if (!apiResponse.success) {
+        throw new Error(apiResponse.error || 'Failed to fetch items');
+    }
+    
+    // Handle case where data is null/undefined but success is true (empty result)
+    return apiResponse.data || [];
+}
