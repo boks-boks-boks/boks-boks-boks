@@ -5,6 +5,7 @@
 	import { isAuthenticated, currentUser } from '$lib/stores/auth';
 	import { getBoxItems, getBoxes, type Item, type Box } from '$lib/api';
 	import { Button, Card, Alert } from '$lib';
+	import CreateItemModal from '$lib/components/CreateItemModal.svelte';
 
 	$: boxId = $page.params.boxId;
 
@@ -14,6 +15,7 @@
 	let error = '';
 	let hasLoaded = false;
 	let loadingPromise: Promise<void> | null = null; // Track loading promise
+	let showCreateModal = false;
 
 	async function loadBoxItems() {
 		if (!$isAuthenticated) {
@@ -94,6 +96,33 @@
 		if (amount === undefined) return 'Unknown quantity';
 		return amount === 1 ? '1 item' : `${amount} items`;
 	}
+
+	function openCreateModal() {
+		showCreateModal = true;
+	}
+
+	function closeCreateModal() {
+		showCreateModal = false;
+	}
+
+	function handleItemCreated(event: CustomEvent<Item>) {
+		const newItem = event.detail;
+		console.log('New item created:', newItem);
+		
+		// Add the new item to the list
+		items = [...items, newItem];
+		
+		// Update the box stats if we have a box object
+		if (box) {
+			box = {
+				...box,
+				items: [...items]
+			};
+		}
+		
+		// Close the modal
+		closeCreateModal();
+	}
 </script>
 
 <svelte:head>
@@ -136,7 +165,7 @@
 						</div>
 					</div>
 					<div class="box-actions">
-						<Button variant="primary" size="medium">
+						<Button variant="primary" size="medium" on:click={openCreateModal}>
 							+ Add Item
 						</Button>
 						<Button variant="secondary" size="medium">
@@ -180,7 +209,7 @@
 					<h3>This box is empty</h3>
 					<p>No items have been added to "<strong>{box.title}</strong>" yet. Start organizing by adding your first item to keep track of what's stored in this box.</p>
 					<div class="empty-actions">
-						<Button variant="primary" size="large">
+						<Button variant="primary" size="large" on:click={openCreateModal}>
 							<span class="button-icon">+</span>
 							Add Your First Item
 						</Button>
@@ -201,6 +230,14 @@
 		{/if}
 	{/if}
 </div>
+
+<!-- Create Item Modal -->
+<CreateItemModal 
+	isOpen={showCreateModal} 
+	{boxId}
+	on:close={closeCreateModal}
+	on:itemCreated={handleItemCreated}
+/>
 
 <style>
 	.box-items-container {

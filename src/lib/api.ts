@@ -140,7 +140,7 @@ export interface Box {
 export interface Item {
     id: string;
     title: string;
-    amount?: number; // Optional since DTO might not include it yet
+    amount: number;
 }
 
 export interface APIResponse<T> {
@@ -182,6 +182,11 @@ export interface CreateBoxRequest {
     title: string;
 }
 
+export interface CreateItemRequest {
+    title: string;
+    amount: number;
+}
+
 export async function createBox(boxData: CreateBoxRequest): Promise<Box> {
     const response = await protectedRequest(`${baseUrl}/api/boxes`, {
         method: 'POST',
@@ -194,6 +199,23 @@ export async function createBox(boxData: CreateBoxRequest): Promise<Box> {
     
     if (!apiResponse.success || !apiResponse.data) {
         throw new Error(apiResponse.error || 'Failed to create box');
+    }
+    
+    return apiResponse.data;
+}
+
+export async function createItem(boxId: string, itemData: CreateItemRequest): Promise<Item> {
+    const response = await protectedRequest(`${baseUrl}/api/boxes/${boxId}/items`, {
+        method: 'POST',
+        body: JSON.stringify(itemData)
+    });
+    
+    const apiResponse: APIResponse<Item> = await response.json();
+    
+    console.log('API create item response:', apiResponse);
+    
+    if (!apiResponse.success || !apiResponse.data) {
+        throw new Error(apiResponse.error || 'Failed to create item');
     }
     
     return apiResponse.data;
