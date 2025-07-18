@@ -50,9 +50,8 @@
 		}
 	});
 
-	async function handleLogout() {
+	function handleLogout() {
 		try {
-			await apiLogout();
 			clearAuth();
 			goto('/');
 		} catch (err) {

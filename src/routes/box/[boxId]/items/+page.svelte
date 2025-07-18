@@ -6,6 +6,7 @@
 	import { getBoxItems, getBoxes, type Item, type Box } from '$lib/api';
 	import { Button, Card, Alert } from '$lib';
 	import CreateItemModal from '$lib/components/CreateItemModal.svelte';
+	import UpdateBoxModal from '$lib/components/UpdateBoxModal.svelte';
 
 	$: boxId = $page.params.boxId;
 
@@ -16,6 +17,7 @@
 	let hasLoaded = false;
 	let loadingPromise: Promise<void> | null = null; // Track loading promise
 	let showCreateModal = false;
+	let showUpdateModal = false;
 
 	async function loadBoxItems() {
 		if (!$isAuthenticated) {
@@ -97,6 +99,28 @@
 		return amount === 1 ? '1 item' : `${amount} items`;
 	}
 
+	function openUpdateModal() {
+		showUpdateModal = true
+	}
+
+	function closeUpdateModal() {
+		showUpdateModal = false
+	}
+
+	function handleBoxDeleted(event: CustomEvent<Box>) {
+		event.preventDefault()
+
+		goto("/")
+	}
+
+	function handleBoxUpdated(event: CustomEvent<string>) {
+		const newTitle = event.detail
+
+		box!.title = newTitle
+
+		closeUpdateModal()
+	}
+
 	function openCreateModal() {
 		showCreateModal = true;
 	}
@@ -168,7 +192,7 @@
 						<Button variant="primary" size="medium" on:click={openCreateModal}>
 							+ Add Item
 						</Button>
-						<Button variant="secondary" size="medium">
+						<Button variant="secondary" size="medium" on:click={openUpdateModal}>
 							Edit Box
 						</Button>
 					</div>
@@ -238,6 +262,18 @@
 	on:close={closeCreateModal}
 	on:itemCreated={handleItemCreated}
 />
+
+<!-- Update Box Modal-->
+{#if box}
+<UpdateBoxModal
+	isOpen={showUpdateModal}
+	{boxId}
+	title={box.title}
+	on:close={closeUpdateModal}
+	on:itemDeleted={handleBoxDeleted}
+	on:itemUpdated={handleBoxUpdated}
+/>
+{/if}
 
 <style>
 	.box-items-container {

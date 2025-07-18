@@ -3,7 +3,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	export let variant: 'primary' | 'secondary' = 'primary';
+	export let variant: 'primary' | 'secondary' | 'critical' = 'primary';
 	export let size: 'small' | 'medium' | 'large' = 'medium';
 	export let disabled = false;
 	export let fullWidth = false;
@@ -70,6 +70,16 @@
 	.btn-secondary:hover:not(:disabled):not(.disabled) {
 		background: #3b82f6;
 		color: white;
+		transform: translateY(-1px);
+	}
+
+	.btn-critical {
+		background: #dc2626;
+		color: white;
+	}
+
+	.btn-critical:hover:not(:disabled):not(.btn.disabled) {
+		background: #c00e0e;
 		transform: translateY(-1px);
 	}
 

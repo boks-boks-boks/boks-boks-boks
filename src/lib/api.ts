@@ -220,3 +220,15 @@ export async function createItem(boxId: string, itemData: CreateItemRequest): Pr
     
     return apiResponse.data;
 }
+
+export async function deleteBox(boxId: string): Promise<void> {
+    const response = await protectedRequest(`${baseUrl}/api/boxes/${boxId}`, {
+        method: 'DELETE',
+    })
+
+    const apiResponse: APIResponse<void> = await response.json()
+
+    if (!apiResponse.success) {
+        throw new Error(apiResponse.error || 'Failed to delete box')
+    }
+}
