@@ -1,0 +1,10 @@
+boks.maettleship.com {
+    handle_path /api/* {
+        reverse_proxy boks-api:8080
+    }
+
+    handle {
+        reverse_proxy svelte-app:3000
+    }
+}
+

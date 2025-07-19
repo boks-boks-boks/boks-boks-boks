@@ -4,8 +4,37 @@ services:
       context: .
       dockerfile: Dockerfile
       target: deployer
-    ports:
-      - "3000:3000"
+    container_name: svelte-app
+    expose:
+      - "3000"
     environment:
       - NODE_ENV=production
+      - VITE_BASE_URL=/api
+    networks:
+      - shared-net
     restart: unless-stopped
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - svelte-app
+    networks:
+      - shared-net
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  shared-net:
+    external: true
+
