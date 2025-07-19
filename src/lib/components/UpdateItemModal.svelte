@@ -4,6 +4,7 @@
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
 	import { deleteBox, updateBox, type Item } from '$lib/api';
+    import { onMount } from 'svelte';
 	
 	export let isOpen = false;
 	export let item: Item;
@@ -14,9 +15,23 @@
 	let error = '';
 	let showDeleteConfirm = false;
 
+    let oldTitle: string
+    let oldAmount: number
+
     let amountStr = String(item.amount);
 
-	function closeModal() {
+    onMount(() => {
+		oldTitle = item.title
+        oldAmount = item.amount
+	})
+
+	function closeModal(newTitle: string | undefined = undefined, newAmount: number | undefined = undefined) {
+        item.title = newTitle ? newTitle : oldTitle
+		oldTitle = item.title
+
+        item.amount = newAmount ? newAmount : oldAmount
+        oldAmount = item.amount
+
 		error = '';
 		isLoading = false;
 		showDeleteConfirm = false;
@@ -39,11 +54,11 @@
     try {
 		//await deleteBox(boxId)
 
-		dispatch('boxDeleted');
+		dispatch('itemDeleted', item.id);
 		closeModal();
 		} catch (err) {
-			console.error('Error deleting box:', err)
-			error = err instanceof Error ? err.message : 'Failed to delete box'
+			console.error('Error deleting item:', err)
+			error = err instanceof Error ? err.message : 'Failed to delete item'
 		} finally {
 			isLoading = false
 		}
@@ -56,8 +71,8 @@
 		try {
 			//await updateBox({"id": boxId, "title": title})
 			
-			//dispatch("boxUpdated", title)
-			closeModal()
+			dispatch("itemUpdated", item)
+			closeModal(item.title)
 		} catch(err) {
 			console.error('Error updating box:', err)
 			error = err instanceof Error ? err.message : 'Failed to update box'
@@ -74,7 +89,7 @@
     $: item.amount = parseInt(amountStr) || 0;
 </script>
 
-<Modal {isOpen} title="Update Item" size="medium" on:close={closeModal}>
+<Modal {isOpen} title="Update Item" size="medium" on:close={() => closeModal()}>
 	<form on:submit={handleSubmit} class="create-box-form">
 		{#if !showDeleteConfirm}
 			<div class="form-group">
@@ -138,7 +153,7 @@
 					<Button
 						type="button"
 						variant="secondary"
-						on:click={closeModal}
+						on:click={() => closeModal()}
 						disabled={isLoading}
 					>
 						Cancel

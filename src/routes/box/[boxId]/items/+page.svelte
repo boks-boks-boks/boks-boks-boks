@@ -161,14 +161,19 @@
 		modifiedItem = null
 	}
 
-	function handleItemDeleted(event: CustomEvent<Item>) {
-		event.preventDefault()
-		console.log("ITEM DELETED")
+	function handleItemDeleted(event: CustomEvent<string>) {
+		const deletedId = event.detail
+
+		items = items.filter(item => item.id !== deletedId);
 	}
 
 	function hanldeItemUpdated(event: CustomEvent<Item>) {
-		event.preventDefault()
-		console.log("ITEM UPDATED")
+		const newItem = event.detail
+
+		const updatedIndex = items.findIndex(e => e.id == newItem.id)
+		items[updatedIndex] = newItem
+
+		closeItemUpdateModal()
 	}
 </script>
 
