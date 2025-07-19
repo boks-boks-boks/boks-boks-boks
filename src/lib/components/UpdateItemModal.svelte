@@ -236,4 +236,11 @@
 			justify-content: space-between;
 		}
 	}
+
+    @media (max-width: 375px) {
+		.form-actions {
+			gap: 10px;
+			margin-left: -5px;
+		}
+	}
 </style>
