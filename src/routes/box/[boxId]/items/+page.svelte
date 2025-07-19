@@ -7,6 +7,7 @@
 	import { Button, Card, Alert } from '$lib';
 	import CreateItemModal from '$lib/components/CreateItemModal.svelte';
 	import UpdateBoxModal from '$lib/components/UpdateBoxModal.svelte';
+	import UpdateItemModal from '$lib/components/UpdateItemModal.svelte';
 
 	$: boxId = $page.params.boxId;
 
@@ -18,6 +19,8 @@
 	let loadingPromise: Promise<void> | null = null; // Track loading promise
 	let showCreateModal = false;
 	let showUpdateModal = false;
+	let showItemUpdateModal = false;
+	let modifiedItem: Item | null = null
 
 	async function loadBoxItems() {
 		if (!$isAuthenticated) {
@@ -147,6 +150,26 @@
 		// Close the modal
 		closeCreateModal();
 	}
+
+	function openItemUpdateModal(item: Item) {
+		showItemUpdateModal = true
+		modifiedItem = item
+	}
+
+	function closeItemUpdateModal() {
+		showItemUpdateModal = false
+		modifiedItem = null
+	}
+
+	function handleItemDeleted(event: CustomEvent<Item>) {
+		event.preventDefault()
+		console.log("ITEM DELETED")
+	}
+
+	function hanldeItemUpdated(event: CustomEvent<Item>) {
+		event.preventDefault()
+		console.log("ITEM UPDATED")
+	}
 </script>
 
 <svelte:head>
@@ -214,11 +237,8 @@
 									<p class="item-amount">{formatAmount(item.amount)}</p>
 								</div>
 								<div class="item-actions">
-									<button class="action-button edit" title="Edit item">
+									<button on:click={() => openItemUpdateModal(item)} class="action-button edit" title="Edit item">
 										✏️
-									</button>
-									<button class="action-button delete" title="Delete item">
-										🗑️
 									</button>
 								</div>
 							</div>
@@ -270,10 +290,21 @@
 	{boxId}
 	title={box.title}
 	on:close={closeUpdateModal}
-	on:itemDeleted={handleBoxDeleted}
-	on:itemUpdated={handleBoxUpdated}
+	on:boxDeleted={handleBoxDeleted}
+	on:boxUpdated={handleBoxUpdated}
 />
 {/if}
+
+{#if modifiedItem}
+<UpdateItemModal
+	isOpen={showItemUpdateModal}
+	item={modifiedItem}
+	on:close={closeItemUpdateModal}
+	on:itemDeleted={handleItemDeleted}
+	on:itemUpdated={hanldeItemUpdated}
+/>
+{/if}
+
 
 <style>
 	.box-items-container {

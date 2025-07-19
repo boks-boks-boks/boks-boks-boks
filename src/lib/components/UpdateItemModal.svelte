@@ -3,34 +3,27 @@
 	import Modal from './Modal.svelte';
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
-	import { onMount } from 'svelte';
-	import { createBox, type Box, deleteBox, updateBox } from '$lib/api';
+	import { deleteBox, updateBox, type Item } from '$lib/api';
 	
 	export let isOpen = false;
-	export let boxId: string;
-	export let title: string;
+	export let item: Item;
 
 	const dispatch = createEventDispatcher();
 	
 	let isLoading = false;
 	let error = '';
 	let showDeleteConfirm = false;
-	let oldTitle: string
 
-	onMount(() => {
-		oldTitle = title
-	})
+    let amountStr = String(item.amount);
 
-	function closeModal(newTitle: string | undefined = undefined) {
-		title = newTitle ? newTitle : oldTitle
-		oldTitle = title
+	function closeModal() {
 		error = '';
 		isLoading = false;
 		showDeleteConfirm = false;
 		dispatch('close');
 	}
 
-	function promptDeleteBox(event: Event) {
+	function promptDeleteItem(event: Event) {
 		event.preventDefault();
 		showDeleteConfirm = true;
 	}
@@ -44,7 +37,7 @@
 		isLoading = true;
 
     try {
-		await deleteBox(boxId)
+		//await deleteBox(boxId)
 
 		dispatch('boxDeleted');
 		closeModal();
@@ -61,10 +54,10 @@
 		isLoading = true
 
 		try {
-			await updateBox({"id": boxId, "title": title})
+			//await updateBox({"id": boxId, "title": title})
 			
-			dispatch("boxUpdated", title)
-			closeModal(title)
+			//dispatch("boxUpdated", title)
+			closeModal()
 		} catch(err) {
 			console.error('Error updating box:', err)
 			error = err instanceof Error ? err.message : 'Failed to update box'
@@ -74,24 +67,37 @@
 	}
 
 	// Clear error when user starts typing
-	$: if (title && error) {
+	$: if (item && error) {
 		error = '';
 	}
+    
+    $: item.amount = parseInt(amountStr) || 0;
 </script>
 
-<Modal {isOpen} title="Update Box" size="medium" on:close={() => closeModal()}>
+<Modal {isOpen} title="Update Item" size="medium" on:close={closeModal}>
 	<form on:submit={handleSubmit} class="create-box-form">
 		{#if !showDeleteConfirm}
 			<div class="form-group">
 				<FormInput
-					label="Update Box Title"
+					label="Update Item Title"
 					type="text"
 					placeholder="Enter box title..."
-					bind:value={title}
+					bind:value={item.title}
 					disabled={isLoading}
 					required
 				/>
 			</div>
+
+            <div class="form-group">
+                <FormInput
+                    label="Amount"
+                    type="number"
+                    placeholder="Enter quantity..."
+                    bind:value={amountStr}
+                    disabled={isLoading}
+                    required
+                />
+            </div>
 		{/if}
 
 
@@ -104,7 +110,7 @@
 		{#if showDeleteConfirm}
 			<div class="delete-confirmation">
 				<p class="warning-text">
-					⚠️ This action is <strong>permanent</strong> and will delete the box and all its contents.
+					⚠️ This action is <strong>permanent</strong>.
 					Are you sure you want to proceed?
 				</p>
 				<div class="confirm-actions">
@@ -132,7 +138,7 @@
 					<Button
 						type="button"
 						variant="secondary"
-						on:click={() => closeModal()}
+						on:click={closeModal}
 						disabled={isLoading}
 					>
 						Cancel
@@ -144,17 +150,17 @@
 						<Button
 							type="button"
 							variant="critical"
-							on:click={promptDeleteBox}
+							on:click={promptDeleteItem}
 							disabled={isLoading}
 						>
-							Delete Box
+							Delete Item
 						</Button>
 					
 
 					<Button
 						type="submit"
 						variant="primary"
-						disabled={isLoading || !title.trim()}
+						disabled={isLoading || !item.title.trim()}
 					>
 						{isLoading ? 'Saving...' : 'Save Changes'}
 					</Button>
