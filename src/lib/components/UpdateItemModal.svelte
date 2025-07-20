@@ -3,11 +3,12 @@
 	import Modal from './Modal.svelte';
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
-	import { deleteBox, updateBox, type Item } from '$lib/api';
+	import { type Item, deleteItem } from '$lib/api';
     import { onMount } from 'svelte';
 	
 	export let isOpen = false;
 	export let item: Item;
+	export let boxId: string
 
 	const dispatch = createEventDispatcher();
 	
@@ -52,7 +53,7 @@
 		isLoading = true;
 
     try {
-		//await deleteBox(boxId)
+		await deleteItem(boxId, item.id)
 
 		dispatch('itemDeleted', item.id);
 		closeModal();

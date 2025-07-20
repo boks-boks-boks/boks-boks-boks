@@ -304,6 +304,7 @@
 <UpdateItemModal
 	isOpen={showItemUpdateModal}
 	item={modifiedItem}
+	boxId={boxId}
 	on:close={closeItemUpdateModal}
 	on:itemDeleted={handleItemDeleted}
 	on:itemUpdated={hanldeItemUpdated}

@@ -250,3 +250,15 @@ export async function updateBox(boxData: UpdateBoxRequest): Promise<void> {
         throw new Error(apiResponse.error || 'Failed to update box')
     }
 }
+
+export async function deleteItem(boxId: string, itemId: string) {
+    const response = await protectedRequest(`${baseUrl}/api/boxes/${boxId}/items/${itemId}`, {
+        method: 'DELETE',
+    })
+
+    const apiResponse: APIResponse<void> = await response.json()
+
+    if(!apiResponse.success) {
+        throw new Error(apiResponse.error || 'Failed to delete item')
+    }
+}
