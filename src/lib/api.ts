@@ -192,6 +192,12 @@ export interface UpdateBoxRequest {
     title: string
 }
 
+export interface UpdateItemRequest {
+    id: string
+    title: string
+    amount: number
+}
+
 export async function createBox(boxData: CreateBoxRequest): Promise<Box> {
     const response = await protectedRequest(`${baseUrl}/api/boxes`, {
         method: 'POST',
@@ -260,5 +266,18 @@ export async function deleteItem(boxId: string, itemId: string) {
 
     if(!apiResponse.success) {
         throw new Error(apiResponse.error || 'Failed to delete item')
+    }
+}
+
+export async function updateItem(boxId: string, itemData: UpdateItemRequest): Promise<void> {
+    const response = await protectedRequest(`${baseUrl}/api/boxes/${boxId}/items`, {
+        method: 'PUT',
+        body: JSON.stringify(itemData),
+    })
+
+    const apiResponse: APIResponse<void> = await response.json()
+
+    if (!apiResponse.success) {
+        throw new Error(apiResponse.error || 'Failed to update Item')
     }
 }

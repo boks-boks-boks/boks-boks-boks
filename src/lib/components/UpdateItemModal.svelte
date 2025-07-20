@@ -3,7 +3,7 @@
 	import Modal from './Modal.svelte';
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
-	import { type Item, deleteItem } from '$lib/api';
+	import { type Item, deleteItem, updateItem } from '$lib/api';
     import { onMount } from 'svelte';
 	
 	export let isOpen = false;
@@ -70,10 +70,10 @@
 		isLoading = true
 
 		try {
-			//await updateBox({"id": boxId, "title": title})
-			
+			await updateItem(boxId, {"id": item.id, "title": item.title, "amount": item.amount})
+
 			dispatch("itemUpdated", item)
-			closeModal(item.title)
+			closeModal()
 		} catch(err) {
 			console.error('Error updating box:', err)
 			error = err instanceof Error ? err.message : 'Failed to update box'
