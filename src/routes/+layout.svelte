@@ -39,7 +39,7 @@
 
 	<footer class="footer">
 		<div class="footer-content">
-			<p>&copy; 2025 Boks-Boks-Boks - Your Storage Management System</p>
+			<p>&copy; 2025 Boks-Boks-Boks - Your Storage Management System - <a class="author" href="https://github.com/viastolfi">Astolfi Vincent</a></p>
 		</div>
 	</footer>
 </div>
@@ -160,6 +160,12 @@
 		text-align: center;
 		font-size: 0.875rem;
 		opacity: 0.8;
+	}
+
+	.author {
+		color: white;
+		text-decoration: none; 
+		background-color: none;
 	}
 
 	@media (max-width: 768px) {
