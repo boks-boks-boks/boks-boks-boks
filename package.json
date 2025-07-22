@@ -27,6 +27,7 @@
 	},
 	"dependencies": {
 		"@sveltejs/adapter-node": "^5.2.13",
-		"crypto-js": "^4.2.0"
+		"crypto-js": "^4.2.0",
+		"svelte-portal": "^2.2.1"
 	}
 }

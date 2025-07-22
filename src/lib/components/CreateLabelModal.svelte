@@ -4,8 +4,8 @@
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
     import ColorPicker from 'svelte-awesome-color-picker';
+	import Wrapper from './Wrapper.svelte';
 
-	
 	export let isOpen = false;
 	
 	const dispatch = createEventDispatcher();
@@ -92,16 +92,20 @@
 				required
 			/>
 
-            <ColorPicker
-                bind:hex
-                bind:rgb
-                bind:hsv
-                bind:color
-                dir="ltr"
-                position="fixed"
-            />
+			<div class="no-overflow">
+				<ColorPicker
+					bind:hex
+					bind:rgb
+					bind:hsv
+					bind:color
+					dir="ltr"
+					position="responsive"
+					components={{wrapper: Wrapper}}
+				/>
+			</div>
+
+			<div id="portal"></div>
 		</div>
-		
 		{#if error}
 			<div class="error-message">
 				{error}
@@ -129,6 +133,10 @@
 </Modal>
 
 <style>
+	.no-overflow {
+		overflow: hidden;
+	}
+
 	.create-box-form {
 		display: flex;
 		flex-direction: column;
