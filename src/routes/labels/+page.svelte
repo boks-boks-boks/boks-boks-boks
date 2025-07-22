@@ -24,17 +24,17 @@
     </div>
     
     <Card shadow="large">
-        <div class="box-info">
-            <div class="box-title-section">
-                <div class="box-icon">🏷️</div>
+        <div class="label-info">
+            <div class="lable-title-section">
+                <div class="label-icon">🏷️</div>
                 <div>
-                    <h1 class="box-title">Labels</h1>
-                    <p class="box-stats">
+                    <h1 class="label-title">Labels</h1>
+                    <p class="label-stats">
                         12 labels
                     </p>
                 </div>
             </div>
-            <div class="box-actions">
+            <div class="label-actions">
                 <Button variant="primary" size="medium" on:click={() => (console.log("test"))}>
                     + Add Label
                 </Button>
@@ -60,38 +60,38 @@
 		margin-bottom: 2rem;
 	}
 
-	.box-info {
+	.label-info {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		gap: 1rem;
 	}
 
-	.box-title-section {
+	.lable-title-section {
 		display: flex;
 		align-items: center;
 		gap: 1rem;
 	}
 
-	.box-icon {
+	.label-icon {
 		font-size: 3rem;
 		opacity: 0.8;
 	}
 
-	.box-title {
+	.label-title {
 		margin: 0;
 		font-size: 2rem;
 		font-weight: 700;
 		color: #1f2937;
 	}
 
-	.box-stats {
+	.label-stats {
 		margin: 0.25rem 0 0 0;
 		color: #6b7280;
 		font-size: 1rem;
 	}
 
-	.box-actions {
+	.label-actions {
 		display: flex;
 		gap: 0.75rem;
 	}
@@ -121,32 +121,32 @@
 	}
 
     @media (max-width: 450px) {
-		.box-info {
+		.label-info {
 			flex-direction: column;
 			align-items: stretch;
 			gap: 1.5rem;
 		}
 
-		.box-title-section {
+		.lable-title-section {
 			justify-content: center;
 			text-align: center;
 		}
 
-		.box-actions {
+		.label-actions {
 			justify-content: center;
 		}
 
-		.box-title {
+		.label-title {
 			font-size: 1.75rem;
 		}
     }
 
 	@media (max-width: 480px) {
-		.box-actions {
+		.label-actions {
 			flex-direction: column;
         }
 
-        .box-title-section {
+        .lable-title-section {
             display: flex;
             justify-content: space-around;
         }
