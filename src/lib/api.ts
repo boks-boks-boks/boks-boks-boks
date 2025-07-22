@@ -143,6 +143,14 @@ export interface Item {
     amount: number;
 }
 
+export interface LabelModel {
+    id: string;
+    title: string;
+    description: string;
+    color: string;
+}
+
+
 export interface APIResponse<T> {
     success: boolean;
     message?: string;

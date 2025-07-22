@@ -3,6 +3,10 @@
     import LableTableEntry from "$lib/components/LableTableEntry.svelte";
     import Card from "$lib/components/Card.svelte";
     import Button from "$lib/components/Button.svelte";
+    import CreateLabelModal from "$lib/components/CreateLabelModal.svelte";
+    import { type LabelModel } from "$lib";
+
+    let showCreateLabelModal = false
     
     let mockedLables = [
         {"title": "outil", "color": "#259361"},
@@ -10,6 +14,18 @@
         {"title": "outil", "color": "#259361"},
         {"title": "outil", "color": "#259361"},
     ]
+
+    function openCreateLabelModal() {
+        showCreateLabelModal = true
+    }
+
+    function closeCreateLabelModal() {
+        showCreateLabelModal = false
+    }
+
+    function handleLabelCreated(event: CustomEvent<LabelModel>) {
+        console.log("test")
+    }
 </script>
 
 <svelte:head>
@@ -35,7 +51,7 @@
                 </div>
             </div>
             <div class="label-actions">
-                <Button variant="primary" size="medium" on:click={() => (console.log("test"))}>
+                <Button variant="primary" size="medium" on:click={openCreateLabelModal}>
                     + Add Label
                 </Button>
             </div>
@@ -48,6 +64,12 @@
         <LableTableEntry><Label color={label.color}>{label.title}</Label></LableTableEntry>
     {/each}
 </div>
+
+<CreateLabelModal 
+    isOpen={showCreateLabelModal}
+    on:close={closeCreateLabelModal}
+    on:labelCreated={handleLabelCreated}
+/>
 
 <style>
     .label-container {
