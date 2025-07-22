@@ -14,14 +14,20 @@
 				</a>
 			</div>
 			<div class="nav-links">
-				<a href="/" class="nav-link" class:active={$page.url.pathname === '/'}>
-					Home
-				</a>
 				{#if $isAuthenticated && $currentUser}
+					<a href="/" class="nav-link" class:active={$page.url.pathname === '/'}>
+						Boxes
+					</a>
+					<a href="/labels" class="nav-link" class:active={$page.url.pathname === '/labels'}>
+						Labels
+					</a>
 					<a href="/users/{$currentUser.username}" class="nav-link" class:active={$page.url.pathname.startsWith('/users/')}>
 						Profile
 					</a>
 				{:else}
+					<a href="/" class="nav-link" class:active={$page.url.pathname === '/'}>
+						Home
+					</a>
 					<a href="/login" class="nav-link" class:active={$page.url.pathname === '/login'}>
 						Login
 					</a>
