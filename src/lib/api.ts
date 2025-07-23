@@ -206,6 +206,12 @@ export interface UpdateItemRequest {
     amount: number
 }
 
+export interface CreateLabelRequest {
+    title: string
+    description: string
+    color: string
+}
+
 export async function createBox(boxData: CreateBoxRequest): Promise<Box> {
     const response = await protectedRequest(`${baseUrl}/api/boxes`, {
         method: 'POST',
@@ -288,4 +294,33 @@ export async function updateItem(boxId: string, itemData: UpdateItemRequest): Pr
     if (!apiResponse.success) {
         throw new Error(apiResponse.error || 'Failed to update Item')
     }
+}
+
+export async function getLabel(): Promise<LabelModel[]> {
+    const response = await protectedRequest(`${baseUrl}/api/labels`, {
+        method: 'GET',
+    })
+
+    const apiResponse: APIResponse<LabelModel[]> = await response.json()
+
+    if(!apiResponse.success) {
+        throw new Error(apiResponse.error || 'Failed to fetch labels');
+    }
+    
+    return apiResponse.data || [];
+}
+
+export async function createLabel(labelData: CreateLabelRequest): Promise<LabelModel> {
+    const response = await protectedRequest(`${baseUrl}/api/labels`, {
+        method: 'POST',
+        body: JSON.stringify(labelData)
+    })
+
+    const apiResponse: APIResponse<LabelModel> = await response.json()
+
+    if (!apiResponse.success || !apiResponse.data) {
+        throw new Error(apiResponse.error || 'Failed to add label')
+    }
+
+    return apiResponse.data
 }

@@ -4,7 +4,7 @@
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
     import ColorPicker from 'svelte-awesome-color-picker';
-	import type { LabelModel } from '$lib';
+	import { type CreateLabelRequest, createLabel } from '$lib/api';
 
 	interface Props {
 		isOpen: boolean;
@@ -59,11 +59,13 @@
 		error = '';
 		
 		try {
-			const newLabel: Omit<LabelModel, 'id'> = {
+			const newLabel: CreateLabelRequest = {
 				title: title.trim(),
 				description: description.trim(),
 				color: hex
 			};
+
+			const onDbLabel = await createLabel(newLabel)
 			
 			dispatch('labelCreated', newLabel);
 			

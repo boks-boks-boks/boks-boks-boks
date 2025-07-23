@@ -4,17 +4,23 @@
     import Card from "$lib/components/Card.svelte";
     import Button from "$lib/components/Button.svelte";
     import CreateLabelModal from "$lib/components/CreateLabelModal.svelte";
-    import { type LabelModel } from "$lib";
+    import { getLabel, type LabelModel } from "$lib";
+    import { setLabels, userLabels } from "$lib/stores/labels";
 
     let showCreateLabelModal = $state(false);
-    
-    let labels = $state<LabelModel[]>([
-        { id: "1", title: "Tools", description: "Hardware and maintenance tools", color: "#259361" },
-        { id: "2", title: "Electronics", description: "Electronic devices and components", color: "#3b82f6" },
-        { id: "3", title: "Books", description: "Reading materials and references", color: "#8b5cf6" },
-        { id: "4", title: "Kitchen", description: "Cooking utensils and appliances", color: "#f59e0b" },
-        { id: "5", title: "Clothing", description: "Apparel and accessories", color: "#ec4899" },
-    ]);
+
+    let labels = $state<LabelModel[]>([]);
+
+    $effect(() => {
+        if($userLabels == null) {
+            getLabel().then(l => {
+                setLabels(l)
+                labels = $userLabels!
+            })
+        } else {
+            labels = $userLabels!
+        }
+    })
 
     let filteredLabels = $derived(labels);
     let labelCount = $derived(labels.length);
@@ -30,16 +36,19 @@
     function handleLabelCreated(event: CustomEvent<LabelModel>) {
         const newLabel = event.detail;
         labels = [...labels, { ...newLabel, id: Date.now().toString() }];
+        setLabels(labels)
     }
 
     function handleLabelUpdated(updatedLabel: LabelModel) {
         labels = labels.map(label => 
             label.id === updatedLabel.id ? updatedLabel : label
         );
+        setLabels(labels)
     }
 
     function handleLabelDeleted(labelId: string) {
         labels = labels.filter(label => label.id !== labelId);
+        setLabels(labels)
     }
 </script>
 

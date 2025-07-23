@@ -1,7 +1,8 @@
 <script>
-	import { login, setToken, setUser } from '$lib';
+	import { getLabel, login, setToken, setUser } from '$lib';
 	import { goto } from '$app/navigation';
 	import { FormInput, Button, Alert, Card } from '$lib';
+	import { setLabels } from '$lib/stores/labels';
 	
 	let username = '';
 	let password = '';
@@ -24,7 +25,7 @@
 			
 			// Extract token from the correct location in response
 			const token = response.token || response.data?.token;
-			console.log('Extracted token:', token);
+			console.log('Extra	cted token:', token);
 			
 			if (!token) {
 				console.error('Full response object:', response);
@@ -46,7 +47,6 @@
 			
 			// Small delay to ensure stores are updated
 			await new Promise(resolve => setTimeout(resolve, 100));
-			
 			// Navigate to home page
 			goto('/');
 		} catch (error) {
