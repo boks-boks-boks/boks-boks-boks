@@ -1,6 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import type { LabelModel } from '$lib';
+    import UpdateLabelModal from './UpdateLabelModal.svelte';
 
     interface Props {
         label: LabelModel;
@@ -15,10 +16,14 @@
     let editTitle = $state(label.title);
     let editDescription = $state(label.description);
 
-    function startEditing() {
-        isEditing = true;
-        editTitle = label.title;
-        editDescription = label.description;
+    let showUpdateLabelModal = $state(false)
+
+    function openUpdateLabelModal() {
+        showUpdateLabelModal = true
+    }
+
+    function closeUpdateLabelModal() {
+        showUpdateLabelModal = false
     }
 
     function cancelEditing() {
@@ -36,12 +41,6 @@
             description: editDescription.trim()
         });
         isEditing = false;
-    }
-
-    function deleteLabel() {
-        if (confirm(`Are you sure you want to delete the label "${label.title}"?`)) {
-            dispatch('delete', label.id);
-        }
     }
 
     function handleKeydown(event: KeyboardEvent) {
@@ -93,15 +92,21 @@
                 ✕
             </button>
         {:else}
-            <button class="action-btn edit-btn" onclick={startEditing} title="Edit label">
+            <button class="action-btn edit-btn" onclick={openUpdateLabelModal} title="Edit label">
                 ✏️
-            </button>
-            <button class="action-btn delete-btn" onclick={deleteLabel} title="Delete label">
-                🗑️
             </button>
         {/if}
     </div>
 </div>
+
+<UpdateLabelModal 
+    labelId={label.id}
+    title= {label.title}
+    description={label.description}
+    color={label.color}
+    isOpen={showUpdateLabelModal}
+	on:close={closeUpdateLabelModal}
+/>
 
 
 <style>

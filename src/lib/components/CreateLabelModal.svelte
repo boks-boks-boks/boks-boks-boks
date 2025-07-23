@@ -67,7 +67,7 @@
 
 			const onDbLabel = await createLabel(newLabel)
 			
-			dispatch('labelCreated', newLabel);
+			dispatch('labelCreated', onDbLabel);
 			
 			// Close modal and reset form
 			closeModal();
@@ -120,7 +120,6 @@
 				placeholder="Enter label description..."
 				bind:value={description}
 				disabled={isLoading}
-				required
 			/>
 
 			<div class="color-section">
@@ -155,8 +154,6 @@
 					/>
 				</div>
 			</div>
-
-			<div id="portal"></div>
 		</div>
 		
 		{#if error}
