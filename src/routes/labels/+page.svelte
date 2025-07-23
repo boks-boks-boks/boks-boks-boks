@@ -6,25 +6,40 @@
     import CreateLabelModal from "$lib/components/CreateLabelModal.svelte";
     import { type LabelModel } from "$lib";
 
-    let showCreateLabelModal = false
+    let showCreateLabelModal = $state(false);
     
-    let mockedLables = [
-        {"title": "outil", "color": "#259361"},
-        {"title": "outil", "color": "#259361"},
-        {"title": "outil", "color": "#259361"},
-        {"title": "outil", "color": "#259361"},
-    ]
+    let labels = $state<LabelModel[]>([
+        { id: "1", title: "Tools", description: "Hardware and maintenance tools", color: "#259361" },
+        { id: "2", title: "Electronics", description: "Electronic devices and components", color: "#3b82f6" },
+        { id: "3", title: "Books", description: "Reading materials and references", color: "#8b5cf6" },
+        { id: "4", title: "Kitchen", description: "Cooking utensils and appliances", color: "#f59e0b" },
+        { id: "5", title: "Clothing", description: "Apparel and accessories", color: "#ec4899" },
+    ]);
+
+    let filteredLabels = $derived(labels);
+    let labelCount = $derived(labels.length);
 
     function openCreateLabelModal() {
-        showCreateLabelModal = true
+        showCreateLabelModal = true;
     }
 
     function closeCreateLabelModal() {
-        showCreateLabelModal = false
+        showCreateLabelModal = false;
     }
 
     function handleLabelCreated(event: CustomEvent<LabelModel>) {
-        console.log("test")
+        const newLabel = event.detail;
+        labels = [...labels, { ...newLabel, id: Date.now().toString() }];
+    }
+
+    function handleLabelUpdated(updatedLabel: LabelModel) {
+        labels = labels.map(label => 
+            label.id === updatedLabel.id ? updatedLabel : label
+        );
+    }
+
+    function handleLabelDeleted(labelId: string) {
+        labels = labels.filter(label => label.id !== labelId);
     }
 </script>
 
@@ -46,7 +61,7 @@
                 <div>
                     <h1 class="label-title">Labels</h1>
                     <p class="label-stats">
-                        12 labels
+                        {labelCount} {labelCount === 1 ? 'label' : 'labels'}
                     </p>
                 </div>
             </div>
@@ -60,9 +75,32 @@
 </div>
 
 <div class="label-container">
-    {#each mockedLables as label}
-        <LableTableEntry><Label color={label.color}>{label.title}</Label></LableTableEntry>
-    {/each}
+    <div class="labels-header">
+        <h2 class="labels-section-title">All Labels</h2>
+        {#if labelCount === 0}
+            <p class="empty-state">No labels created yet. Create your first label to get started!</p>
+        {/if}
+    </div>
+    
+    {#if labelCount > 0}
+        <div class="labels-table">
+            <div class="table-header">
+                <div class="table-header-cell label-column">Label</div>
+                <div class="table-header-cell description-column">Description</div>
+                <div class="table-header-cell actions-column">Actions</div>
+            </div>
+            
+            {#each filteredLabels as label (label.id)}
+                <LableTableEntry 
+                    {label}
+                    on:update={(e) => handleLabelUpdated(e.detail)}
+                    on:delete={(e) => handleLabelDeleted(e.detail)}
+                >
+                    <Label color={label.color}>{label.title}</Label>
+                </LableTableEntry>
+            {/each}
+        </div>
+    {/if}
 </div>
 
 <CreateLabelModal 
@@ -75,102 +113,236 @@
     .label-container {
         display: flex;
         flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .labels-header {
+        margin-bottom: 1rem;
+    }
+
+    .labels-section-title {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .empty-state {
+        color: #6b7280;
+        font-style: italic;
+        margin: 2rem 0;
+        text-align: center;
+        padding: 2rem;
+        background: #f9fafb;
+        border-radius: 8px;
+        border: 2px dashed #d1d5db;
+    }
+
+    .labels-table {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: 1px solid #e5e7eb;
+    }
+
+    .table-header {
+        display: grid;
+        grid-template-columns: 1fr 2fr 120px;
         gap: 1rem;
+        padding: 1rem 1.5rem;
+        background: #f8fafc;
+        border-bottom: 1px solid #e5e7eb;
+        font-weight: 600;
+        color: #374151;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .table-header-cell {
+        display: flex;
+        align-items: center;
+    }
+
+    .label-column {
+        min-width: 100px;
+    }
+
+    .description-column {
+        min-width: 150px;
+    }
+
+    .actions-column {
+        justify-content: center;
     }
 
     .box-header {
-		margin-bottom: 2rem;
-	}
-
-	.label-info {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	.lable-title-section {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	.label-icon {
-		font-size: 3rem;
-		opacity: 0.8;
-	}
-
-	.label-title {
-		margin: 0;
-		font-size: 2rem;
-		font-weight: 700;
-		color: #1f2937;
-	}
-
-	.label-stats {
-		margin: 0.25rem 0 0 0;
-		color: #6b7280;
-		font-size: 1rem;
-	}
-
-	.label-actions {
-		display: flex;
-		gap: 0.75rem;
-	}
-
-    .breadcrumbs {
-		margin-bottom: 1.5rem;
-		font-size: 0.875rem;
-		color: #6b7280;
-	}
-
-	.breadcrumb-link {
-		color: #3b82f6;
-		text-decoration: none;
-	}
-
-	.breadcrumb-link:hover {
-		text-decoration: underline;
-	}
-
-	.breadcrumb-separator {
-		margin: 0 0.5rem;
-	}
-
-	.breadcrumb-current {
-		color: #1f2937;
-		font-weight: 500;
-	}
-
-    @media (max-width: 450px) {
-		.label-info {
-			flex-direction: column;
-			align-items: stretch;
-			gap: 1.5rem;
-		}
-
-		.lable-title-section {
-			justify-content: center;
-			text-align: center;
-		}
-
-		.label-actions {
-			justify-content: center;
-		}
-
-		.label-title {
-			font-size: 1.75rem;
-		}
+        margin-bottom: 2rem;
     }
 
-	@media (max-width: 480px) {
-		.label-actions {
-			flex-direction: column;
+    .label-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .lable-title-section {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .label-icon {
+        font-size: 3rem;
+        opacity: 0.8;
+    }
+
+    .label-title {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1f2937;
+    }
+
+    .label-stats {
+        margin: 0.25rem 0 0 0;
+        color: #6b7280;
+        font-size: 1rem;
+    }
+
+    .label-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .breadcrumbs {
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .breadcrumb-link {
+        color: #3b82f6;
+        text-decoration: none;
+    }
+
+    .breadcrumb-link:hover {
+        text-decoration: underline;
+    }
+
+    .breadcrumb-separator {
+        margin: 0 0.5rem;
+    }
+
+    .breadcrumb-current {
+        color: #1f2937;
+        font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+        .table-header {
+            grid-template-columns: 1fr 1.5fr 80px;
+            padding: 0.75rem 1rem;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .labels-section-title {
+            font-size: 1.25rem;
+        }
+
+        .empty-state {
+            padding: 1.5rem;
+            font-size: 0.875rem;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .table-header {
+            display: none; /* Hide header on very small screens */
+        }
+
+        .labels-table {
+            border-radius: 8px;
+        }
+
+        .label-container {
+            gap: 1rem;
+        }
+
+        .labels-section-title {
+            font-size: 1.125rem;
+        }
+    }
+
+    @media (max-width: 450px) {
+        .label-info {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1.5rem;
+        }
+
+        .lable-title-section {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .label-actions {
+            justify-content: center;
+        }
+
+        .label-title {
+            font-size: 1.5rem;
+        }
+
+        .label-icon {
+            font-size: 2.5rem;
+        }
+
+        .box-header {
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .label-actions {
+            flex-direction: column;
         }
 
         .lable-title-section {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
+            gap: 0.75rem;
         }
-	}
+
+        .breadcrumbs {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .label-container {
+            gap: 0.75rem;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .label-title {
+            font-size: 1.25rem;
+        }
+
+        .label-icon {
+            font-size: 2rem;
+        }
+
+        .empty-state {
+            padding: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .breadcrumbs {
+            font-size: 0.8rem;
+        }
+    }
 </style>
