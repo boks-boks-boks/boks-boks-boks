@@ -141,6 +141,7 @@ export interface Item {
     id: string;
     title: string;
     amount: number;
+    labels?: LabelModel[];
 }
 
 export interface LabelModel {

@@ -11,3 +11,4 @@ export { default as FeatureCard } from './components/FeatureCard.svelte';
 export { default as Alert } from './components/Alert.svelte';
 export { default as Card } from './components/Card.svelte';
 export { default as BoxCard } from './components/BoxCard.svelte';
+export { default as LabelList } from './components/LabelList.svelte';

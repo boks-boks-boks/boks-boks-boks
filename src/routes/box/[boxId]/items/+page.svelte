@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { isAuthenticated, currentUser } from '$lib/stores/auth';
 	import { getBoxItems, getBoxes, type Item, type Box } from '$lib/api';
-	import { Button, Card, Alert } from '$lib';
+	import { Button, Card, Alert, LabelList } from '$lib';
 	import CreateItemModal from '$lib/components/CreateItemModal.svelte';
 	import UpdateBoxModal from '$lib/components/UpdateBoxModal.svelte';
 	import UpdateItemModal from '$lib/components/UpdateItemModal.svelte';
@@ -43,6 +43,22 @@
 				const itemsResponse = await getBoxItems(boxId);
 				console.log('Items response:', itemsResponse);
 				items = itemsResponse || []; // Ensure it's always an array
+				
+				// Add mock labels for demonstration (remove this when you have real label data)
+				items = items.map((item, index) => ({
+					...item,
+					labels: index % 3 === 0 ? [
+						{ id: '1', title: 'Important', description: 'Important item', color: '#ef4444' },
+						{ id: '2', title: 'Fragile', description: 'Handle with care', color: '#f97316' },
+						{ id: '3', title: 'Electronic', description: 'Electronic device', color: '#3b82f6' },
+						{ id: '5', title: 'New', description: 'Brand new item', color: '#8b5cf6' }
+					] : index % 3 === 1 ? [
+						{ id: '6', title: 'Kitchen', description: 'Kitchen item', color: '#06b6d4' },
+						{ id: '7', title: 'Seasonal', description: 'Seasonal use', color: '#84cc16' }
+					] : [
+						{ id: '8', title: 'Tools', description: 'Tool item', color: '#64748b' }
+					]
+				}));
 				
 				// Try to get the box title by fetching all boxes and finding the matching one
 				let boxTitle = `Box ${boxId.slice(0, 8)}...`; // Default fallback
@@ -236,15 +252,22 @@
 					{#each items as item (item.id)}
 						<Card hover>
 							<div class="item-card">
-								<div class="item-icon">📋</div>
-								<div class="item-content">
-									<h3 class="item-title">{item.title}</h3>
-									<p class="item-amount">{formatAmount(item.amount)}</p>
+								<div class="top-item-row">
+									<div class="item-icon">📋</div>
+									<div class="item-content">
+										<h3 class="item-title">{item.title}</h3>
+										<p class="item-amount">{formatAmount(item.amount)}</p>
+									</div>
+									<div class="item-actions">
+										<button on:click={() => openItemUpdateModal(item)} class="action-button edit" title="Edit item">
+											✏️
+										</button>
+									</div>
 								</div>
-								<div class="item-actions">
-									<button on:click={() => openItemUpdateModal(item)} class="action-button edit" title="Edit item">
-										✏️
-									</button>
+								<div class="label-container">
+									{#if item.labels && item.labels.length > 0}
+										<LabelList labels={item.labels} size="small" />
+									{/if}
 								</div>
 							</div>
 						</Card>
@@ -420,8 +443,8 @@
 	.item-card {
 		display: flex;
 		align-items: center;
+		flex-direction: column;
 		gap: 1rem;
-		padding: 0.5rem;
 	}
 
 	.item-icon {
@@ -469,8 +492,19 @@
 		background-color: #f3f4f6;
 	}
 
-	.action-button.delete:hover {
-		background-color: #fee2e2;
+	.top-item-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 15px;
+		width: 100%;
+	}
+
+	.label-container {
+		display: flex;
+		gap: 10px;
+		justify-content: start;
+		width: 100%;
 	}
 
 	.empty-items-state {
