@@ -35,7 +35,7 @@
     let color = $state<any>(null);
 
 	// Derived validation
-	let isFormValid = $derived(title.trim().length > 0 && description.trim().length > 0);
+	let isFormValid = $derived(title.trim().length > 0);
 
 	function closeModal() {
 		// Reset form when closing
