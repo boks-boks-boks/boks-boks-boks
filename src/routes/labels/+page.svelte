@@ -6,12 +6,19 @@
     import CreateLabelModal from "$lib/components/CreateLabelModal.svelte";
     import { getLabel, type LabelModel } from "$lib";
     import { setLabels, userLabels } from "$lib/stores/labels";
+    import { goto } from '$app/navigation';
+    import { isAuthenticated } from '$lib/stores/auth';
 
     let showCreateLabelModal = $state(false);
 
     let labels = $state<LabelModel[]>([]);
 
     $effect(() => {
+        if (!$isAuthenticated) {
+			goto('/login');
+			return;
+		}
+
         if($userLabels == null) {
             getLabel().then(l => {
                 setLabels(l)
