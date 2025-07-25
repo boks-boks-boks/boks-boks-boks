@@ -1,19 +1,43 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import Modal from './Modal.svelte';
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
-	import { createItem, type Item } from '$lib/api';
-	
-	export let isOpen = false;
-	export let boxId: string;
-	
+	import { createItem, type Item, type LabelModel, getLabel } from '$lib/api';
+	import { userLabels, setLabels } from '$lib/stores/labels';
+	import Label from './Label.svelte';
+	import { createEventDispatcher } from 'svelte';
+
+	interface Props {
+		isOpen: boolean
+		boxId: string
+	}
+
 	const dispatch = createEventDispatcher();
+
+
+	let {isOpen = false, boxId}: Props = $props()
 	
-	let title = '';
-	let amount = '1';
-	let isLoading = false;
-	let error = '';
+	let title = $state('');
+	let amount = $state('1');
+	let isLoading = $state(false);
+	let error = $state('');
+
+	let labels = $state<LabelModel[]>([]);
+
+    $effect(() => {
+        if($userLabels == null) {
+            getLabel().then(l => {
+                setLabels(l)
+                labels = $userLabels!
+            })
+        } else {
+            labels = $userLabels!
+        }
+
+		if ((title || amount !== '1') && error) {
+			error = '';
+		}
+    })
 	
 	function closeModal() {
 		// Reset form when closing
@@ -42,7 +66,7 @@
 		error = '';
 		
 		try {
-			const newItem = await createItem(boxId, { 
+			const newItem: Item = await createItem(boxId, { 
 				title: title.trim(), 
 				amount: amountNum 
 			});
@@ -59,15 +83,10 @@
 			isLoading = false;
 		}
 	}
-
-	// Clear error when user starts typing
-	$: if ((title || amount !== '1') && error) {
-		error = '';
-	}
 </script>
 
 <Modal {isOpen} title="Add New Item" size="medium" on:close={closeModal}>
-	<form on:submit={handleSubmit} class="create-item-form">
+	<form onsubmit={handleSubmit} class="create-item-form">
 		<div class="form-group">
 			<FormInput
 				label="Item Title"
@@ -88,6 +107,12 @@
 				disabled={isLoading}
 				required
 			/>
+		</div>
+
+		<div>
+			{#each labels as label}
+				<Label size="small" color={label.color}>{label.title}</Label>
+			{/each}
 		</div>
 		
 		{#if error}
@@ -120,7 +145,6 @@
 	.create-item-form {
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
 	}
 	
 	.form-group {

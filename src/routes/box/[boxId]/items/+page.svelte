@@ -243,7 +243,7 @@
 										<p class="item-amount">{formatAmount(item.amount)}</p>
 									</div>
 									<div class="item-actions">
-										<button on:click={() => openItemUpdateModal(item)} class="action-button edit" title="Edit item">
+										<button onclick={() => openItemUpdateModal(item)} class="action-button edit" title="Edit item">
 											✏️
 										</button>
 									</div>
@@ -288,7 +288,7 @@
 </div>
 
 <!-- Create Item Modal -->
-<CreateItemModal 
+<CreateItemModal
 	isOpen={showCreateModal} 
 	{boxId}
 	on:close={closeCreateModal}
