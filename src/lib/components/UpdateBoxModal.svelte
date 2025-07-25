@@ -4,7 +4,7 @@
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
 	import { onMount } from 'svelte';
-	import { createBox, type Box, deleteBox, updateBox } from '$lib/api';
+	import { deleteBox, updateBox } from '$lib/api';
 	
 	export let isOpen = false;
 	export let boxId: string;

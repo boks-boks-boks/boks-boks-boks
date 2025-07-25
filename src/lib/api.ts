@@ -308,7 +308,7 @@ export async function getLabel(): Promise<LabelModel[]> {
         throw new Error(apiResponse.error || 'Failed to fetch labels');
     }
     
-    return apiResponse.data || [];
+    return (apiResponse.data || []).map(transformLabelFromAPI);
 }
 
 export async function createLabel(labelData: CreateLabelRequest): Promise<LabelModel> {
@@ -323,5 +323,14 @@ export async function createLabel(labelData: CreateLabelRequest): Promise<LabelM
         throw new Error(apiResponse.error || 'Failed to add label')
     }
 
-    return apiResponse.data
+    return transformLabelFromAPI(apiResponse.data);
+}
+
+function transformLabelFromAPI(apiLabel: any): LabelModel {
+    return {
+        id: apiLabel.Id || apiLabel.id,
+        title: apiLabel.Title || apiLabel.title,
+        description: apiLabel.Description || apiLabel.description,
+        color: apiLabel.Color || apiLabel.color
+    };
 }

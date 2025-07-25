@@ -29,7 +29,6 @@
         }
     })
 
-    let filteredLabels = $derived(labels);
     let labelCount = $derived(labels.length);
 
     function openCreateLabelModal() {
@@ -42,7 +41,8 @@
 
     function handleLabelCreated(event: CustomEvent<LabelModel>) {
         const newLabel = event.detail;
-        labels = [...labels, { ...newLabel, id: Date.now().toString() }];
+        console.log('New label received:', newLabel);
+        labels = [...labels, newLabel];
         setLabels(labels)
     }
 
@@ -106,7 +106,8 @@
                 <div class="table-header-cell actions-column">Actions</div>
             </div>
             
-            {#each filteredLabels as label (label.id)}
+            {#each labels as label}
+                {console.log(label)}
                 <LableTableEntry 
                     {label}
                     on:update={(e) => handleLabelUpdated(e.detail)}
