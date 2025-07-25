@@ -43,23 +43,7 @@
 				const itemsResponse = await getBoxItems(boxId);
 				console.log('Items response:', itemsResponse);
 				items = itemsResponse || []; // Ensure it's always an array
-				
-				// Add mock labels for demonstration (remove this when you have real label data)
-				items = items.map((item, index) => ({
-					...item,
-					labels: index % 3 === 0 ? [
-						{ id: '1', title: 'Important', description: 'Important item', color: '#ef4444' },
-						{ id: '2', title: 'Fragile', description: 'Handle with care', color: '#f97316' },
-						{ id: '3', title: 'Electronic', description: 'Electronic device', color: '#3b82f6' },
-						{ id: '5', title: 'New', description: 'Brand new item', color: '#8b5cf6' }
-					] : index % 3 === 1 ? [
-						{ id: '6', title: 'Kitchen', description: 'Kitchen item', color: '#06b6d4' },
-						{ id: '7', title: 'Seasonal', description: 'Seasonal use', color: '#84cc16' }
-					] : [
-						{ id: '8', title: 'Tools', description: 'Tool item', color: '#64748b' }
-					]
-				}));
-				
+
 				// Try to get the box title by fetching all boxes and finding the matching one
 				let boxTitle = `Box ${boxId.slice(0, 8)}...`; // Default fallback
 				try {
@@ -250,7 +234,7 @@
 				<h2 class="section-title">Items in this box</h2>
 				<div class="items-grid">
 					{#each items as item (item.id)}
-						<Card hover>
+						<Card padding="medium" hover>
 							<div class="item-card">
 								<div class="top-item-row">
 									<div class="item-icon">📋</div>
@@ -444,7 +428,7 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 1.1rem;
 	}
 
 	.item-icon {
