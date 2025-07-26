@@ -5,6 +5,7 @@
 	import { createItem, type Item, type LabelModel, getLabel } from '$lib/api';
 	import { userLabels, setLabels } from '$lib/stores/labels';
 	import Label from './Label.svelte';
+	import LabelPicker from './LabelPicker.svelte';
 	import { createEventDispatcher } from 'svelte';
 
 	interface Props {
@@ -14,15 +15,16 @@
 
 	const dispatch = createEventDispatcher();
 
-
 	let {isOpen = false, boxId}: Props = $props()
 	
 	let title = $state('');
 	let amount = $state('1');
 	let isLoading = $state(false);
 	let error = $state('');
+	let isLabelPickerOpen = $state(false);
 
 	let labels = $state<LabelModel[]>([]);
+	let selectLabels = $state<LabelModel[]>([]);
 
     $effect(() => {
         if($userLabels == null) {
@@ -44,8 +46,22 @@
 		title = '';
 		amount = '1';
 		error = '';
+		isLabelPickerOpen = false;
 		isLoading = false;
+		selectLabels = [];
 		dispatch('close');
+	}
+
+	function toggleLabelPicker() {
+		isLabelPickerOpen = !isLabelPickerOpen;
+	}
+
+	function handleLabelsChanged(event: CustomEvent<LabelModel[]>) {
+		selectLabels = event.detail;
+	}
+
+	function handleLabelPickerClose() {
+		isLabelPickerOpen = false;
 	}
 	
 	async function handleSubmit(event: Event) {
@@ -109,10 +125,27 @@
 			/>
 		</div>
 
-		<div>
-			{#each labels as label}
-				<Label size="small" color={label.color}>{label.title}</Label>
-			{/each}
+		<div class="add-label-container">
+			<p>Labels</p>
+			<button onclick={(e) => { e.stopPropagation(); toggleLabelPicker(); }} class="action-btn" title="Add Labels" type="button" disabled={isLoading}>
+				⚙️
+			</button>
+			<LabelPicker 
+				isOpen={isLabelPickerOpen}
+				availableLabels={labels}
+				selectedLabels={selectLabels}
+				on:labelsChanged={handleLabelsChanged}
+				on:close={handleLabelPickerClose}
+			/>
+		</div>
+		<div class="selected-labels-container">
+			{#if selectLabels.length > 0}
+				{#each selectLabels as label}
+					<Label size="small" color={label.color}>{label.title}</Label>
+				{/each}
+			{:else}
+				<p class="placeholder-text">No label associated with that item yet</p>
+			{/if}
 		</div>
 		
 		{#if error}
@@ -146,7 +179,51 @@
 		display: flex;
 		flex-direction: column;
 	}
+
+	.add-label-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+		z-index: 1;
+	}
+
+	.placeholder-text {
+		font-size: 0.875rem;
+		color: #6b7280;
+		font-weight: 500;
+	}
 	
+	.action-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 32px;
+        height: 32px;
+        touch-action: manipulation; /* Improves touch responsiveness */
+    }
+
+	.action-btn:hover {
+        background: #f3f4f6;
+        transform: scale(1.1);
+    }
+
+	.selected-labels-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		min-height: 2rem;
+		align-items: center;
+		margin: 0.5rem 0;
+	}
+
 	.form-group {
 		display: flex;
 		flex-direction: column;
