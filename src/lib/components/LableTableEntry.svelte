@@ -12,7 +12,6 @@
     
     const dispatch = createEventDispatcher();
     
-    let isEditing = $state(false);
     let editTitle = $state(label.title);
     let editDescription = $state(label.description);
 
@@ -27,7 +26,6 @@
     }
 
     function cancelEditing() {
-        isEditing = false;
         editTitle = label.title;
         editDescription = label.description;
     }
@@ -40,7 +38,6 @@
             title: editTitle.trim(),
             description: editDescription.trim()
         });
-        isEditing = false;
     }
 
     function handleKeydown(event: KeyboardEvent) {
@@ -59,43 +56,15 @@
     </div>
     
     <div class="description-cell">
-        {#if isEditing}
-            <div class="edit-form">
-                <input
-                    type="text"
-                    bind:value={editTitle}
-                    placeholder="Label title"
-                    class="edit-input title-input"
-                    onkeydown={handleKeydown}
-                />
-                <input
-                    type="text"
-                    bind:value={editDescription}
-                    placeholder="Label description"
-                    class="edit-input description-input"
-                    onkeydown={handleKeydown}
-                />
-            </div>
-        {:else}
-            <div class="description-content">
-                <p class="description-text">{label.description || 'No description'}</p>
-            </div>
-        {/if}
+        <div class="description-content">
+            <p class="description-text">{label.description || 'No description'}</p>
+        </div>
     </div>
     
     <div class="actions-cell">
-        {#if isEditing}
-            <button class="action-btn save-btn" onclick={saveEdit} title="Save changes">
-                ✓
-            </button>
-            <button class="action-btn cancel-btn" onclick={cancelEditing} title="Cancel editing">
-                ✕
-            </button>
-        {:else}
             <button class="action-btn edit-btn" onclick={openUpdateLabelModal} title="Edit label">
                 ✏️
             </button>
-        {/if}
     </div>
 </div>
 
@@ -149,35 +118,6 @@
         line-height: 1.4;
     }
 
-    .edit-form {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .edit-input {
-        padding: 0.5rem;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        font-size: 0.875rem;
-        background: white;
-        transition: border-color 0.2s;
-    }
-
-    .edit-input:focus {
-        outline: none;
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-    }
-
-    .title-input {
-        font-weight: 500;
-    }
-
-    .description-input {
-        color: #6b7280;
-    }
-
     .actions-cell {
         display: flex;
         justify-content: center;
@@ -206,33 +146,6 @@
         transform: scale(1.1);
     }
 
-    .delete-btn:hover {
-        background: #fee2e2;
-        transform: scale(1.1);
-    }
-
-    .save-btn {
-        background: #10b981;
-        color: white;
-        font-weight: bold;
-    }
-
-    .save-btn:hover {
-        background: #059669;
-        transform: scale(1.05);
-    }
-
-    .cancel-btn {
-        background: #ef4444;
-        color: white;
-        font-weight: bold;
-    }
-
-    .cancel-btn:hover {
-        background: #dc2626;
-        transform: scale(1.05);
-    }
-
     @media (max-width: 768px) {
         .entry-container {
             grid-template-columns: 1fr 1.5fr 80px;
@@ -245,11 +158,6 @@
             min-width: 28px;
             height: 28px;
             padding: 0.25rem;
-        }
-
-        .edit-input {
-            font-size: 0.8rem;
-            padding: 0.4rem;
         }
     }
 
@@ -287,22 +195,6 @@
             font-size: 0.875rem;
             line-height: 1.4;
         }
-
-        .edit-form {
-            gap: 0.75rem;
-        }
-
-        .edit-input {
-            font-size: 0.875rem;
-            padding: 0.5rem;
-        }
-
-        .action-btn {
-            font-size: 0.875rem;
-            min-width: 32px;
-            height: 32px;
-            padding: 0.375rem;
-        }
     }
 
     @media (max-width: 480px) {
@@ -326,11 +218,6 @@
 
         .description-text {
             font-size: 0.8rem;
-        }
-
-        .edit-input {
-            font-size: 0.8rem;
-            padding: 0.4rem;
         }
     }
 </style>
