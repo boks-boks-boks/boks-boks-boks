@@ -194,6 +194,7 @@ export interface CreateBoxRequest {
 export interface CreateItemRequest {
     title: string;
     amount: number;
+    labels?: LabelModel[]
 }
 
 export interface UpdateBoxRequest {
@@ -237,8 +238,6 @@ export async function createItem(boxId: string, itemData: CreateItemRequest): Pr
     });
     
     const apiResponse: APIResponse<Item> = await response.json();
-    
-    console.log('API create item response:', apiResponse);
     
     if (!apiResponse.success || !apiResponse.data) {
         throw new Error(apiResponse.error || 'Failed to create item');

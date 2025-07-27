@@ -84,7 +84,8 @@
 		try {
 			const newItem: Item = await createItem(boxId, { 
 				title: title.trim(), 
-				amount: amountNum 
+				amount: amountNum,
+				labels: selectLabels
 			});
 			
 			// Dispatch success event with the new item data
