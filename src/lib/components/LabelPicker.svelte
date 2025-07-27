@@ -147,10 +147,10 @@
 <style>
 	.label-picker-dropdown {
 		position: absolute;
-		bottom: 100%;
 		left: 0;
 		right: 0;
-		margin-bottom: 0.5rem;
+		margin-bottom: 12rem;
+		margin-left: 1.5rem;
 		background: white;
 		border-radius: 12px;
 		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -361,17 +361,16 @@
 		transform: translateY(-1px);
 	}
 
-	/* Responsive Design */
 	@media (max-width: 640px) and (min-width: 481px) {
 		.label-picker-dropdown {
-			/* Smart positioning for medium mobile screens */
 			position: fixed;
-			left: 50%;
+			left: 45%;
 			transform: translateX(-50%);
-			min-width: 280px;
+			min-width: 420px;
 			max-width: calc(100vw - 2rem);
 			max-height: 60vh;
 			animation: slideUpMobile 0.25s ease-out;
+			bottom: 4rem;
 		}
 
 		.label-picker-dropdown.position-below {
@@ -422,10 +421,9 @@
 
 	@media (max-width: 480px) {
 		.label-picker-dropdown {
-			/* For very small screens, use a safer positioning approach */
 			position: fixed;
 			top: 50%;
-			left: 50%;
+			left: 43%;
 			transform: translate(-50%, -50%);
 			bottom: auto;
 			right: auto;
@@ -456,67 +454,6 @@
 		.clear-btn,
 		.done-btn {
 			width: 100%;
-		}
-	}
-
-	/* Dark mode support (if needed later) */
-	@media (prefers-color-scheme: dark) {
-		.label-picker-dropdown {
-			background: #1f2937;
-			border-color: #374151;
-		}
-
-		.dropdown-header,
-		.dropdown-footer {
-			background: #111827;
-			border-color: #374151;
-		}
-
-		.dropdown-header h4 {
-			color: #f9fafb;
-		}
-
-		.label-count {
-			background: #374151;
-			color: #d1d5db;
-		}
-
-		.label-option:hover {
-			background: #374151;
-		}
-
-		.label-option:focus {
-			background: #4b5563;
-		}
-
-		.empty-state p {
-			color: #d1d5db;
-		}
-
-		.empty-subtitle {
-			color: #9ca3af;
-		}
-
-		.label-description {
-			color: #9ca3af;
-		}
-
-		.clear-btn {
-			background: #374151;
-			color: #d1d5db;
-			border-color: #4b5563;
-		}
-
-		.clear-btn:hover:not(:disabled) {
-			background: #4b5563;
-			border-color: #6b7280;
-			color: #f3f4f6;
-		}
-
-		.clear-btn:disabled {
-			background: #1f2937;
-			color: #6b7280;
-			border-color: #374151;
 		}
 	}
 </style>
