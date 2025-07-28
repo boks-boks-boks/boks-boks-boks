@@ -4,7 +4,6 @@
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
 	import { type LabelModel, type Item, deleteItem, updateItem, getLabel } from '$lib/api';
-    import { onMount } from 'svelte';
 	import LabelPicker from './LabelPicker.svelte';
 	import { userLabels, setLabels } from '$lib/stores/labels';
 	import Label from './Label.svelte';
@@ -36,7 +35,7 @@
 		isLabelPickerOpen = !isLabelPickerOpen
 	}
 
-	function closeModal() {
+	function resetModal() {
 		error = '';
 		isLoading = false;
 		showDeleteConfirm = false;
@@ -44,6 +43,11 @@
 		editTitle = item.title;
 		editAmount = item.amount;
 		selectLabels = item.labels || [];
+	}
+
+	function closeModal() {
+		resetModal()
+		dispatch("close")
 	}
 
 	function promptDeleteItem(event: Event) {
@@ -63,7 +67,7 @@
 		await deleteItem(boxId, item.id)
 
 		dispatch('itemDeleted', item.id);
-		closeModal();
+		resetModal();
 		} catch (err) {
 			console.error('Error deleting item:', err)
 			error = err instanceof Error ? err.message : 'Failed to delete item'
@@ -79,7 +83,7 @@
 		try {
 			const newItem = await updateItem(boxId, {"id": item.id, "title": editTitle, "amount": parseInt(amountStr), "labels": selectLabels})
 
-			closeModal()
+			resetModal()
 			dispatch("itemUpdated", newItem)
 		} catch(err) {
 			console.error('Error updating box:', err)
