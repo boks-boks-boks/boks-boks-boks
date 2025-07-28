@@ -5,26 +5,37 @@
 	import FormInput from './FormInput.svelte';
 	import { type Item, deleteItem, updateItem } from '$lib/api';
     import { onMount } from 'svelte';
+	import LabelPicker from './LabelPicker.svelte';
+
+	interface Props {
+		isOpen: boolean
+		item: Item
+		boxId: string
+	}
 	
-	export let isOpen = false;
-	export let item: Item;
-	export let boxId: string
+	let {isOpen = false, item, boxId}: Props = $props()
 
 	const dispatch = createEventDispatcher();
 	
-	let isLoading = false;
-	let error = '';
-	let showDeleteConfirm = false;
+	let isLoading = $state(false);
+	let error = $state('');
+	let showDeleteConfirm = $state(false);
 
     let oldTitle: string
     let oldAmount: number
 
-    let amountStr = String(item.amount);
+    let amountStr = $derived(String(item.amount));
+
+	let isLabelPickerOpen = $state(false)
 
     onMount(() => {
 		oldTitle = item.title
         oldAmount = item.amount
 	})
+
+	function toggleLabelPicker() {
+		isLabelPickerOpen = !isLabelPickerOpen
+	}
 
 	function closeModal(newTitle: string | undefined = undefined, newAmount: number | undefined = undefined) {
         item.title = newTitle ? newTitle : oldTitle
@@ -82,16 +93,16 @@
 		}
 	}
 
-	// Clear error when user starts typing
-	$: if (item && error) {
-		error = '';
-	}
-    
-    $: item.amount = parseInt(amountStr) || 0;
+	$effect(() => {
+		if (item && error) {
+			error = '';
+		}
+		item.amount = parseInt(amountStr) || 0;
+	})
 </script>
 
 <Modal {isOpen} title="Update Item" size="medium" on:close={() => closeModal()}>
-	<form on:submit={handleSubmit} class="create-box-form">
+	<form onsubmit={handleSubmit} class="create-box-form">
 		{#if !showDeleteConfirm}
 			<div class="form-group">
 				<FormInput
@@ -114,6 +125,29 @@
                     required
                 />
             </div>
+
+			<div class="add-label-container">
+				<p>Labels</p>
+				<button onclick={(e) => { e.stopPropagation(); toggleLabelPicker(); }} class="action-btn" title="Add Labels" type="button" disabled={isLoading}>
+					⚙️
+				</button>
+				<LabelPicker 
+					isOpen={isLabelPickerOpen}
+					availableLabels={labels}
+					selectedLabels={selectLabels}
+					on:labelsChanged={handleLabelsChanged}
+					on:close={handleLabelPickerClose}
+				/>
+			</div>
+			<div class="selected-labels-container">
+				{#if selectLabels.length > 0}
+					{#each selectLabels as label}
+						<Label size="small" color={label.color}>{label.title}</Label>
+					{/each}
+				{:else}
+					<p class="placeholder-text">No label associated with that item yet</p>
+				{/if}
+			</div>
 		{/if}
 
 
