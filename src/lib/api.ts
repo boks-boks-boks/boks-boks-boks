@@ -331,6 +331,18 @@ export async function createLabel(labelData: CreateLabelRequest): Promise<LabelM
     return transformLabelFromAPI(apiResponse.data);
 }
 
+export async function deleteLabel(labelId: string): Promise<void> {
+    const response = await protectedRequest(`${baseUrl}/api/labels/${labelId}`, {
+        method: 'DELETE',
+    })
+
+    const apiResponse: APIResponse<void> = await response.json()
+
+    if(!apiResponse.success) {
+        throw new Error(apiResponse.error || 'Failed to delete label')
+    }
+}
+
 function transformLabelFromAPI(apiLabel: any): LabelModel {
     return {
         id: apiLabel.Id || apiLabel.id,

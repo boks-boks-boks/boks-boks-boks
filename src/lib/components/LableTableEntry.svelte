@@ -40,6 +40,12 @@
         });
     }
 
+    function handleLabelDeletion(event: CustomEvent<string>) {
+        const deletedId = event.detail
+
+		dispatch("delete", deletedId)
+    }
+
     function handleKeydown(event: KeyboardEvent) {
         if (event.key === 'Enter') {
             saveEdit();
@@ -75,6 +81,7 @@
     color={label.color}
     isOpen={showUpdateLabelModal}
 	on:close={closeUpdateLabelModal}
+    on:labelDeleted={handleLabelDeletion}
 />
 
 

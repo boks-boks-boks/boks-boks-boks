@@ -5,6 +5,7 @@
 	import FormInput from './FormInput.svelte';
 	import { onMount } from 'svelte';
 	import ColorPicker from 'svelte-awesome-color-picker';
+	import { deleteLabel } from '$lib';
 
     interface labelSettings {
         title: string
@@ -57,9 +58,9 @@
 		isLoading = true;
 
     try {
-		//await deleteLabel(labelId)
+		await deleteLabel(labelId)
 
-		dispatch('boxDeleted');
+		dispatch('labelDeleted', labelId);
 		closeModal();
 		} catch (err) {
 			console.error('Error deleting box:', err)
@@ -74,9 +75,7 @@
 		isLoading = true
 
 		try {
-			// await updateBox({"id": boxId, "title": title})
-
-            let s: labelSettings = {title, description, color}
+			let s: labelSettings = {title, description, color}
 
 			dispatch("labelUpdated", s)
 			closeModal(s)
