@@ -170,6 +170,8 @@
 	function hanldeItemUpdated(event: CustomEvent<Item>) {
 		const newItem = event.detail
 
+		console.log(newItem)
+
 		const updatedIndex = items.findIndex(e => e.id == newItem.id)
 		items[updatedIndex] = newItem
 

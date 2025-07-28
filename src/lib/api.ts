@@ -206,6 +206,7 @@ export interface UpdateItemRequest {
     id: string
     title: string
     amount: number
+    labels: LabelModel[]
 }
 
 export interface CreateLabelRequest {
@@ -283,17 +284,22 @@ export async function deleteItem(boxId: string, itemId: string) {
     }
 }
 
-export async function updateItem(boxId: string, itemData: UpdateItemRequest): Promise<void> {
+export async function updateItem(boxId: string, itemData: UpdateItemRequest): Promise<Item> {
     const response = await protectedRequest(`${baseUrl}/api/boxes/${boxId}/items`, {
         method: 'PUT',
         body: JSON.stringify(itemData),
     })
 
-    const apiResponse: APIResponse<void> = await response.json()
+    const apiResponse: APIResponse<Item> = await response.json()
 
-    if (!apiResponse.success) {
+    console.log(apiResponse)
+
+    if (!apiResponse.success || !apiResponse.data) {
         throw new Error(apiResponse.error || 'Failed to update Item')
     }
+
+
+    return apiResponse.data
 }
 
 export async function getLabel(): Promise<LabelModel[]> {

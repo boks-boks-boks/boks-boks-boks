@@ -3,9 +3,11 @@
 	import Modal from './Modal.svelte';
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
-	import { type Item, deleteItem, updateItem } from '$lib/api';
+	import { type LabelModel, type Item, deleteItem, updateItem, getLabel } from '$lib/api';
     import { onMount } from 'svelte';
 	import LabelPicker from './LabelPicker.svelte';
+	import { userLabels, setLabels } from '$lib/stores/labels';
+	import Label from './Label.svelte';
 
 	interface Props {
 		isOpen: boolean
@@ -15,39 +17,33 @@
 	
 	let {isOpen = false, item, boxId}: Props = $props()
 
+	let labels = $state<LabelModel[]>([]);
+	let selectLabels = $state<LabelModel[]>(item.labels || []);
+
 	const dispatch = createEventDispatcher();
 	
 	let isLoading = $state(false);
 	let error = $state('');
 	let showDeleteConfirm = $state(false);
 
-    let oldTitle: string
-    let oldAmount: number
-
-    let amountStr = $derived(String(item.amount));
+	let editTitle = $state(item.title);
+	let editAmount = $state(item.amount);
+	let amountStr = $derived(String(editAmount));
 
 	let isLabelPickerOpen = $state(false)
-
-    onMount(() => {
-		oldTitle = item.title
-        oldAmount = item.amount
-	})
 
 	function toggleLabelPicker() {
 		isLabelPickerOpen = !isLabelPickerOpen
 	}
 
-	function closeModal(newTitle: string | undefined = undefined, newAmount: number | undefined = undefined) {
-        item.title = newTitle ? newTitle : oldTitle
-		oldTitle = item.title
-
-        item.amount = newAmount ? newAmount : oldAmount
-        oldAmount = item.amount
-
+	function closeModal() {
 		error = '';
 		isLoading = false;
 		showDeleteConfirm = false;
-		dispatch('close');
+		// Reset form values to original item values
+		editTitle = item.title;
+		editAmount = item.amount;
+		selectLabels = item.labels || [];
 	}
 
 	function promptDeleteItem(event: Event) {
@@ -81,10 +77,10 @@
 		isLoading = true
 
 		try {
-			await updateItem(boxId, {"id": item.id, "title": item.title, "amount": item.amount})
+			const newItem = await updateItem(boxId, {"id": item.id, "title": editTitle, "amount": parseInt(amountStr), "labels": selectLabels})
 
-			dispatch("itemUpdated", item)
 			closeModal()
+			dispatch("itemUpdated", newItem)
 		} catch(err) {
 			console.error('Error updating box:', err)
 			error = err instanceof Error ? err.message : 'Failed to update box'
@@ -93,11 +89,35 @@
 		}
 	}
 
+	function handleLabelsChanged(event: CustomEvent<LabelModel[]>) {
+		selectLabels = event.detail
+	}
+
+	function handleLabelPickerClose() {
+		isLabelPickerOpen = false
+	}
+
 	$effect(() => {
-		if (item && error) {
-			error = '';
+		if($userLabels == null) {
+            getLabel().then(l => {
+                setLabels(l)
+                labels = $userLabels!
+            })
+        } else {
+            labels = $userLabels!
+        }
+	})
+
+	$effect(() => {
+		if (item) {
+			editTitle = item.title;
+			editAmount = item.amount;
+			selectLabels = item.labels || [];
+			// Clear error when item changes
+			if (error) {
+				error = '';
+			}
 		}
-		item.amount = parseInt(amountStr) || 0;
 	})
 </script>
 
@@ -109,7 +129,7 @@
 					label="Update Item Title"
 					type="text"
 					placeholder="Enter box title..."
-					bind:value={item.title}
+					bind:value={editTitle}
 					disabled={isLoading}
 					required
 				/>
@@ -210,7 +230,7 @@
 					<Button
 						type="submit"
 						variant="primary"
-						disabled={isLoading || !item.title.trim()}
+						disabled={isLoading || !editTitle.trim()}
 					>
 						{isLoading ? 'Saving...' : 'Save Changes'}
 					</Button>
@@ -227,6 +247,14 @@
 		gap: 1rem;
 	}
 
+	.add-label-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+		z-index: 1;
+	}
+
 	.form-group {
 		display: flex;
 		flex-direction: column;
@@ -240,6 +268,21 @@
 		padding: 0.75rem;
 		border-radius: 0.5rem;
 		font-size: 0.875rem;
+	}
+
+	.selected-labels-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		min-height: 2rem;
+		align-items: center;
+		margin: 0.5rem 0;
+	}
+
+	.placeholder-text {
+		font-size: 0.875rem;
+		color: #6b7280;
+		font-weight: 500;
 	}
 
 	.delete-confirmation {
@@ -272,6 +315,22 @@
 		display: flex;
 		gap: 0.75rem;
 	}
+
+ 	.action-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 32px;
+        height: 32px;
+        touch-action: manipulation; /* Improves touch responsiveness */
+    }
 
 	@media (max-width: 640px) {
 		.form-actions {
