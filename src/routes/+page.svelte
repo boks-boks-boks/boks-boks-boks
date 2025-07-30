@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { isAuthenticated, currentUser } from '$lib';
 	import { goto } from '$app/navigation';
-	import { Button, FeatureCard, BoxCard, Alert } from '$lib';
+	import { Button, FeatureCard, BoxCard, Alert, ItemSearch } from '$lib';
 	import CreateBoxModal from '$lib/components/CreateBoxModal.svelte';
 	import { getBoxes, type Box } from '$lib/api';
 
@@ -29,6 +29,18 @@
 		
 		// Close the modal
 		closeCreateModal();
+	}
+
+	function handleSearchBoxSelect(event: CustomEvent<{ box: any }>) {
+		const box = event.detail.box;
+		console.log('Box selected from search:', box);
+		// Navigate to the box page
+		goto(`/box/${box.id}/items`);
+	}
+
+	function handleSearchInput(event: CustomEvent<{ query: string }>) {
+		// Optional: You can track search queries here
+		console.log('Search query:', event.detail.query);
 	}
 
 	async function loadBoxes() {
@@ -85,10 +97,20 @@
 	<!-- User Dashboard -->
 	<div class="dashboard">
 		<div class="dashboard-header">
-			<h1 class="dashboard-title">
-				Welcome back, <span class="user-name">{$currentUser?.username || 'User'}</span>! 👋
-			</h1>
-			<p class="dashboard-subtitle">Manage your storage boxes and keep track of your belongings</p>
+			<div class="header-content">
+				<h1 class="dashboard-title">
+					Welcome back, <span class="user-name">{$currentUser?.username || 'User'}</span>! 👋
+				</h1>
+				<p class="dashboard-subtitle">Manage your storage boxes and keep track of your belongings</p>
+			</div>
+			<div class="header-actions">
+				<ItemSearch 
+					placeholder="Find items in your boxes..."
+					on:select={handleSearchBoxSelect}
+					on:input={handleSearchInput}
+					maxResults={5}
+				/>
+			</div>
 		</div>
 
 		{#if loading}
@@ -225,8 +247,18 @@
 	}
 	
 	.dashboard-header {
-		text-align: center;
 		margin-bottom: 3rem;
+	}
+
+	.header-content {
+		text-align: center;
+		margin-bottom: 2rem;
+	}
+
+	.header-actions {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 1rem;
 	}
 	
 	.dashboard-title {
@@ -499,6 +531,14 @@
 		/* Dashboard Mobile Styles */
 		.dashboard {
 			padding: 1rem 0;
+		}
+
+		.header-content {
+			margin-bottom: 1.5rem;
+		}
+
+		.header-actions {
+			margin-bottom: 0.5rem;
 		}
 		
 		.dashboard-title {
