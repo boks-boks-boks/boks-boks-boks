@@ -2,6 +2,8 @@
 	import { isAuthenticated, currentUser, accessToken } from '$lib/stores/auth';
 	import { browser } from '$app/environment';
 	import { Button, Card } from '$lib';
+    import { onMount } from 'svelte';
+	import { getBoxIdContainItemTitle } from '$lib';
 
 	let localStorageToken = '';
 	let localStorageUser = '';
@@ -17,6 +19,11 @@
 			location.reload();
 		}
 	}
+
+	onMount(async () => {
+		const boxIds = await getBoxIdContainItemTitle("test2")
+		console.log(boxIds)
+	})
 </script>
 
 <svelte:head>

@@ -343,6 +343,20 @@ export async function deleteLabel(labelId: string): Promise<void> {
     }
 }
 
+export async function getBoxIdContainItemTitle(itemTitle: string): Promise<String> {
+    const response = await protectedRequest(`${baseUrl}/api/boxes/items/${itemTitle}`, {
+        method: 'GET'
+    })
+
+    const apiResponse: APIResponse<string> = await response.json()
+
+    if(!apiResponse.success || !apiResponse.data) {
+        throw new Error(apiResponse.error || 'Failed to fetch boxes')
+    }
+
+    return apiResponse.data
+}
+
 function transformLabelFromAPI(apiLabel: any): LabelModel {
     return {
         id: apiLabel.Id || apiLabel.id,
