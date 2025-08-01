@@ -156,7 +156,7 @@
 			<Card>
 				<h2 class="section-title">Account Actions</h2>
 				<div class="profile-actions">
-					<Button variant="primary" href="/boxes">
+					<Button variant="primary" href="/">
 						Manage Boxes
 					</Button>
 					<Button variant="secondary" on:click={handleLogout}>
