@@ -236,27 +236,30 @@
 				<h2 class="section-title">Items in this box</h2>
 				<div class="items-grid">
 					{#each items as item (item.id)}
-						<Card padding="medium" hover>
-							<div class="item-card">
-								<div class="top-item-row">
-									<div class="item-icon">📋</div>
-									<div class="item-content">
-										<h3 class="item-title">{item.title}</h3>
-										<p class="item-amount">{formatAmount(item.amount)}</p>
+						<button
+							type="button"
+							class="item-card-btn"
+							on:click={() => openItemUpdateModal(item)}
+							aria-label="Edit item"
+						>
+							<Card padding="medium" hover>
+								<div class="item-card">
+									<div class="top-item-row">
+										<div class="item-icon">📋</div>
+										<div class="item-content">
+											<h3 class="item-title">{item.title}</h3>
+											<p class="item-amount">{formatAmount(item.amount)}</p>
+										</div>
+										<span title="Edit item">✏️</span>
 									</div>
-									<div class="item-actions">
-										<button onclick={() => openItemUpdateModal(item)} class="action-button edit" title="Edit item">
-											✏️
-										</button>
+									<div class="label-container">
+										{#if item.labels && item.labels.length > 0}
+											<LabelList labels={item.labels} size="small" />
+										{/if}
 									</div>
 								</div>
-								<div class="label-container">
-									{#if item.labels && item.labels.length > 0}
-										<LabelList labels={item.labels} size="small" />
-									{/if}
-								</div>
-							</div>
-						</Card>
+							</Card>
+						</button>
 					{/each}
 				</div>
 			</div>
@@ -459,11 +462,6 @@
 		font-size: 0.875rem;
 	}
 
-	.item-actions {
-		display: flex;
-		gap: 0.5rem;
-	}
-
 	.action-button {
 		background: none;
 		border: none;
@@ -584,8 +582,13 @@
 		border-bottom: none;
 	}
 
-	.actions {
-		margin-top: 2rem;
+	.item-card-btn {
+		cursor: pointer;
+		background: none;
+		border: none;
+		padding: 0;
+		width: 100%;
+		text-align: inherit;
 	}
 
 	@media (max-width: 768px) {
