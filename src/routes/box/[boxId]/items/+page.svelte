@@ -236,27 +236,30 @@
 				<h2 class="section-title">Items in this box</h2>
 				<div class="items-grid">
 					{#each items as item (item.id)}
-						<Card padding="medium" hover>
-							<div class="item-card">
-								<div class="top-item-row">
-									<div class="item-icon">📋</div>
-									<div class="item-content">
-										<h3 class="item-title">{item.title}</h3>
-										<p class="item-amount">{formatAmount(item.amount)}</p>
+						<button
+							type="button"
+							class="item-card-btn"
+							on:click={() => openItemUpdateModal(item)}
+							aria-label="Edit item"
+						>
+							<Card padding="medium" height="min" hover>
+								<div class="item-card">
+									<div class="top-item-row">
+										<div class="item-icon">📋</div>
+										<div class="item-content">
+											<h3 class="item-title">{item.title}</h3>
+											<p class="item-amount">{formatAmount(item.amount)}</p>
+										</div>
+										<div class="item-arrow">→</div>
 									</div>
-									<div class="item-actions">
-										<button onclick={() => openItemUpdateModal(item)} class="action-button edit" title="Edit item">
-											✏️
-										</button>
+									<div class="label-container">
+										{#if item.labels && item.labels.length > 0}
+											<LabelList labels={item.labels} size="small" />
+										{/if}
 									</div>
 								</div>
-								<div class="label-container">
-									{#if item.labels && item.labels.length > 0}
-										<LabelList labels={item.labels} size="small" />
-									{/if}
-								</div>
-							</div>
-						</Card>
+							</Card>
+						</button>
 					{/each}
 				</div>
 			</div>
@@ -342,6 +345,18 @@
 		border-radius: 50%;
 		animation: spin 1s linear infinite;
 		margin: 0 auto 1rem auto;
+	}
+
+	.item-arrow {
+		color: #9ca3af;
+		font-size: 1.25rem;
+		font-weight: bold;
+		transition: color 0.2s ease, transform 0.2s ease;
+	}
+	
+	.item-card-btn:hover .item-arrow {
+		color: #3b82f6;
+		transform: translateX(4px);
 	}
 
 	@keyframes spin {
@@ -459,25 +474,6 @@
 		font-size: 0.875rem;
 	}
 
-	.item-actions {
-		display: flex;
-		gap: 0.5rem;
-	}
-
-	.action-button {
-		background: none;
-		border: none;
-		padding: 0.5rem;
-		border-radius: 0.375rem;
-		cursor: pointer;
-		font-size: 1rem;
-		transition: background-color 0.2s ease;
-	}
-
-	.action-button:hover {
-		background-color: #f3f4f6;
-	}
-
 	.top-item-row {
 		display: flex;
 		align-items: center;
@@ -584,8 +580,14 @@
 		border-bottom: none;
 	}
 
-	.actions {
-		margin-top: 2rem;
+	.item-card-btn {
+		cursor: pointer;
+		background: none;
+		border: none;
+		padding: 0;
+		width: 100%;
+		min-height: 147px;
+		text-align: inherit;
 	}
 
 	@media (max-width: 768px) {
@@ -659,11 +661,6 @@
 
 		.item-card {
 			padding: 0.25rem;
-		}
-
-		.action-button {
-			padding: 0.375rem;
-			font-size: 0.875rem;
 		}
 	}
 </style>

@@ -1,11 +1,12 @@
 <script>
 	export let padding = 'large'; // 'small', 'medium', 'large'
 	export let shadow = 'medium'; // 'small', 'medium', 'large'
+	export let height = 'auto'; // 'auto', 'min'
 	export let hover = false;
 </script>
 
 <div 
-	class="card card-padding-{padding} card-shadow-{shadow}"
+	class="card card-padding-{padding} card-shadow-{shadow} card-height-{height}"
 	class:card-hover={hover}
 >
 	<slot />
@@ -16,6 +17,10 @@
 		background: white;
 		border-radius: 12px;
 		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.card-height-min {
+		min-height: 147px;
 	}
 
 	.card-padding-small {
