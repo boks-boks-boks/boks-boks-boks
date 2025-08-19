@@ -111,9 +111,18 @@ export async function protectedRequest(url: string, options: RequestInit = {}): 
 }
 
 export async function getUserProfile(username: string): Promise<UserProfile> {
-    const response = await protectedRequest(`${baseUrl}/user/${username}`);
-    const data = await response.json();
-    return data;
+    try {
+        const response = await protectedRequest(`${baseUrl}/api/user/${username}`);
+        const apiResponse: APIResponse<UserProfile> = await response.json();
+
+        if (!apiResponse.success || !apiResponse.data) {
+            throw new Error(apiResponse.error || "Error while fecthing user datas")
+        }
+
+        return apiResponse.data;
+    } catch (error: any) {
+        throw new Error(error.message)
+    }
 }
 
 export async function logout(): Promise<void> {
