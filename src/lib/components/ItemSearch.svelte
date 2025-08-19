@@ -26,7 +26,7 @@
 
 	// Debounced search function
 	const debouncedSearch = debounce(async (query: string) => {
-		if (!query.trim() || query.length < 2) {
+		if (!query.trim() || query.length < 1) {
 			searchResults = [];
 			isDropdownOpen = false;
 			return;
@@ -62,11 +62,11 @@
 			boxMatches.sort((a, b) => b.matchingItemsCount - a.matchingItemsCount);
 
 			searchResults = boxMatches.slice(0, maxResults);
-			isDropdownOpen = showResults && searchQuery.trim().length >= 2;
+			isDropdownOpen = showResults && searchQuery.trim().length >= 1;
 		} catch (error) {
 			console.error('Search error:', error);
 			searchResults = [];
-			isDropdownOpen = showResults && searchQuery.trim().length >= 2;
+			isDropdownOpen = showResults && searchQuery.trim().length >= 1;
 		} finally {
 			isLoading = false;
 		}
@@ -84,7 +84,7 @@
 	}
 
 	function handleFocus() {
-		if (searchQuery.trim().length >= 2) {
+		if (searchQuery.trim().length >= 1) {
 			isDropdownOpen = true;
 		}
 	}
