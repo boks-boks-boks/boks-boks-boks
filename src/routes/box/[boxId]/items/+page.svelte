@@ -250,7 +250,7 @@
 											<h3 class="item-title">{item.title}</h3>
 											<p class="item-amount">{formatAmount(item.amount)}</p>
 										</div>
-										<span title="Edit item">✏️</span>
+										<div class="item-arrow">→</div>
 									</div>
 									<div class="label-container">
 										{#if item.labels && item.labels.length > 0}
@@ -345,6 +345,18 @@
 		border-radius: 50%;
 		animation: spin 1s linear infinite;
 		margin: 0 auto 1rem auto;
+	}
+
+	.item-arrow {
+		color: #9ca3af;
+		font-size: 1.25rem;
+		font-weight: bold;
+		transition: color 0.2s ease, transform 0.2s ease;
+	}
+	
+	.item-card-btn:hover .item-arrow {
+		color: #3b82f6;
+		transform: translateX(4px);
 	}
 
 	@keyframes spin {
