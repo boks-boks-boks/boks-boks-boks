@@ -242,7 +242,7 @@
 							on:click={() => openItemUpdateModal(item)}
 							aria-label="Edit item"
 						>
-							<Card padding="medium" hover>
+							<Card padding="medium" height="min" hover>
 								<div class="item-card">
 									<div class="top-item-row">
 										<div class="item-icon">📋</div>
@@ -474,20 +474,6 @@
 		font-size: 0.875rem;
 	}
 
-	.action-button {
-		background: none;
-		border: none;
-		padding: 0.5rem;
-		border-radius: 0.375rem;
-		cursor: pointer;
-		font-size: 1rem;
-		transition: background-color 0.2s ease;
-	}
-
-	.action-button:hover {
-		background-color: #f3f4f6;
-	}
-
 	.top-item-row {
 		display: flex;
 		align-items: center;
@@ -600,6 +586,7 @@
 		border: none;
 		padding: 0;
 		width: 100%;
+		min-height: 147px;
 		text-align: inherit;
 	}
 
@@ -674,11 +661,6 @@
 
 		.item-card {
 			padding: 0.25rem;
-		}
-
-		.action-button {
-			padding: 0.375rem;
-			font-size: 0.875rem;
 		}
 	}
 </style>
