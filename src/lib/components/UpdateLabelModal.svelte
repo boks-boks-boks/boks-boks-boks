@@ -5,7 +5,7 @@
 	import FormInput from './FormInput.svelte';
 	import { onMount } from 'svelte';
 	import ColorPicker from 'svelte-awesome-color-picker';
-	import { deleteLabel, type LabelModel } from '$lib';
+	import { deleteLabel, type LabelModel, updateLabel, type UpdateLabelRequest } from '$lib';
 
     interface labelSettings {
         title: string
@@ -75,11 +75,11 @@
 		isLoading = true
 
 		try {
-			let s: labelSettings = {title, description, color}
+			const labelRequest: UpdateLabelRequest = {id: labelId, color: color, title: title, description: description}
+			const label: LabelModel = await updateLabel(labelRequest)
 
-			let label: LabelModel = {id: labelId, title: title, description: description, color: color}
 			dispatch("labelUpdated", label)
-			closeModal(s)
+			closeModal({color: label.color, title: label.title, description: label.description})
 		} catch(err) {
 			console.error('Error updating box:', err)
 			error = err instanceof Error ? err.message : 'Failed to update box'
