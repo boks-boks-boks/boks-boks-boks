@@ -2,6 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import type { LabelModel } from '$lib';
     import UpdateLabelModal from './UpdateLabelModal.svelte';
+    import type { LayoutParams } from '../../routes/$types';
 
     interface Props {
         label: LabelModel;
@@ -46,6 +47,12 @@
 		dispatch("delete", deletedId)
     }
 
+    function handleLabelUpdated(event: CustomEvent<LabelModel>) {
+        const newLabel = event.detail
+
+        dispatch("update", newLabel)
+    }
+
     function handleKeydown(event: KeyboardEvent) {
         if (event.key === 'Enter') {
             saveEdit();
@@ -82,6 +89,7 @@
     isOpen={showUpdateLabelModal}
 	on:close={closeUpdateLabelModal}
     on:labelDeleted={handleLabelDeletion}
+    on:labelUpdated={handleLabelUpdated}
 />
 
 

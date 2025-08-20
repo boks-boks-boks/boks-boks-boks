@@ -218,6 +218,13 @@ export interface UpdateItemRequest {
     labels: LabelModel[]
 }
 
+export interface UpdateLabelRequest {
+    id: string
+    title: string
+    description: string
+    color: string
+}
+
 export interface CreateLabelRequest {
     title: string
     description: string
@@ -301,12 +308,24 @@ export async function updateItem(boxId: string, itemData: UpdateItemRequest): Pr
 
     const apiResponse: APIResponse<Item> = await response.json()
 
-    console.log(apiResponse)
-
     if (!apiResponse.success || !apiResponse.data) {
         throw new Error(apiResponse.error || 'Failed to update Item')
     }
 
+    return apiResponse.data
+}
+
+export async function updateLabel(label: UpdateLabelRequest): Promise<LabelModel> {
+    const response = await protectedRequest(`${baseUrl}/api/labels`, {
+        method: 'PUT',
+        body: JSON.stringify(label)
+    })
+
+    const apiResponse: APIResponse<LabelModel> = await response.json()
+
+    if (!apiResponse.success || !apiResponse.data) {
+        throw new Error(apiResponse.error || 'Failed to update item')
+    }
 
     return apiResponse.data
 }
