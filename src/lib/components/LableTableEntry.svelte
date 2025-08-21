@@ -96,6 +96,7 @@
 <style>
     .entry-container {
         display: grid;
+        cursor: default;
         grid-template-columns: 1fr 2fr 120px;
         gap: 1rem;
         padding: 1rem 1.5rem;
