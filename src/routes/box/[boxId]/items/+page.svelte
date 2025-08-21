@@ -254,7 +254,7 @@
 									</div>
 									<div class="label-container">
 										{#if item.labels && item.labels.length > 0}
-											<LabelList labels={item.labels} size="small" />
+											<LabelList labels={item.labels} size="medium" />
 										{/if}
 									</div>
 								</div>
