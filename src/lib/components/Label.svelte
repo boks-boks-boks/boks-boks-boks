@@ -37,7 +37,7 @@
         border-radius: 16px;
         text-decoration: none;
         font-weight: 500;
-        cursor: default;
+        cursor: inherit;
         text-align: center;
         border: none;
         font-family: inherit;
