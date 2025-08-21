@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { getUserProfile, logout as apiLogout } from '$lib/api';
 	import { currentUser, isAuthenticated, clearAuth } from '$lib/stores/auth';
-	import { Button, Card, Alert } from '$lib';
+	import { Button, Card, Alert, getUserProfileMetadata } from '$lib';
 	
 	export let data: { username: string };
 	
@@ -42,6 +42,18 @@
 			}
 			
 			loading = false;
+
+			await getUserProfileMetadata()
+				.then(profile => {
+					userProfile.total_boxes = profile.total_boxes;
+					userProfile.total_items = profile.total_items;
+					userProfile.total_labels = profile.total_labels;
+				})
+				.catch(err => {
+					console.error('Error fetching user profile metadata:', err);
+					error = 'Failed to load user profile metadata.';
+				});
+
 			console.log('Profile loaded successfully:', userProfile);
 		} catch (err: any) {
 			console.error('Failed to load user profile:', err);
@@ -137,16 +149,16 @@
 			<h2 class="section-title">Storage Overview</h2>
 			<div class="stats-grid">
 				<div class="stat-item">
-					<div class="stat-number">0</div>
+					<div class="stat-number">{userProfile.total_boxes}</div>
 					<div class="stat-label">Total Boxes</div>
 				</div>
 				<div class="stat-item">
-					<div class="stat-number">0</div>
+					<div class="stat-number">{userProfile.total_items}</div>
 					<div class="stat-label">Items Stored</div>
 				</div>
 				<div class="stat-item">
-					<div class="stat-number">0</div>
-					<div class="stat-label">Categories</div>
+					<div class="stat-number">{userProfile.total_labels}</div>
+					<div class="stat-label">Labels</div>
 				</div>
 			</div>
 		</Card>
