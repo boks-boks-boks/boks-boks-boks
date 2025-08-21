@@ -1,17 +1,25 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { getUserProfile, logout as apiLogout } from '$lib/api';
 	import { currentUser, isAuthenticated, clearAuth } from '$lib/stores/auth';
-	import { Button, Card, Alert } from '$lib';
+	import { Button, Card, Alert, getUserProfileMetadata, type UserProfile } from '$lib';
 	
-	export let data: { username: string };
+	interface Props {
+		username: string
+	}
 	
-	let userProfile: any = null;
-	let loading = true;
-	let error = '';
-	let isCurrentUser = false;
+	let { username }: Props = $props();
+	
+	let userProfile: UserProfile = $state({
+        username: username,
+        id: undefined,
+        total_boxes: 0,
+        total_items: 0,
+        total_labels: 0
+    });
+	let loading: boolean = $state(true);
+	let error: string = $state('');
+	let isCurrentUser: boolean = $state(false);
 
 	onMount(async () => {
 		console.log('Profile page mounted');
@@ -28,25 +36,30 @@
 		}
 
 		try {
-			// For now, let's create a mock profile since we might not have the backend endpoint
-			// In a real app, you would fetch from the server
-			userProfile = {
-				username: data.username,
-				id: 1,
-				created_at: new Date().toISOString()
-			};
-			
-			// Check if this is the current user's profile
-			if ($currentUser?.username === data.username) {
+			if ($currentUser?.username === username) {
 				isCurrentUser = true;
 			}
-			
-			loading = false;
-			console.log('Profile loaded successfully:', userProfile);
+
+			const metaData = await getUserProfileMetadata();
+
+			if (!metaData) {
+				throw new Error('No metadata returned from API');
+			}
+
+			userProfile = {
+                username: metaData.username,
+                id: metaData.id,
+                total_boxes: metaData.total_boxes || 0,
+                total_items: metaData.total_items || 0,
+                total_labels: metaData.total_labels || 0
+            };
 		} catch (err: any) {
 			console.error('Failed to load user profile:', err);
+			console.error('Error details:', err.message, err.stack);
 			error = 'Failed to load user profile. You might not have permission to view this profile.';
+		} finally {
 			loading = false;
+			console.log('Loading set to false, final userProfile:', userProfile);
 		}
 	});
 
@@ -73,7 +86,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.username} - Profile | Boks-Boks-Boks</title>
+	<title>{username} - Profile | Boks-Boks-Boks</title>
 </svelte:head>
 
 <div class="profile-container">
@@ -119,14 +132,7 @@
 				{#if userProfile.id}
 					<div class="detail-item">
 						<span class="detail-label">User ID:</span>
-						<span class="detail-value">#{userProfile.id}</span>
-					</div>
-				{/if}
-				
-				{#if userProfile.created_at}
-					<div class="detail-item">
-						<span class="detail-label">Member since:</span>
-						<span class="detail-value">{formatDate(userProfile.created_at)}</span>
+						<span class="detail-value">{userProfile.id}</span>
 					</div>
 				{/if}
 			</div>
@@ -137,16 +143,16 @@
 			<h2 class="section-title">Storage Overview</h2>
 			<div class="stats-grid">
 				<div class="stat-item">
-					<div class="stat-number">0</div>
+					<div class="stat-number">{userProfile.total_boxes}</div>
 					<div class="stat-label">Total Boxes</div>
 				</div>
 				<div class="stat-item">
-					<div class="stat-number">0</div>
+					<div class="stat-number">{userProfile.total_items}</div>
 					<div class="stat-label">Items Stored</div>
 				</div>
 				<div class="stat-item">
-					<div class="stat-number">0</div>
-					<div class="stat-label">Categories</div>
+					<div class="stat-number">{userProfile.total_labels}</div>
+					<div class="stat-label">Labels</div>
 				</div>
 			</div>
 		</Card>

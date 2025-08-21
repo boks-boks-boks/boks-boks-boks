@@ -79,7 +79,9 @@ export interface UserProfile {
     username: string;
     id?: number;
     created_at?: string;
-    // Add other user fields as needed
+    total_boxes?: number;
+    total_items?: number;
+    total_labels?: number;
 }
 
 export async function protectedRequest(url: string, options: RequestInit = {}): Promise<Response> {
@@ -122,6 +124,21 @@ export async function getUserProfile(username: string): Promise<UserProfile> {
         return apiResponse.data;
     } catch (error: any) {
         throw new Error(error.message)
+    }
+}
+
+export async function getUserProfileMetadata(): Promise<UserProfile> {
+    try {
+        const response = await protectedRequest(`${baseUrl}/api/user/metadata`);
+        const apiResponse: APIResponse<UserProfile> = await response.json();
+
+        if (!apiResponse.success || !apiResponse.data) {
+            throw new Error(apiResponse.error || "Error while fetching user metadata");
+        }
+
+        return apiResponse.data;
+    } catch (error: any) {
+        throw new Error(error.message);
     }
 }
 
