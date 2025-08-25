@@ -7,6 +7,7 @@ export const baseUrl =
 export * from './api';
 export * from './stores/auth';
 export * from './utils';
+export * from './stores/lang'
 
 // Components
 export { default as Button } from './components/Button.svelte';

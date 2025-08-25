@@ -5,6 +5,7 @@
 	import { Button, FeatureCard, BoxCard, Alert, ItemSearch } from '$lib';
 	import CreateBoxModal from '$lib/components/CreateBoxModal.svelte';
 	import { getBoxes, type Box } from '$lib/api';
+	import { language } from '$lib/stores/lang'
 
 	let boxes: Box[] = [];
 	let loading = false;
