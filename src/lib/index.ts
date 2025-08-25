@@ -18,3 +18,4 @@ export { default as Card } from './components/Card.svelte';
 export { default as BoxCard } from './components/BoxCard.svelte';
 export { default as LabelList } from './components/LabelList.svelte';
 export { default as ItemSearch } from './components/ItemSearch.svelte';
+export { default as LangSwitcher} from './components/LangSwitcher.svelte'

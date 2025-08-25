@@ -2,8 +2,8 @@ import { browser } from "$app/environment";
 import { writable } from "svelte/store";
 
 enum Lang {
-    EN = "en",
-    FR = "fr"
+    EN = "En",
+    FR = "Fr"
 }
 
 const stored = browser ? localStorage.getItem("lang") : null

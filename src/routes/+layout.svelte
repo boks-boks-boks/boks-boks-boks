@@ -2,6 +2,8 @@
 	import '../app.css';
 	import { page } from '$app/stores';
 	import { isAuthenticated, currentUser } from '$lib/stores/auth';
+	import { language } from '$lib';
+	import LangSwitcher from '$lib/components/LangSwitcher.svelte';
 </script>
 
 <div class="app">
@@ -14,6 +16,7 @@
 				</a>
 			</div>
 			<div class="nav-links">
+				<LangSwitcher />
 				{#if $isAuthenticated && $currentUser}
 					<a href="/" class="nav-link" class:active={$page.url.pathname === '/'}>
 						Boxes
@@ -62,6 +65,14 @@
 
 	:global(*) {
 		box-sizing: border-box;
+	}
+
+	.language {
+		display: flex;
+		align-items: center;
+		color: #6b7280;
+		font-weight: 500;
+		cursor: pointer;
 	}
 
 	.app {
