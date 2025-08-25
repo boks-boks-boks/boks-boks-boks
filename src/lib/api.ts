@@ -127,9 +127,9 @@ export async function getUserProfile(username: string): Promise<UserProfile> {
     }
 }
 
-export async function getUserProfileMetadata(): Promise<UserProfile> {
+export async function getUserProfileMetadata(username: string): Promise<UserProfile> {
     try {
-        const response = await protectedRequest(`${baseUrl}/api/user/metadata`);
+        const response = await protectedRequest(`${baseUrl}/api/user/${username}/metadata`);
         const apiResponse: APIResponse<UserProfile> = await response.json();
 
         if (!apiResponse.success || !apiResponse.data) {
