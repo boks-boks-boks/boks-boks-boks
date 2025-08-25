@@ -65,7 +65,7 @@
 				console.log('Boxes length:', boxes.length);
 			} catch (err) {
 				console.error('Failed to load boxes:', err);
-				error = 'Failed to load your boxes. Please try again.';
+				error = $translateStore('failed_load_boxes');
 				boxes = []; // Ensure empty array on error
 			} finally {
 				loading = false;
@@ -101,13 +101,13 @@
 		<div class="dashboard-header">
 			<div class="header-content">
 				<h1 class="dashboard-title">
-					Welcome back, <span class="user-name">{$currentUser?.username || 'User'}</span>! 👋
+					{$translateStore('welcome_back_dashboard')} <span class="user-name">{$currentUser?.username || $translateStore('user_default')}</span>! 👋
 				</h1>
-				<p class="dashboard-subtitle">Manage your storage boxes and keep track of your belongings</p>
+				<p class="dashboard-subtitle">{$translateStore('manage_storage_subtitle')}</p>
 			</div>
 			<div class="header-actions">
 				<ItemSearch 
-					placeholder="Find items in your boxes..."
+					placeholder={$translateStore('find_items_placeholder')}
 					on:select={handleSearchBoxSelect}
 					on:input={handleSearchInput}
 					maxResults={5}
@@ -118,16 +118,16 @@
 		{#if loading}
 			<div class="loading-state">
 				<div class="loading-spinner"></div>
-				<p>Loading your boxes...</p>
+				<p>{$translateStore('loading_boxes')}</p>
 			</div>
 		{:else if error}
 			<Alert type="error">{error}</Alert>
 		{:else if boxes.length > 0}
 			<div class="boxes-section">
 				<div class="section-header">
-					<h2>Your Boxes ({boxes.length})</h2>
+					<h2>{$translateStore('your_boxes')} ({boxes.length})</h2>
 					<Button variant="primary" size="medium" on:click={openCreateModal}>
-						+ Add New Box
+						{$translateStore('add_new_box')}
 					</Button>
 				</div>
 				<div class="boxes-grid">
@@ -141,20 +141,20 @@
 			<div class="empty-boxes-state">
 				<div class="empty-content">
 					<div class="empty-icon">📦</div>
-					<h3>Welcome to your storage manager!</h3>
-					<p>You don't have any boxes yet. Start organizing by creating your first storage box to keep track of your belongings.</p>
+					<h3>{$translateStore('welcome_storage_manager')}</h3>
+					<p>{$translateStore('no_boxes_yet')}</p>
 					<div class="empty-actions">
 						<Button variant="primary" size="large" on:click={openCreateModal}>
 							<span class="button-icon">+</span>
-							Create Your First Box
+							{$translateStore('create_first_box')}
 						</Button>
 					</div>
 					<div class="getting-started">
-						<h4>Getting started is easy:</h4>
+						<h4>{$translateStore('getting_started')}</h4>
 						<ul class="steps-list">
-							<li>📦 Create a box (e.g., "Kitchen Items", "Winter Clothes")</li>
-							<li>📝 Add items to your box with quantities</li>
-							<li>🔍 Search and organize your belongings effortlessly</li>
+							<li>{$translateStore('step_create_box')}</li>
+							<li>{$translateStore('step_add_items')}</li>
+							<li>{$translateStore('step_organize')}</li>
 						</ul>
 					</div>
 				</div>
@@ -166,7 +166,7 @@
 	<div class="hero">
 		<div class="hero-content">
 			<h1 class="hero-title">
-				{$translateStore('hero-title')} <span class="brand-gradient">{$translateStore('brand')}</span>
+				{$translateStore('hero_title_prefix')} <span class="brand-gradient">{$translateStore('brand')}</span>
 			</h1>
 			<p class="hero-description">
 				{$translateStore('hero_description')}

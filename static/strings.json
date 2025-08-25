@@ -206,5 +206,513 @@
 "cta_desc": {
     "En": "Join thousands of users who have transformed their storage with Boks-Boks-Boks",
     "Fr": "Rejoignez des milliers d'utilisateurs qui ont transformé leur stockage avec Boks-Boks-Boks"
+},
+"loading_profile": {
+    "En": "Loading profile...",
+    "Fr": "Chargement du profil..."
+},
+"your_profile": {
+    "En": "Your Profile",
+    "Fr": "Votre profil"
+},
+"profile_information": {
+    "En": "Profile Information",
+    "Fr": "Informations du profil"
+},
+"user_id": {
+    "En": "User ID:",
+    "Fr": "ID utilisateur :"
+},
+"storage_overview": {
+    "En": "Storage Overview",
+    "Fr": "Aperçu du stockage"
+},
+"total_boxes": {
+    "En": "Total Boxes",
+    "Fr": "Boîtes totales"
+},
+"items_stored": {
+    "En": "Items Stored",
+    "Fr": "Objets stockés"
+},
+"account_actions": {
+    "En": "Account Actions",
+    "Fr": "Actions du compte"
+},
+"manage_boxes": {
+    "En": "Manage Boxes",
+    "Fr": "Gérer les boîtes"
+},
+"logout": {
+    "En": "Logout",
+    "Fr": "Déconnexion"
+},
+"failed_load_profile": {
+    "En": "Failed to load user profile. You might not have permission to view this profile.",
+    "Fr": "Échec du chargement du profil utilisateur. Vous n'avez peut-être pas la permission de voir ce profil."
+},
+"box_items": {
+    "En": "Box Items",
+    "Fr": "Objets de la boîte"
+},
+"loading_box_contents": {
+    "En": "Loading box contents...",
+    "Fr": "Chargement du contenu de la boîte..."
+},
+"failed_load_box_items": {
+    "En": "Failed to load box items. The box might not exist or you might not have permission to view it.",
+    "Fr": "Échec du chargement des objets de la boîte. La boîte n'existe peut-être pas ou vous n'avez pas la permission de la voir."
+},
+"item_singular": {
+    "En": "item",
+    "Fr": "objet"
+},
+"items_plural": {
+    "En": "items",
+    "Fr": "objets"
+},
+"stored_suffix": {
+    "En": "stored",
+    "Fr": "stockés"
+},
+"add_item": {
+    "En": "+ Add Item",
+    "Fr": "+ Ajouter un objet"
+},
+"edit_box": {
+    "En": "Edit Box",
+    "Fr": "Modifier la boîte"
+},
+"items_in_box": {
+    "En": "Items in this box",
+    "Fr": "Objets dans cette boîte"
+},
+"unknown_quantity": {
+    "En": "Unknown quantity",
+    "Fr": "Quantité inconnue"
+},
+"box_empty": {
+    "En": "This box is empty",
+    "Fr": "Cette boîte est vide"
+},
+"no_items_added": {
+    "En": "No items have been added to",
+    "Fr": "Aucun objet n'a été ajouté à"
+},
+"start_organizing": {
+    "En": "yet. Start organizing by adding your first item to keep track of what's stored in this box.",
+    "Fr": "encore. Commencez à organiser en ajoutant votre premier objet pour suivre ce qui est stocké dans cette boîte."
+},
+"add_first_item": {
+    "En": "Add Your First Item",
+    "Fr": "Ajouter votre premier objet"
+},
+"back_to_boxes": {
+    "En": "← Back to All Boxes",
+    "Fr": "← Retour à toutes les boîtes"
+},
+"quick_tips": {
+    "En": "💡 Quick tips:",
+    "Fr": "💡 Conseils rapides :"
+},
+"tip_descriptive": {
+    "En": "🏷️ Give items descriptive names (e.g., \"Winter Coat - Black\", \"Coffee Maker - Breville\")",
+    "Fr": "🏷️ Donnez des noms descriptifs aux objets (ex. \"Manteau d'hiver - Noir\", \"Cafetière - Breville\")"
+},
+"tip_quantities": {
+    "En": "📊 Track quantities to know exactly what you have",
+    "Fr": "📊 Suivez les quantités pour savoir exactement ce que vous avez"
+},
+"tip_naming": {
+    "En": "🔍 Use consistent naming for easier searching later",
+    "Fr": "🔍 Utilisez une nomenclature cohérente pour faciliter la recherche plus tard"
+},
+"debug_auth_state": {
+    "En": "Debug Auth State",
+    "Fr": "État de débogage d'authentification"
+},
+"authentication_debug": {
+    "En": "Authentication Debug Page",
+    "Fr": "Page de débogage d'authentification"
+},
+"item_search_engine": {
+    "En": "Item Search Engine",
+    "Fr": "Moteur de recherche d'objets"
+},
+"search_description": {
+    "En": "Search for items across all your boxes. This search shows which boxes contain matching items, perfect for quickly finding where your things are stored.",
+    "Fr": "Recherchez des objets dans toutes vos boîtes. Cette recherche montre quelles boîtes contiennent des objets correspondants, parfait pour trouver rapidement où vos affaires sont stockées."
+},
+"search_placeholder": {
+    "En": "Search for items in your boxes...",
+    "Fr": "Rechercher des objets dans vos boîtes..."
+},
+"box_found": {
+    "En": "📦 Box Found:",
+    "Fr": "📦 Boîte trouvée :"
+},
+"box_id": {
+    "En": "Box ID:",
+    "Fr": "ID de boîte :"
+},
+"matching_items": {
+    "En": "Matching Items:",
+    "Fr": "Objets correspondants :"
+},
+"items_found": {
+    "En": "Items found:",
+    "Fr": "Objets trouvés :"
+},
+"and_more_items": {
+    "En": "... and",
+    "Fr": "... et"
+},
+"more_items_suffix": {
+    "En": "more items",
+    "Fr": "objets de plus"
+},
+"view_box_contents": {
+    "En": "View Box Contents",
+    "Fr": "Voir le contenu de la boîte"
+},
+"svelte_stores": {
+    "En": "Svelte Stores",
+    "Fr": "Stores Svelte"
+},
+"local_storage": {
+    "En": "LocalStorage",
+    "Fr": "LocalStorage"
+},
+"clear_all_data": {
+    "En": "Clear All Data & Reload",
+    "Fr": "Effacer toutes les données et recharger"
+},
+"create_new_label": {
+    "En": "Create New Label",
+    "Fr": "Créer une nouvelle étiquette"
+},
+"label_title": {
+    "En": "Label title",
+    "Fr": "Titre de l'étiquette"
+},
+"enter_label_title": {
+    "En": "Enter label title...",
+    "Fr": "Entrez le titre de l'étiquette..."
+},
+"label_description": {
+    "En": "Label description",
+    "Fr": "Description de l'étiquette"
+},
+"enter_label_description": {
+    "En": "Enter label description...",
+    "Fr": "Entrez la description de l'étiquette..."
+},
+"label_color": {
+    "En": "Label Color",
+    "Fr": "Couleur de l'étiquette"
+},
+"quick_colors": {
+    "En": "Quick colors:",
+    "Fr": "Couleurs rapides :"
+},
+"custom_color": {
+    "En": "Custom color:",
+    "Fr": "Couleur personnalisée :"
+},
+"choose_custom_color": {
+    "En": "Choose a custom color",
+    "Fr": "Choisir une couleur personnalisée"
+},
+"select_color": {
+    "En": "Select",
+    "Fr": "Sélectionner"
+},
+"cancel": {
+    "En": "Cancel",
+    "Fr": "Annuler"
+},
+"creating": {
+    "En": "Creating...",
+    "Fr": "Création en cours..."
+},
+"create_label": {
+    "En": "Create Label",
+    "Fr": "Créer l'étiquette"
+},
+"title_required": {
+    "En": "Both title and description are required",
+    "Fr": "Le titre et la description sont requis"
+},
+"failed_create_label": {
+    "En": "Failed to create label",
+    "Fr": "Échec de la création de l'étiquette"
+},
+"create_new_box": {
+    "En": "Create New Box",
+    "Fr": "Créer une nouvelle boîte"
+},
+"box_title": {
+    "En": "Box Title",
+    "Fr": "Titre de la boîte"
+},
+"enter_box_title": {
+    "En": "Enter box title...",
+    "Fr": "Entrez le titre de la boîte..."
+},
+"box_title_required": {
+    "En": "Box title is required",
+    "Fr": "Le titre de la boîte est requis"
+},
+"failed_create_box": {
+    "En": "Failed to create box",
+    "Fr": "Échec de la création de la boîte"
+},
+"create_box": {
+    "En": "Create Box",
+    "Fr": "Créer la boîte"
+},
+"add_new_item": {
+    "En": "Add New Item",
+    "Fr": "Ajouter un nouvel objet"
+},
+"item_title": {
+    "En": "Item Title",
+    "Fr": "Titre de l'objet"
+},
+"enter_item_name": {
+    "En": "Enter item name...",
+    "Fr": "Entrez le nom de l'objet..."
+},
+"amount": {
+    "En": "Amount",
+    "Fr": "Quantité"
+},
+"enter_quantity": {
+    "En": "Enter quantity...",
+    "Fr": "Entrez la quantité..."
+},
+"add_labels": {
+    "En": "Add Labels",
+    "Fr": "Ajouter des étiquettes"
+},
+"no_label_associated": {
+    "En": "No label associated with that item yet",
+    "Fr": "Aucune étiquette associée à cet objet pour le moment"
+},
+"item_title_required": {
+    "En": "Item title is required",
+    "Fr": "Le titre de l'objet est requis"
+},
+"amount_valid_number": {
+    "En": "Amount must be a valid number of at least 1",
+    "Fr": "La quantité doit être un nombre valide d'au moins 1"
+},
+"failed_create_item": {
+    "En": "Failed to create item",
+    "Fr": "Échec de la création de l'objet"
+},
+"adding": {
+    "En": "Adding...",
+    "Fr": "Ajout en cours..."
+},
+"add_item_button": {
+    "En": "Add Item",
+    "Fr": "Ajouter l'objet"
+},
+"update_box": {
+    "En": "Update Box",
+    "Fr": "Modifier la boîte"
+},
+"update_box_title": {
+    "En": "Update Box Title",
+    "Fr": "Modifier le titre de la boîte"
+},
+"failed_delete_box": {
+    "En": "Failed to delete box",
+    "Fr": "Échec de la suppression de la boîte"
+},
+"failed_update_box": {
+    "En": "Failed to update box",
+    "Fr": "Échec de la modification de la boîte"
+},
+"delete_confirmation": {
+    "En": "⚠️ This action is permanent and will delete the box and all its contents. Are you sure you want to proceed?",
+    "Fr": "⚠️ Cette action est permanente et supprimera la boîte et tout son contenu. Êtes-vous sûr de vouloir continuer ?"
+},
+"yes_delete_it": {
+    "En": "Yes, delete it",
+    "Fr": "Oui, supprimez-la"
+},
+"delete_box": {
+    "En": "Delete Box",
+    "Fr": "Supprimer la boîte"
+},
+"saving": {
+    "En": "Saving...",
+    "Fr": "Enregistrement..."
+},
+"save_changes": {
+    "En": "Save Changes",
+    "Fr": "Enregistrer les modifications"
+},
+"update_item": {
+    "En": "Update Item",
+    "Fr": "Modifier l'objet"
+},
+"update_item_title": {
+    "En": "Update Item Title",
+    "Fr": "Modifier le titre de l'objet"
+},
+"failed_delete_item": {
+    "En": "Failed to delete item",
+    "Fr": "Échec de la suppression de l'objet"
+},
+"failed_update_item": {
+    "En": "Failed to update item",
+    "Fr": "Échec de la modification de l'objet"
+},
+"delete_item_confirmation": {
+    "En": "⚠️ This action is permanent. Are you sure you want to proceed?",
+    "Fr": "⚠️ Cette action est permanente. Êtes-vous sûr de vouloir continuer ?"
+},
+"delete_item": {
+    "En": "Delete Item",
+    "Fr": "Supprimer l'objet"
+},
+"loading_boxes": {
+    "En": "Loading your boxes...",
+    "Fr": "Chargement de vos boîtes..."
+},
+"failed_load_boxes": {
+    "En": "Failed to load your boxes. Please try again.",
+    "Fr": "Échec du chargement de vos boîtes. Veuillez réessayer."
+},
+"your_boxes": {
+    "En": "Your Boxes",
+    "Fr": "Vos boîtes"
+},
+"add_new_box": {
+    "En": "+ Add New Box",
+    "Fr": "+ Ajouter une nouvelle boîte"
+},
+"welcome_storage_manager": {
+    "En": "Welcome to your storage manager!",
+    "Fr": "Bienvenue dans votre gestionnaire de stockage !"
+},
+"no_boxes_yet": {
+    "En": "You don't have any boxes yet. Start organizing by creating your first storage box to keep track of your belongings.",
+    "Fr": "Vous n'avez encore aucune boîte. Commencez à organiser en créant votre première boîte de stockage pour suivre vos affaires."
+},
+"create_first_box": {
+    "En": "Create Your First Box",
+    "Fr": "Créez votre première boîte"
+},
+"getting_started": {
+    "En": "Getting started is easy:",
+    "Fr": "Commencer est facile :"
+},
+"step_create_box": {
+    "En": "📦 Create a box (e.g., \"Kitchen Items\", \"Winter Clothes\")",
+    "Fr": "📦 Créez une boîte (ex. \"Ustensiles de cuisine\", \"Vêtements d'hiver\")"
+},
+"step_add_items": {
+    "En": "📝 Add items to your box with quantities",
+    "Fr": "📝 Ajoutez des objets à votre boîte avec des quantités"
+},
+"step_organize": {
+    "En": "🔍 Search and organize your belongings effortlessly",
+    "Fr": "🔍 Recherchez et organisez vos affaires sans effort"
+},
+"click_to_view": {
+    "En": "Click to view items",
+    "Fr": "Cliquez pour voir les objets"
+},
+"hero_title_prefix": {
+    "En": "Welcome to",
+    "Fr": "Bienvenue sur"
+},
+"welcome_back_dashboard": {
+    "En": "Welcome back,",
+    "Fr": "Bon retour,"
+},
+"user_default": {
+    "En": "User",
+    "Fr": "Utilisateur"
+},
+"manage_storage_subtitle": {
+    "En": "Manage your storage boxes and keep track of your belongings",
+    "Fr": "Gérez vos boîtes de stockage et gardez une trace de vos affaires"
+},
+"find_items_placeholder": {
+    "En": "Find items in your boxes...",
+    "Fr": "Trouvez des objets dans vos boîtes..."
+},
+"select_labels": {
+    "En": "Select Labels",
+    "Fr": "Sélectionner les étiquettes"
+},
+"labels_selected": {
+    "En": "selected",
+    "Fr": "sélectionné(es)"
+},
+"no_labels_available": {
+    "En": "No labels available",
+    "Fr": "Aucune étiquette disponible"
+},
+"create_labels_first": {
+    "En": "Create labels first to organize your items",
+    "Fr": "Créez d'abord des étiquettes pour organiser vos objets"
+},
+"clear_all": {
+    "En": "Clear All",
+    "Fr": "Tout effacer"
+},
+"done": {
+    "En": "Done",
+    "Fr": "Terminé"
+},
+"search_items_placeholder": {
+    "En": "Search items across all boxes...",
+    "Fr": "Rechercher des objets dans toutes les boîtes..."
+},
+"clear_search": {
+    "En": "Clear search",
+    "Fr": "Effacer la recherche"
+},
+"search_item_found": {
+    "En": "item found",
+    "Fr": "objet trouvé"
+},
+"search_items_found": {
+    "En": "items found",
+    "Fr": "objets trouvés"
+},
+"no_matches_found": {
+    "En": "No matches found",
+    "Fr": "Aucune correspondance trouvée"
+},
+"no_items_matching": {
+    "En": "No boxes contain items matching",
+    "Fr": "Aucune boîte ne contient d'objets correspondant à"
+},
+"try_searching_for": {
+    "En": "Try searching for:",
+    "Fr": "Essayez de rechercher :"
+},
+"different_keywords": {
+    "En": "• Different keywords",
+    "Fr": "• Mots-clés différents"
+},
+"partial_item_names": {
+    "En": "• Partial item names",
+    "Fr": "• Noms d'objets partiels"
+},
+"common_item_categories": {
+    "En": "• Common item categories",
+    "Fr": "• Catégories d'objets courantes"
+},
+"and_more": {
+    "En": "... and {count} more",
+    "Fr": "... et {count} de plus"
 }
 }

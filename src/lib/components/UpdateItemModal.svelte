@@ -7,6 +7,7 @@
 	import LabelPicker from './LabelPicker.svelte';
 	import { userLabels, setLabels } from '$lib/stores/labels';
 	import Label from './Label.svelte';
+	import { translateStore } from '$lib/strings';
 
 	interface Props {
 		isOpen: boolean
@@ -70,7 +71,7 @@
 		resetModal();
 		} catch (err) {
 			console.error('Error deleting item:', err)
-			error = err instanceof Error ? err.message : 'Failed to delete item'
+			error = err instanceof Error ? err.message : $translateStore('failed_delete_item')
 		} finally {
 			isLoading = false
 		}
@@ -87,7 +88,7 @@
 			dispatch("itemUpdated", newItem)
 		} catch(err) {
 			console.error('Error updating box:', err)
-			error = err instanceof Error ? err.message : 'Failed to update box'
+			error = err instanceof Error ? err.message : $translateStore('failed_update_item')
 		} finally {
 			isLoading = false
 		}
@@ -125,14 +126,14 @@
 	})
 </script>
 
-<Modal {isOpen} title="Update Item" size="medium" on:close={() => closeModal()}>
+<Modal {isOpen} title={$translateStore('update_item')} size="medium" on:close={() => closeModal()}>
 	<form onsubmit={handleSubmit} class="create-box-form">
 		{#if !showDeleteConfirm}
 			<div class="form-group">
 				<FormInput
-					label="Update Item Title"
+					label={$translateStore('update_item_title')}
 					type="text"
-					placeholder="Enter box title..."
+					placeholder={$translateStore('enter_box_title')}
 					bind:value={editTitle}
 					disabled={isLoading}
 					required
@@ -141,9 +142,9 @@
 
             <div class="form-group">
                 <FormInput
-                    label="Amount"
+                    label={$translateStore('amount')}
                     type="number"
-                    placeholder="Enter quantity..."
+                    placeholder={$translateStore('enter_quantity')}
                     bind:value={amountStr}
                     disabled={isLoading}
                     required
@@ -151,8 +152,8 @@
             </div>
 
 			<div class="add-label-container">
-				<p>Labels</p>
-				<button onclick={(e) => { e.stopPropagation(); toggleLabelPicker(); }} class="action-btn" title="Add Labels" type="button" disabled={isLoading}>
+				<p>{$translateStore('labels')}</p>
+				<button onclick={(e) => { e.stopPropagation(); toggleLabelPicker(); }} class="action-btn" title={$translateStore('add_labels')} type="button" disabled={isLoading}>
 					⚙️
 				</button>
 				<LabelPicker 
@@ -169,7 +170,7 @@
 						<Label size="small" color={label.color}>{label.title}</Label>
 					{/each}
 				{:else}
-					<p class="placeholder-text">No label associated with that item yet</p>
+					<p class="placeholder-text">{$translateStore('no_label_associated')}</p>
 				{/if}
 			</div>
 		{/if}
@@ -184,8 +185,7 @@
 		{#if showDeleteConfirm}
 			<div class="delete-confirmation">
 				<p class="warning-text">
-					⚠️ This action is <strong>permanent</strong>.
-					Are you sure you want to proceed?
+					{$translateStore('delete_item_confirmation')}
 				</p>
 				<div class="confirm-actions">
 					<Button
@@ -193,14 +193,14 @@
 						on:click={confirmDelete}
 						disabled={isLoading}
 					>
-						Yes, delete it
+						{$translateStore('yes_delete_it')}
 					</Button>
 					<Button
 						variant="secondary"
 						on:click={cancelDeletePrompt}
 						disabled={isLoading}
 					>
-						Cancel
+						{$translateStore('cancel')}
 					</Button>
 				</div>
 			</div>
@@ -215,7 +215,7 @@
 						on:click={() => closeModal()}
 						disabled={isLoading}
 					>
-						Cancel
+						{$translateStore('cancel')}
 					</Button>
 				</div>
 
@@ -227,7 +227,7 @@
 							on:click={promptDeleteItem}
 							disabled={isLoading}
 						>
-							Delete Item
+							{$translateStore('delete_item')}
 						</Button>
 					
 
@@ -236,7 +236,7 @@
 						variant="primary"
 						disabled={isLoading || !editTitle.trim()}
 					>
-						{isLoading ? 'Saving...' : 'Save Changes'}
+						{isLoading ? $translateStore('saving') : $translateStore('save_changes')}
 					</Button>
 				</div>
 			</div>

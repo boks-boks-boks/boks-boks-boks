@@ -5,6 +5,7 @@
 	import FormInput from './FormInput.svelte';
 	import { onMount } from 'svelte';
 	import { deleteBox, updateBox } from '$lib/api';
+	import { translateStore } from '$lib/strings';
 	
 	export let isOpen = false;
 	export let boxId: string;
@@ -50,7 +51,7 @@
 		closeModal();
 		} catch (err) {
 			console.error('Error deleting box:', err)
-			error = err instanceof Error ? err.message : 'Failed to delete box'
+			error = err instanceof Error ? err.message : $translateStore('failed_delete_box')
 		} finally {
 			isLoading = false
 		}
@@ -67,7 +68,7 @@
 			closeModal(title)
 		} catch(err) {
 			console.error('Error updating box:', err)
-			error = err instanceof Error ? err.message : 'Failed to update box'
+			error = err instanceof Error ? err.message : $translateStore('failed_update_box')
 		} finally {
 			isLoading = false
 		}
@@ -79,14 +80,14 @@
 	}
 </script>
 
-<Modal {isOpen} title="Update Box" size="medium" on:close={() => closeModal()}>
+<Modal {isOpen} title={$translateStore('update_box')} size="medium" on:close={() => closeModal()}>
 	<form on:submit={handleSubmit} class="create-box-form">
 		{#if !showDeleteConfirm}
 			<div class="form-group">
 				<FormInput
-					label="Update Box Title"
+					label={$translateStore('update_box_title')}
 					type="text"
-					placeholder="Enter box title..."
+					placeholder={$translateStore('enter_box_title')}
 					bind:value={title}
 					disabled={isLoading}
 					required
@@ -104,8 +105,7 @@
 		{#if showDeleteConfirm}
 			<div class="delete-confirmation">
 				<p class="warning-text">
-					⚠️ This action is <strong>permanent</strong> and will delete the box and all its contents.
-					Are you sure you want to proceed?
+					{$translateStore('delete_confirmation')}
 				</p>
 				<div class="confirm-actions">
 					<Button
@@ -113,14 +113,14 @@
 						on:click={confirmDelete}
 						disabled={isLoading}
 					>
-						Yes, delete it
+						{$translateStore('yes_delete_it')}
 					</Button>
 					<Button
 						variant="secondary"
 						on:click={cancelDeletePrompt}
 						disabled={isLoading}
 					>
-						Cancel
+						{$translateStore('cancel')}
 					</Button>
 				</div>
 			</div>
@@ -135,7 +135,7 @@
 						on:click={() => closeModal()}
 						disabled={isLoading}
 					>
-						Cancel
+						{$translateStore('cancel')}
 					</Button>
 				</div>
 
@@ -147,7 +147,7 @@
 							on:click={promptDeleteBox}
 							disabled={isLoading}
 						>
-							Delete Box
+							{$translateStore('delete_box')}
 						</Button>
 					
 
@@ -156,7 +156,7 @@
 						variant="primary"
 						disabled={isLoading || !title.trim()}
 					>
-						{isLoading ? 'Saving...' : 'Save Changes'}
+						{isLoading ? $translateStore('saving') : $translateStore('save_changes')}
 					</Button>
 				</div>
 			</div>

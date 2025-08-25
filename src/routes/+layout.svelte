@@ -20,13 +20,13 @@
 				<LangSwitcher />
 				{#if $isAuthenticated && $currentUser}
 					<a href="/" class="nav-link" class:active={$page.url.pathname === '/'}>
-						Boxes
+						{$translateStore('boxes')}
 					</a>
 					<a href="/labels" class="nav-link" class:active={$page.url.pathname === '/labels'}>
-						Labels
+						{$translateStore('labels')}
 					</a>
 					<a href="/users/{$currentUser.username}" class="nav-link" class:active={$page.url.pathname.startsWith('/users/')}>
-						Profile
+						{$translateStore('profile')}
 					</a>
 				{:else}
 					<a href="/" class="nav-link" class:active={$page.url.pathname === '/'}>
