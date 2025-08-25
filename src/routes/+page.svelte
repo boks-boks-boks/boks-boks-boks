@@ -6,6 +6,7 @@
 	import CreateBoxModal from '$lib/components/CreateBoxModal.svelte';
 	import { getBoxes, type Box } from '$lib/api';
 	import { language } from '$lib/stores/lang'
+	import { translateStore } from '$lib/strings';
 
 	let boxes: Box[] = [];
 	let loading = false;
@@ -165,19 +166,18 @@
 	<div class="hero">
 		<div class="hero-content">
 			<h1 class="hero-title">
-				Welcome to <span class="brand-gradient">Boks-Boks-Boks</span>
+				{$translateStore('hero-title')} <span class="brand-gradient">{$translateStore('brand')}</span>
 			</h1>
 			<p class="hero-description">
-				Your comprehensive solution for organizing and managing storage boxes. 
-				Keep track of your belongings, categorize items, and never lose track of your stored items again.
+				{$translateStore('hero_description')}
 			</p>
 			
 			<div class="hero-actions">
 				<Button variant="primary" size="large" on:click={() => goto('/login')}>
-					Get Started
+					{$translateStore('get_started')}
 				</Button>
 				<Button variant="secondary" size="large" on:click={() => goto('/register')}>
-					Sign Up
+					{$translateStore('sign_up')}
 				</Button>
 			</div>
 		</div>
@@ -191,41 +191,41 @@
 	</div>
 
 	<div class="features">
-		<h2 class="features-title">Why Choose Boks-Boks-Boks?</h2>
+		<h2 class="features-title">{$translateStore('why_choose')}</h2>
 		<div class="features-grid">
 			<FeatureCard 
 				icon="📋"
-				title="Detailed Inventory"
-				description="Keep comprehensive records of all items in each box with descriptions, categories, and photos."
+				title={$translateStore('feature_inventory_title')}
+				description={$translateStore('feature_inventory_desc')}
 			/>
 			<FeatureCard 
 				icon="🔍"
-				title="Smart Search"
-				description="Quickly find any item across all your boxes with our powerful search and filtering system."
+				title={$translateStore('feature_search_title')}
+				description={$translateStore('feature_search_desc')}
 			/>
 			<FeatureCard 
 				icon="📊"
-				title="Organization Tools"
-				description="Categorize boxes by room, type, or custom labels to maintain perfect organization."
+				title={$translateStore('feature_org_title')}
+				description={$translateStore('feature_org_desc')}
 			/>
 			<FeatureCard 
 				icon="🏷️"
-				title="Label System"
-				description="Generate printable labels and QR codes to physically mark your boxes for easy identification."
+				title={$translateStore('feature_label_title')}
+				description={$translateStore('feature_label_desc')}
 			/>
 		</div>
 	</div>
 
 	<div class="cta-section">
 		<div class="cta-content">
-			<h2>Ready to Get Organized?</h2>
-			<p>Join thousands of users who have transformed their storage with Boks-Boks-Boks</p>
+			<h2>{$translateStore('cta_title')}</h2>
+			<p>{$translateStore('cta_desc')}</p>
 			<div class="auth-links">
 				<Button variant="primary" size="large" href="/login">
-					Login
+					{$translateStore('login')}
 				</Button>
 				<Button variant="secondary" size="large" href="/register">
-					Register
+					{$translateStore('register')}
 				</Button>
 			</div>
 		</div>

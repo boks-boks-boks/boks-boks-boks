@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { isAuthenticated, currentUser } from '$lib/stores/auth';
 	import { language } from '$lib';
+	import { translateStore } from '$lib/strings';
 	import LangSwitcher from '$lib/components/LangSwitcher.svelte';
 </script>
 
@@ -12,7 +13,7 @@
 			<div class="nav-brand">
 				<a href="/" class="brand-link">
 					<span class="brand-icon">📦</span>
-					<span class="brand-text">Boks-Boks-Boks</span>
+					<span class="brand-text">{$translateStore('brand')}</span>
 				</a>
 			</div>
 			<div class="nav-links">
@@ -29,13 +30,13 @@
 					</a>
 				{:else}
 					<a href="/" class="nav-link" class:active={$page.url.pathname === '/'}>
-						Home
+						{$translateStore('home')}
 					</a>
 					<a href="/login" class="nav-link" class:active={$page.url.pathname === '/login'}>
-						Login
+						{$translateStore('login')}
 					</a>
 					<a href="/register" class="nav-link" class:active={$page.url.pathname === '/register'}>
-						Register
+						{$translateStore('register')}
 					</a>
 				{/if}
 			</div>
@@ -48,7 +49,7 @@
 
 	<footer class="footer">
 		<div class="footer-content">
-			<p>&copy; 2025 Boks-Boks-Boks - Your Storage Management System - <a class="author" href="https://github.com/viastolfi">Astolfi Vincent</a></p>
+			<p>&copy; 2025 {$translateStore('brand')} - {$translateStore('footer')} - <a class="author" href="https://github.com/viastolfi">{$translateStore('author')}</a></p>
 		</div>
 	</footer>
 </div>
@@ -65,14 +66,6 @@
 
 	:global(*) {
 		box-sizing: border-box;
-	}
-
-	.language {
-		display: flex;
-		align-items: center;
-		color: #6b7280;
-		font-weight: 500;
-		cursor: pointer;
 	}
 
 	.app {

@@ -1,0 +1,98 @@
+{
+"brand": {
+    "En": "Boks-Boks-Boks",
+    "Fr": "Boks-Boks-Boks"
+},
+"boxes": {
+    "En": "Boxes",
+    "Fr": "Boîtes"
+},
+"labels": {
+    "En": "Labels",
+    "Fr": "Étiquettes"
+},
+"profile": {
+    "En": "Profile",
+    "Fr": "Profil"
+},
+"home": {
+    "En": "Home",
+    "Fr": "Accueil"
+},
+"login": {
+    "En": "Login",
+    "Fr": "Connexion"
+},
+"register": {
+    "En": "Register",
+    "Fr": "Inscription"
+},
+"footer": {
+    "En": "Your Storage Management System",
+    "Fr": "Votre système de gestion de stockage"
+},
+"author": {
+    "En": "Astolfi Vincent",
+    "Fr": "Astolfi Vincent"
+},
+"get_started": {
+    "En": "Get Started",
+    "Fr": "Commencer"
+},
+"sign_up": {
+    "En": "Sign Up",
+    "Fr": "S'inscrire"
+},
+"hero-title": {
+    "En": "Welcome to",
+    "Fr": "Bienvenue dans"
+},
+"hero_description": {
+    "En": "Your comprehensive solution for organizing and managing storage boxes. Keep track of your belongings, categorize items, and never lose track of your stored items again.",
+    "Fr": "Votre solution complète pour organiser et gérer vos boîtes de stockage. Gardez une trace de vos affaires, catégorisez les objets et ne perdez plus jamais vos articles stockés."
+},
+"why_choose": {
+    "En": "Why Choose Boks-Boks-Boks?",
+    "Fr": "Pourquoi choisir Boks-Boks-Boks ?"
+},
+"feature_inventory_title": {
+    "En": "Detailed Inventory",
+    "Fr": "Inventaire détaillé"
+},
+"feature_inventory_desc": {
+    "En": "Keep comprehensive records of all items in each box with descriptions, categories, and photos.",
+    "Fr": "Gardez des enregistrements complets de tous les objets dans chaque boîte avec descriptions, catégories et photos."
+},
+"feature_search_title": {
+    "En": "Smart Search",
+    "Fr": "Recherche intelligente"
+},
+"feature_search_desc": {
+    "En": "Quickly find any item across all your boxes with our powerful search and filtering system.",
+    "Fr": "Trouvez rapidement n'importe quel objet dans toutes vos boîtes avec notre système de recherche et de filtrage puissant."
+},
+"feature_org_title": {
+    "En": "Organization Tools",
+    "Fr": "Outils d'organisation"
+},
+"feature_org_desc": {
+    "En": "Categorize boxes by room, type, or custom labels to maintain perfect organization.",
+    "Fr": "Catégorisez les boîtes par pièce, type ou étiquettes personnalisées pour maintenir une organisation parfaite."
+},
+"feature_label_title": {
+    "En": "Label System",
+    "Fr": "Système d'étiquetage"
+},
+"feature_label_desc": {
+    "En": "Generate printable labels and QR codes to physically mark your boxes for easy identification.",
+    "Fr": "Générez des étiquettes imprimables et des codes QR pour marquer physiquement vos boîtes pour une identification facile."
+},
+"cta_title": {
+    "En": "Ready to Get Organized?",
+    "Fr": "Prêt à vous organiser ?"
+},
+"cta_desc": {
+    "En": "Join thousands of users who have transformed their storage with Boks-Boks-Boks",
+    "Fr": "Rejoignez des milliers d'utilisateurs qui ont transformé leur stockage avec Boks-Boks-Boks"
+}
+}
