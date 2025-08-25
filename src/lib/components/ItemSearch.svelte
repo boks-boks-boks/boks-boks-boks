@@ -4,7 +4,7 @@
 	import { debounce } from '$lib/utils';
 	import { translateStore } from '$lib/strings';
 
-	export let placeholder = 'Search items across all boxes...';
+	export let placeholder;
 	export let showResults = true;
 	export let maxResults = 6;
 
