@@ -6,6 +6,7 @@
 	import { onMount } from 'svelte';
 	import ColorPicker from 'svelte-awesome-color-picker';
 	import { deleteLabel, type LabelModel, updateLabel, type UpdateLabelRequest } from '$lib';
+	import { translateStore } from '$lib/strings';
 
     interface labelSettings {
         title: string
@@ -105,32 +106,32 @@
 	}
 </script>
 
-<Modal {isOpen} title="Update Label" size="medium" on:close={() => closeModal()}>
+<Modal {isOpen} title={$translateStore('update_label')} size="medium" on:close={() => closeModal()}>
 	<form onsubmit={handleSubmit} class="create-label-form">
 		{#if !showDeleteConfirm}
 			<div class="form-group">
 				<FormInput
-					label="Update Label Title"
+					label={$translateStore('update_label_title')}
 					type="text"
-					placeholder="Enter label title..."
+					placeholder={$translateStore('enter_label_title')}
 					bind:value={title}
 					disabled={isLoading}
 					required
 				/>
 
                 <FormInput
-                    label="Label description"
+                    label={$translateStore('label_description')}
                     type="text"
-                    placeholder="Enter label description..."
+                    placeholder={$translateStore('enter_label_description')}
                     bind:value={description}
                     disabled={isLoading}
                 />
 
                 <div class="color-section">
-                    <span class="color-label">Label Color</span>
+                    <span class="color-label">{$translateStore('label_color')}</span>
 
                     <div class="color-presets">
-                        <span class="presets-label">Quick colors:</span>
+                        <span class="presets-label">{$translateStore('quick_colors')}</span>
                         <div class="preset-colors">
                             {#each colorPresets as preset}
                                 <button
@@ -139,18 +140,18 @@
                                     class:active={color === preset}
                                     style="background-color: {preset};"
                                     onclick={() => selectPresetColor(preset)}
-                                    title="Select {preset}"
-                                    aria-label="Select color {preset}"
+                                    title={$translateStore('select_color').replace('{color}', preset)}
+                                    aria-label={$translateStore('select_color').replace('{color}', preset)}
                                 ></button>
                             {/each}
                         </div>
                     </div>
                     <div class="color-picker-container">
-                        <span class="picker-label">Custom color:</span>
+                        <span class="picker-label">{$translateStore('custom_color')}</span>
                         <ColorPicker
                             hex={color}
                             position="responsive"
-                            label="Choose a custom color"
+                            label={$translateStore('choose_custom_color')}
                         />
                     </div>
                 </div>
@@ -167,8 +168,7 @@
 		{#if showDeleteConfirm}
 			<div class="delete-confirmation">
 				<p class="warning-text">
-					⚠️ This action is <strong>permanent</strong>.
-					Are you sure you want to proceed?
+					⚠️ {@html $translateStore('action_permanent')}
 				</p>
 				<div class="confirm-actions">
 					<Button
@@ -176,14 +176,14 @@
 						on:click={confirmDelete}
 						disabled={isLoading}
 					>
-						Yes, delete it
+						{$translateStore('yes_delete_it')}
 					</Button>
 					<Button
 						variant="secondary"
 						on:click={cancelDeletePrompt}
 						disabled={isLoading}
 					>
-						Cancel
+						{$translateStore('cancel')}
 					</Button>
 				</div>
 			</div>
@@ -198,7 +198,7 @@
 						on:click={() => closeModal()}
 						disabled={isLoading}
 					>
-						Cancel
+						{$translateStore('cancel')}
 					</Button>
 				</div>
 
@@ -210,7 +210,7 @@
 							on:click={promptDeleteBox}
 							disabled={isLoading}
 						>
-							Delete Label
+							{$translateStore('delete_label')}
 						</Button>
 					
 
@@ -219,7 +219,7 @@
 						variant="primary"
 						disabled={isLoading || !title.trim()}
 					>
-						{isLoading ? 'Saving...' : 'Save Changes'}
+						{isLoading ? $translateStore('saving') : $translateStore('save_changes')}
 					</Button>
 				</div>
 			</div>

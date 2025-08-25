@@ -714,5 +714,21 @@
 "and_more": {
     "En": "... and {count} more",
     "Fr": "... et {count} de plus"
+},
+"update_label": {
+    "En": "Update Label",
+    "Fr": "Modifier l'étiquette"
+},
+"update_label_title": {
+    "En": "Update Label Title",
+    "Fr": "Modifier le titre de l'étiquette"
+},
+"action_permanent": {
+    "En": "This action is <strong>permanent</strong>. Are you sure you want to proceed?",
+    "Fr": "Cette action est <strong>permanente</strong>. Êtes-vous sûr de vouloir continuer ?"
+},
+"delete_label": {
+    "En": "Delete Label",
+    "Fr": "Supprimer l'étiquette"
 }
 }
