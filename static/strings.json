@@ -541,11 +541,11 @@
 },
 "yes_delete_it": {
     "En": "Yes, delete it",
-    "Fr": "Oui, supprimez-la"
+    "Fr": "Oui, supprimez"
 },
 "delete_box": {
     "En": "Delete Box",
-    "Fr": "Supprimer la boîte"
+    "Fr": "Supprimer"
 },
 "saving": {
     "En": "Saving...",
@@ -553,7 +553,7 @@
 },
 "save_changes": {
     "En": "Save Changes",
-    "Fr": "Enregistrer les modifications"
+    "Fr": "Enregistrer "
 },
 "update_item": {
     "En": "Update Item",
@@ -577,7 +577,7 @@
 },
 "delete_item": {
     "En": "Delete Item",
-    "Fr": "Supprimer l'objet"
+    "Fr": "Supprimer"
 },
 "loading_boxes": {
     "En": "Loading your boxes...",
@@ -649,7 +649,7 @@
 },
 "select_labels": {
     "En": "Select Labels",
-    "Fr": "Sélectionner les étiquettes"
+    "Fr": "Sélectionner"
 },
 "labels_selected": {
     "En": "selected",
@@ -721,7 +721,7 @@
 },
 "update_label_title": {
     "En": "Update Label Title",
-    "Fr": "Modifier le titre de l'étiquette"
+    "Fr": "Modifier le titre"
 },
 "action_permanent": {
     "En": "This action is <strong>permanent</strong>. Are you sure you want to proceed?",
@@ -729,6 +729,6 @@
 },
 "delete_label": {
     "En": "Delete Label",
-    "Fr": "Supprimer l'étiquette"
+    "Fr": "Supprimer"
 }
 }
