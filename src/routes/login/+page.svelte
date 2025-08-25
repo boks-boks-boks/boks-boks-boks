@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { FormInput, Button, Alert, Card } from '$lib';
 	import { setLabels } from '$lib/stores/labels';
+	import { translateStore } from '$lib/strings';
 	
 	let username = '';
 	let password = '';
@@ -11,7 +12,7 @@
 
 	async function handleLogin() {
 		if (!username || !password) {
-			errorMessage = 'Please enter both username and password';
+			errorMessage = $translateStore('please_enter_credentials');
 			return;
 		}
 
@@ -50,7 +51,7 @@
 			// Navigate to home page
 			goto('/');
 		} catch (error) {
-			errorMessage = 'Login failed. Please check your credentials.';
+			errorMessage = $translateStore('login_failed');
 			console.error('Login error:', error);
 		} finally {
 			isLoading = false;
@@ -66,8 +67,8 @@
 	<Card shadow="large">
 		<div class="login-header">
 			<div class="login-icon">📦</div>
-			<h1>Welcome Back</h1>
-			<p>Sign in to your Boks-Boks-Boks account</p>
+			<h1>{$translateStore('welcome_back')}</h1>
+			<p>{$translateStore('sign_in_account')}</p>
 		</div>
 		
 		{#if errorMessage}
@@ -77,9 +78,9 @@
 		<form on:submit|preventDefault={handleLogin} class="login-form">
 			<FormInput
 				id="username"
-				label="Username"
+				label={$translateStore('username')}
 				bind:value={username}
-				placeholder="Enter your username"
+				placeholder={$translateStore('enter_username')}
 				disabled={isLoading}
 				required
 			/>
@@ -87,21 +88,21 @@
 			<FormInput
 				id="password"
 				type="password"
-				label="Password"
+				label={$translateStore('password')}
 				bind:value={password}
-				placeholder="Enter your password"
+				placeholder={$translateStore('enter_password')}
 				disabled={isLoading}
 				required
 			/>
 			
 			<Button type="submit" disabled={isLoading} variant="primary" fullWidth>
-				{isLoading ? 'Signing in...' : 'Sign In'}
+				{isLoading ? $translateStore('signing_in') : $translateStore('sign_in')}
 			</Button>
 		</form>
 		
 		<div class="login-footer">
-			<p>Don't have an account? <a href="/register" class="link">Create one here</a></p>
-			<p><a href="/" class="link">← Back to Home</a></p>
+			<p>{$translateStore('no_account')} <a href="/register" class="link">{$translateStore('create_account')}</a></p>
+			<p><a href="/" class="link">{$translateStore('back_to_home')}</a></p>
 		</div>
 	</Card>
 </div>

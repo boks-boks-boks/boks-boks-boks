@@ -2,6 +2,7 @@
 	import { register } from '$lib';
 	import { goto } from '$app/navigation';
 	import { FormInput, Button, Alert, Card } from '$lib';
+	import { translateStore } from '$lib/strings';
 	
 	let username = '';
 	let password = '';
@@ -11,7 +12,7 @@
 
 	async function handleRegister() {
 		if (!username || !password) {
-			errorMessage = 'Please enter both username and password';
+			errorMessage = $translateStore('please_enter_credentials');
 			return;
 		}
 
@@ -22,14 +23,14 @@
 		try {
 			await register({ username, password });
 
-			successMessage = 'Registration successful! Redirecting to login...';
+			successMessage = $translateStore('registration_successful');
 			
 			// Redirect to login page after successful registration
 			setTimeout(() => {
 				goto('/login');
 			}, 2000);
 		} catch (error) {
-			errorMessage = 'Registration failed. Please try again.';
+			errorMessage = $translateStore('registration_failed');
 			console.error('Registration error:', error);
 		} finally {
 			isLoading = false;
@@ -45,8 +46,8 @@
 	<Card shadow="large">
 		<div class="register-header">
 			<div class="register-icon">📦</div>
-			<h1>Create Account</h1>
-			<p>Join Boks-Boks-Boks and start organizing</p>
+			<h1>{$translateStore('create_account')}</h1>
+			<p>{$translateStore('join_boks')}</p>
 		</div>
 		
 		{#if errorMessage}
@@ -60,9 +61,9 @@
 		<form on:submit|preventDefault={handleRegister} class="register-form">
 			<FormInput
 				id="username"
-				label="Username"
+				label={$translateStore('username')}
 				bind:value={username}
-				placeholder="Choose a username"
+				placeholder={$translateStore('choose_username')}
 				disabled={isLoading}
 				required
 			/>
@@ -70,21 +71,21 @@
 			<FormInput
 				id="password"
 				type="password"
-				label="Password"
+				label={$translateStore('password')}
 				bind:value={password}
-				placeholder="Create a password"
+				placeholder={$translateStore('create_password')}
 				disabled={isLoading}
 				required
 			/>
 			
 			<Button type="submit" disabled={isLoading} variant="primary" fullWidth>
-				{isLoading ? 'Creating Account...' : 'Create Account'}
+				{isLoading ? $translateStore('creating_account') : $translateStore('create_account')}
 			</Button>
 		</form>
 		
 		<div class="register-footer">
-			<p>Already have an account? <a href="/login" class="link">Sign in here</a></p>
-			<p><a href="/" class="link">← Back to Home</a></p>
+			<p>{$translateStore('already_have_account')} <a href="/login" class="link">{$translateStore('sign_in_here')}</a></p>
+			<p><a href="/" class="link">{$translateStore('back_to_home')}</a></p>
 		</div>
 	</Card>
 </div>

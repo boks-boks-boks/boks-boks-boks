@@ -43,9 +43,121 @@
     "En": "Sign Up",
     "Fr": "S'inscrire"
 },
-"hero-title": {
-    "En": "Welcome to",
-    "Fr": "Bienvenue dans"
+"welcome_back": {
+    "En": "Welcome Back",
+    "Fr": "Bon retour"
+},
+"sign_in_account": {
+    "En": "Sign in to your Boks-Boks-Boks account",
+    "Fr": "Connectez-vous à votre compte Boks-Boks-Boks"
+},
+"username": {
+    "En": "Username",
+    "Fr": "Nom d'utilisateur"
+},
+"password": {
+    "En": "Password",
+    "Fr": "Mot de passe"
+},
+"enter_username": {
+    "En": "Enter your username",
+    "Fr": "Entrez votre nom d'utilisateur"
+},
+"enter_password": {
+    "En": "Enter your password",
+    "Fr": "Entrez votre mot de passe"
+},
+"signing_in": {
+    "En": "Signing in...",
+    "Fr": "Connexion en cours..."
+},
+"sign_in": {
+    "En": "Sign In",
+    "Fr": "Se connecter"
+},
+"no_account": {
+    "En": "Don't have an account?",
+    "Fr": "Vous n'avez pas de compte ?"
+},
+"create_one_here": {
+    "En": "Create one here",
+    "Fr": "Créez-en un ici"
+},
+"back_to_home": {
+    "En": "← Back to Home",
+    "Fr": "← Retour à l'accueil"
+},
+"please_enter_credentials": {
+    "En": "Please enter both username and password",
+    "Fr": "Veuillez saisir le nom d'utilisateur et le mot de passe"
+},
+"login_failed": {
+    "En": "Login failed. Please check your credentials.",
+    "Fr": "Échec de la connexion. Veuillez vérifier vos identifiants."
+},
+"create_account": {
+    "En": "Create Account",
+    "Fr": "Créer un compte"
+},
+"join_boks": {
+    "En": "Join Boks-Boks-Boks and start organizing",
+    "Fr": "Rejoignez Boks-Boks-Boks et commencez à organiser"
+},
+"choose_username": {
+    "En": "Choose a username",
+    "Fr": "Choisissez un nom d'utilisateur"
+},
+"create_password": {
+    "En": "Create a password",
+    "Fr": "Créez un mot de passe"
+},
+"creating_account": {
+    "En": "Creating Account...",
+    "Fr": "Création du compte..."
+},
+"registration_successful": {
+    "En": "Registration successful! Redirecting to login...",
+    "Fr": "Inscription réussie ! Redirection vers la connexion..."
+},
+"registration_failed": {
+    "En": "Registration failed. Please try again.",
+    "Fr": "Échec de l'inscription. Veuillez réessayer."
+},
+"already_have_account": {
+    "En": "Already have an account?",
+    "Fr": "Vous avez déjà un compte ?"
+},
+"sign_in_here": {
+    "En": "Sign in here",
+    "Fr": "Connectez-vous ici"
+},
+"label": {
+    "En": "label",
+    "Fr": "étiquette"
+},
+"label_plural": {
+    "En": "labels",
+    "Fr": "étiquettes"
+},
+"add_label": {
+    "En": "+ Add Label",
+    "Fr": "+ Ajouter une étiquette"
+},
+"all_labels": {
+    "En": "All Labels",
+    "Fr": "Toutes les étiquettes"
+},
+"no_labels_yet": {
+    "En": "No labels created yet. Create your first label to get started!",
+    "Fr": "Aucune étiquette créée encore. Créez votre première étiquette pour commencer !"
+},
+"description": {
+    "En": "Description",
+    "Fr": "Description"
+},
+"actions": {
+    "En": "Actions",
+    "Fr": "Actions"
 },
 "hero_description": {
     "En": "Your comprehensive solution for organizing and managing storage boxes. Keep track of your belongings, categorize items, and never lose track of your stored items again.",
