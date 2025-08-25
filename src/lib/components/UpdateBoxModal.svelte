@@ -231,6 +231,17 @@
 		}
 	}
 
+	@media (max-width: 450px) {
+		.left-button {
+			display: none;
+		}
+
+		.right-buttons {
+			display: flex;
+			justify-content: end;
+		}
+	}
+
 	@media (max-width: 375px) {
 		.form-actions {
 			gap: 10px;

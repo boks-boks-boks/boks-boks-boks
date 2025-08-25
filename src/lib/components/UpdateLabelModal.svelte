@@ -410,4 +410,15 @@
 		justify-content: flex-end;
 		margin-top: 1rem;
 	}
+		
+	@media (max-width: 450px) {
+		.left-button {
+			display: none;
+		}
+
+		.right-buttons {
+			display: flex;
+			justify-content: end;
+		}
+	}
 </style>
