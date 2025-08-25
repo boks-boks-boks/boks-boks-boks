@@ -7,6 +7,7 @@
 	import Label from './Label.svelte';
 	import LabelPicker from './LabelPicker.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { translateStore } from '$lib/strings';
 
 	interface Props {
 		isOpen: boolean
@@ -68,13 +69,13 @@
 		event.preventDefault();
 		
 		if (!title.trim()) {
-			error = 'Item title is required';
+			error = $translateStore('item_title_required');
 			return;
 		}
 		
 		const amountNum = parseInt(amount, 10);
 		if (isNaN(amountNum) || amountNum < 1) {
-			error = 'Amount must be a valid number of at least 1';
+			error = $translateStore('amount_valid_number');
 			return;
 		}
 		
@@ -95,20 +96,20 @@
 			closeModal();
 		} catch (err) {
 			console.error('Error creating item:', err);
-			error = err instanceof Error ? err.message : 'Failed to create item';
+			error = err instanceof Error ? err.message : $translateStore('failed_create_item');
 		} finally {
 			isLoading = false;
 		}
 	}
 </script>
 
-<Modal {isOpen} title="Add New Item" size="medium" on:close={closeModal}>
+<Modal {isOpen} title={$translateStore('add_new_item')} size="medium" on:close={closeModal}>
 	<form onsubmit={handleSubmit} class="create-item-form">
 		<div class="form-group">
 			<FormInput
-				label="Item Title"
+				label={$translateStore('item_title')}
 				type="text"
-				placeholder="Enter item name..."
+				placeholder={$translateStore('enter_item_name')}
 				bind:value={title}
 				disabled={isLoading}
 				required
@@ -117,9 +118,9 @@
 		
 		<div class="form-group">
 			<FormInput
-				label="Amount"
+				label={$translateStore('amount')}
 				type="number"
-				placeholder="Enter quantity..."
+				placeholder={$translateStore('enter_quantity')}
 				bind:value={amount}
 				disabled={isLoading}
 				required
@@ -127,8 +128,8 @@
 		</div>
 
 		<div class="add-label-container">
-			<p>Labels</p>
-			<button onclick={(e) => { e.stopPropagation(); toggleLabelPicker(); }} class="action-btn" title="Add Labels" type="button" disabled={isLoading}>
+			<p>{$translateStore('labels')}</p>
+			<button onclick={(e) => { e.stopPropagation(); toggleLabelPicker(); }} class="action-btn" title={$translateStore('add_labels')} type="button" disabled={isLoading}>
 				⚙️
 			</button>
 			<LabelPicker 
@@ -145,7 +146,7 @@
 					<Label size="small" color={label.color}>{label.title}</Label>
 				{/each}
 			{:else}
-				<p class="placeholder-text">No label associated with that item yet</p>
+				<p class="placeholder-text">{$translateStore('no_label_associated')}</p>
 			{/if}
 		</div>
 		
@@ -162,14 +163,14 @@
 				on:click={closeModal}
 				disabled={isLoading}
 			>
-				Cancel
+				{$translateStore('cancel')}
 			</Button>
 			<Button
 				type="submit"
 				variant="primary"
 				disabled={isLoading || !title.trim() || !amount || parseInt(amount, 10) < 1}
 			>
-				{isLoading ? 'Adding...' : 'Add Item'}
+				{isLoading ? $translateStore('adding') : $translateStore('add_item_button')}
 			</Button>
 		</div>
 	</form>

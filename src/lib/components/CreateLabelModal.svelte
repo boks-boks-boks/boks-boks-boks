@@ -5,6 +5,7 @@
 	import FormInput from './FormInput.svelte';
     import ColorPicker from 'svelte-awesome-color-picker';
 	import { type CreateLabelRequest, createLabel } from '$lib/api';
+	import { translateStore } from '$lib/strings';
 
 	interface Props {
 		isOpen: boolean;
@@ -51,7 +52,7 @@
 		event.preventDefault();
 		
 		if (!isFormValid) {
-			error = 'Both title and description are required';
+			error = $translateStore('title_required');
 			return;
 		}
 		
@@ -73,7 +74,7 @@
 			closeModal();
 		} catch (err) {
 			console.error('Error creating label:', err);
-			error = err instanceof Error ? err.message : 'Failed to create label';
+			error = err instanceof Error ? err.message : $translateStore('failed_create_label');
 		} finally {
 			isLoading = false;
 		}
@@ -102,31 +103,31 @@
 	}
 </script>
 
-<Modal {isOpen} title="Create New Label" size="medium" on:close={() => closeModal()}>
+<Modal {isOpen} title={$translateStore('create_new_label')} size="medium" on:close={() => closeModal()}>
 	<form onsubmit={handleSubmit} class="create-label-form">
 		<div class="form-group">
 			<FormInput
-				label="Label title"
+				label={$translateStore('label_title')}
 				type="text"
-				placeholder="Enter label title..."
+				placeholder={$translateStore('enter_label_title')}
 				bind:value={title}
 				disabled={isLoading}
 				required
 			/>
 
             <FormInput
-				label="Label description"
+				label={$translateStore('label_description')}
 				type="text"
-				placeholder="Enter label description..."
+				placeholder={$translateStore('enter_label_description')}
 				bind:value={description}
 				disabled={isLoading}
 			/>
 
 			<div class="color-section">
-				<span class="color-label">Label Color</span>
+				<span class="color-label">{$translateStore('label_color')}</span>
 
 				<div class="color-presets">
-					<span class="presets-label">Quick colors:</span>
+					<span class="presets-label">{$translateStore('quick_colors')}</span>
 					<div class="preset-colors">
 						{#each colorPresets as preset}
 							<button
@@ -135,22 +136,22 @@
 								class:active={hex === preset}
 								style="background-color: {preset};"
 								onclick={() => selectPresetColor(preset)}
-								title="Select {preset}"
-								aria-label="Select color {preset}"
+								title="{$translateStore('select_color')} {preset}"
+								aria-label="{$translateStore('select_color')} {preset}"
 							></button>
 						{/each}
 					</div>
 				</div>
 
 				<div class="color-picker-container">
-					<span class="picker-label">Custom color:</span>
+					<span class="picker-label">{$translateStore('custom_color')}</span>
 					<ColorPicker
 						bind:hex
 						bind:rgb
 						bind:hsv
 						bind:color
 						position="responsive"
-						label="Choose a custom color"
+						label={$translateStore('choose_custom_color')}
 					/>
 				</div>
 			</div>
@@ -169,14 +170,14 @@
 				on:click={closeModal}
 				disabled={isLoading}
 			>
-				Cancel
+				{$translateStore('cancel')}
 			</Button>
 			<Button
 				type="submit"
 				variant="primary"
 				disabled={isLoading || !isFormValid}
 			>
-				{isLoading ? 'Creating...' : 'Create Label'}
+				{isLoading ? $translateStore('creating') : $translateStore('create_label')}
 			</Button>
 		</div>
 	</form>

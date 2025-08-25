@@ -2,6 +2,7 @@
 	import type { LabelModel } from '$lib/api';
 	import Label from './Label.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { translateStore } from '$lib/strings';
 
 	interface Props {
 		isOpen: boolean;
@@ -90,15 +91,15 @@
 		bind:this={dropdownElement}
 	>
 		<div class="dropdown-header">
-			<h4>Select Labels</h4>
-			<span class="label-count">{selectedLabels.length} selected</span>
+			<h4>{$translateStore('select_labels')}</h4>
+			<span class="label-count">{selectedLabels.length} {$translateStore('labels_selected')}</span>
 		</div>
 		
 		<div class="dropdown-content">
 			{#if availableLabels.length === 0}
 				<div class="empty-state">
-					<p>No labels available</p>
-					<span class="empty-subtitle">Create labels first to organize your items</span>
+					<p>{$translateStore('no_labels_available')}</p>
+					<span class="empty-subtitle">{$translateStore('create_labels_first')}</span>
 				</div>
 			{:else}
 				{#each availableLabels as label}
@@ -130,14 +131,14 @@
 					onclick={() => dispatch('labelsChanged', [])}
 					disabled={selectedLabels.length === 0}
 				>
-					Clear All
+					{$translateStore('clear_all')}
 				</button>
 				<button 
 					type="button" 
 					class="done-btn" 
 					onclick={() => dispatch('close')}
 				>
-					Done
+					{$translateStore('done')}
 				</button>
 			</div>
 		{/if}

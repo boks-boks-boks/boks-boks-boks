@@ -2,8 +2,9 @@
 	import { createEventDispatcher } from 'svelte';
 	import { getBoxes, getBoxItems, type Item, type Box } from '$lib/api';
 	import { debounce } from '$lib/utils';
+	import { translateStore } from '$lib/strings';
 
-	export let placeholder = 'Search items across all boxes...';
+	export let placeholder;
 	export let showResults = true;
 	export let maxResults = 6;
 
@@ -131,7 +132,7 @@
 				</svg>
 			</div>
 		{:else if searchQuery}
-			<button on:click={clearSearch} class="clear-button" title="Clear search" aria-label="Clear search">
+			<button on:click={clearSearch} class="clear-button" title={$translateStore('clear_search')} aria-label={$translateStore('clear_search')}>
 				<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
 				</svg>
@@ -152,7 +153,7 @@
 							<div class="box-details">
 								<div class="box-title">{box.title}</div>
 								<div class="match-count">
-									{box.matchingItemsCount} item{box.matchingItemsCount > 1 ? 's' : ''} found
+									{box.matchingItemsCount} {box.matchingItemsCount > 1 ? $translateStore('search_items_found') : $translateStore('search_item_found')}
 								</div>
 							</div>
 						</div>
@@ -162,7 +163,7 @@
 								{#if index < box.matchingItems.length - 1 && index < 2}, {/if}
 							{/each}
 							{#if box.matchingItemsCount > 3}
-								<span class="more-items">... and {box.matchingItemsCount - 3} more</span>
+								<span class="more-items">{$translateStore('and_more').replace('{count}', (box.matchingItemsCount - 3).toString())}</span>
 							{/if}
 						</div>
 					</div>
@@ -170,16 +171,16 @@
 			{:else}
 				<div class="no-results">
 					<div class="no-results-content">
-						<div class="no-results-title">No matches found</div>
+						<div class="no-results-title">{$translateStore('no_matches_found')}</div>
 						<div class="no-results-text">
-							No boxes contain items matching "<strong>{searchQuery}</strong>"
+							{$translateStore('no_items_matching')} "<strong>{searchQuery}</strong>"
 						</div>
 						<div class="no-results-suggestions">
-							<div class="suggestion-text">Try searching for:</div>
+							<div class="suggestion-text">{$translateStore('try_searching_for')}</div>
 							<div class="suggestions">
-								<span class="suggestion">• Different keywords</span>
-								<span class="suggestion">• Partial item names</span>
-								<span class="suggestion">• Common item categories</span>
+								<span class="suggestion">{$translateStore('different_keywords')}</span>
+								<span class="suggestion">{$translateStore('partial_item_names')}</span>
+								<span class="suggestion">{$translateStore('common_item_categories')}</span>
 							</div>
 						</div>
 					</div>

@@ -7,6 +7,7 @@ export const baseUrl =
 export * from './api';
 export * from './stores/auth';
 export * from './utils';
+export * from './stores/lang'
 
 // Components
 export { default as Button } from './components/Button.svelte';
@@ -17,3 +18,4 @@ export { default as Card } from './components/Card.svelte';
 export { default as BoxCard } from './components/BoxCard.svelte';
 export { default as LabelList } from './components/LabelList.svelte';
 export { default as ItemSearch } from './components/ItemSearch.svelte';
+export { default as LangSwitcher} from './components/LangSwitcher.svelte'

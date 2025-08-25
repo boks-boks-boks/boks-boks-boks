@@ -8,6 +8,7 @@
     import { setLabels, userLabels } from "$lib/stores/labels";
     import { goto } from '$app/navigation';
     import { isAuthenticated } from '$lib/stores/auth';
+    import { translateStore } from '$lib/strings';
 
     let showCreateLabelModal = $state(false);
 
@@ -60,14 +61,14 @@
 </script>
 
 <svelte:head>
-	<title>{'Labels'} - Boks-Boks-Boks</title>
+	<title>{$translateStore('labels')} - Boks-Boks-Boks</title>
 </svelte:head>
 
 <div class="box-header">
     <div class="breadcrumbs">
-        <a href="/" class="breadcrumb-link">Home</a>
+        <a href="/" class="breadcrumb-link">{$translateStore('home')}</a>
         <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-current">Labels</span>
+        <span class="breadcrumb-current">{$translateStore('labels')}</span>
     </div>
     
     <Card shadow="large">
@@ -75,15 +76,15 @@
             <div class="lable-title-section">
                 <div class="label-icon">🏷️</div>
                 <div>
-                    <h1 class="label-title">Labels</h1>
+                    <h1 class="label-title">{$translateStore('labels')}</h1>
                     <p class="label-stats">
-                        {labelCount} {labelCount === 1 ? 'label' : 'labels'}
+                        {labelCount} {labelCount === 1 ? $translateStore('label') : $translateStore('label_plural')}
                     </p>
                 </div>
             </div>
             <div class="label-actions">
                 <Button variant="primary" size="medium" on:click={openCreateLabelModal}>
-                    + Add Label
+                    {$translateStore('add_label')}
                 </Button>
             </div>
         </div>
@@ -92,18 +93,18 @@
 
 <div class="label-container">
     <div class="labels-header">
-        <h2 class="labels-section-title">All Labels</h2>
+        <h2 class="labels-section-title">{$translateStore('all_labels')}</h2>
         {#if labelCount === 0}
-            <p class="empty-state">No labels created yet. Create your first label to get started!</p>
+            <p class="empty-state">{$translateStore('no_labels_yet')}</p>
         {/if}
     </div>
     
     {#if labelCount > 0}
         <div class="labels-table">
             <div class="table-header">
-                <div class="table-header-cell label-column">Label</div>
-                <div class="table-header-cell description-column">Description</div>
-                <div class="table-header-cell actions-column">Actions</div>
+                <div class="table-header-cell label-column">{$translateStore('labels')}</div>
+                <div class="table-header-cell description-column">{$translateStore('description')}</div>
+                <div class="table-header-cell actions-column">{$translateStore('actions')}</div>
             </div>
             
             {#each labels as label}

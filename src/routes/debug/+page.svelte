@@ -2,6 +2,7 @@
 	import { isAuthenticated, currentUser, accessToken } from '$lib/stores/auth';
 	import { browser } from '$app/environment';
 	import { Button, Card, ItemSearch } from '$lib';
+	import { translateStore } from '$lib/strings';
     import { onMount } from 'svelte';
 	import { getBoxIdContainItemTitle, type Box } from '$lib';
 	import { goto } from '$app/navigation';
@@ -54,17 +55,17 @@
 </script>
 
 <svelte:head>
-	<title>Debug Auth State - Boks-Boks-Boks</title>
+	<title>{$translateStore('debug_auth_state')} - Boks-Boks-Boks</title>
 </svelte:head>
 
 <Card>
-	<h1>Authentication Debug Page</h1>
+	<h1>{$translateStore('authentication_debug')}</h1>
 	
 	<div class="debug-section">
-		<h2>Item Search Engine</h2>
-		<p class="section-description">Search for items across all your boxes. This search shows which boxes contain matching items, perfect for quickly finding where your things are stored.</p>
+		<h2>{$translateStore('item_search_engine')}</h2>
+		<p class="section-description">{$translateStore('search_description')}</p>
 		<ItemSearch
-			placeholder="Search for items in your boxes..."
+			placeholder={$translateStore('search_placeholder')}
 			on:select={handleBoxSelect}
 			on:input={handleSearchInput}
 			on:clear={handleSearchClear}
@@ -73,24 +74,24 @@
 		
 		{#if selectedBox}
 			<div class="selected-item">
-				<h3>📦 Box Found: {selectedBox.title}</h3>
+				<h3>{$translateStore('box_found')} {selectedBox.title}</h3>
 				<div class="item-details">
-					<p><strong>Box ID:</strong> <code>{selectedBox.id}</code></p>
-					<p><strong>Matching Items:</strong> {selectedBox.matchingItemsCount} item{selectedBox.matchingItemsCount > 1 ? 's' : ''}</p>
+					<p><strong>{$translateStore('box_id')}</strong> <code>{selectedBox.id}</code></p>
+					<p><strong>{$translateStore('matching_items')}</strong> {selectedBox.matchingItemsCount} {selectedBox.matchingItemsCount === 1 ? $translateStore('item_singular') : $translateStore('items_plural')}</p>
 					<div class="matching-items-list">
-						<p><strong>Items found:</strong></p>
+						<p><strong>{$translateStore('items_found')}</strong></p>
 						<ul>
 							{#each selectedBox.matchingItems as itemName}
 								<li>{itemName}</li>
 							{/each}
 							{#if selectedBox.matchingItemsCount > selectedBox.matchingItems.length}
-								<li class="more-items">... and {selectedBox.matchingItemsCount - selectedBox.matchingItems.length} more items</li>
+								<li class="more-items">{$translateStore('and_more_items')} {selectedBox.matchingItemsCount - selectedBox.matchingItems.length} {$translateStore('more_items_suffix')}</li>
 							{/if}
 						</ul>
 					</div>
 					<div class="box-actions">
 						<Button variant="primary" size="medium" on:click={navigateToBox}>
-							View Box Contents
+							{$translateStore('view_box_contents')}
 						</Button>
 					</div>
 				</div>
@@ -99,25 +100,25 @@
 	</div>
 
 	<div class="debug-section">
-		<h2>Svelte Stores</h2>
+		<h2>{$translateStore('svelte_stores')}</h2>
 		<p><strong>isAuthenticated:</strong> {$isAuthenticated}</p>
 		<p><strong>accessToken:</strong> {$accessToken || 'null'}</p>
 		<p><strong>currentUser:</strong> {JSON.stringify($currentUser) || 'null'}</p>
 	</div>
 
 	<div class="debug-section">
-		<h2>LocalStorage</h2>
+		<h2>{$translateStore('local_storage')}</h2>
 		<p><strong>auth_token:</strong> {localStorageToken}</p>
 		<p><strong>current_user:</strong> {localStorageUser}</p>
 	</div>
 
 	<div class="debug-section">
-		<h2>Actions</h2>
+		<h2>{$translateStore('actions')}</h2>
 		<Button on:click={clearAll} variant="secondary">
-			Clear All Data & Reload
+			{$translateStore('clear_all_data')}
 		</Button>
 		<Button href="/" variant="primary">
-			Back to Home
+			{$translateStore('back_to_home')}
 		</Button>
 	</div>
 </Card>

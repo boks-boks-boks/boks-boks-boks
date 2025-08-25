@@ -5,6 +5,7 @@
 	import { isAuthenticated, currentUser } from '$lib/stores/auth';
 	import { getBoxItems, getBoxes, type Item, type Box } from '$lib/api';
 	import { Button, Card, Alert, LabelList } from '$lib';
+	import { translateStore } from '$lib/strings';
 	import CreateItemModal from '$lib/components/CreateItemModal.svelte';
 	import UpdateBoxModal from '$lib/components/UpdateBoxModal.svelte';
 	import UpdateItemModal from '$lib/components/UpdateItemModal.svelte';
@@ -69,7 +70,7 @@
 				hasLoaded = true;
 			} catch (err) {
 				console.error('Failed to load box items:', err);
-				error = 'Failed to load box items. The box might not exist or you might not have permission to view it.';
+				error = $translateStore('failed_load_box_items');
 			} finally {
 				loading = false;
 				loadingPromise = null; // Clear the promise
@@ -98,8 +99,8 @@
 	}
 
 	function formatAmount(amount?: number): string {
-		if (amount === undefined) return 'Unknown quantity';
-		return amount === 1 ? '1 item' : `${amount} items`;
+		if (amount === undefined) return $translateStore('unknown_quantity');
+		return amount === 1 ? `1 ${$translateStore('item_singular')}` : `${amount} ${$translateStore('items_plural')}`;
 	}
 
 	function openUpdateModal() {
@@ -180,7 +181,7 @@
 </script>
 
 <svelte:head>
-	<title>{box?.title || 'Box Items'} - Boks-Boks-Boks</title>
+	<title>{box?.title || $translateStore('box_items')} - Boks-Boks-Boks</title>
 </svelte:head>
 
 <div class="box-items-container">
@@ -188,21 +189,21 @@
 		<Card>
 			<div class="loading-state">
 				<div class="loading-spinner"></div>
-				<p>Loading box contents...</p>
+				<p>{$translateStore('loading_box_contents')}</p>
 			</div>
 		</Card>
 	{:else if error}
 		<Alert type="error">{error}</Alert>
 		<div class="actions">
 			<Button href="/" variant="secondary">
-				← Back to Home
+				{$translateStore('back_to_home')}
 			</Button>
 		</div>
 	{:else if box}
 		<!-- Box Header -->
 		<div class="box-header">
 			<div class="breadcrumbs">
-				<a href="/" class="breadcrumb-link">Home</a>
+				<a href="/" class="breadcrumb-link">{$translateStore('home')}</a>
 				<span class="breadcrumb-separator">›</span>
 				<span class="breadcrumb-current">{box.title}</span>
 			</div>
@@ -214,16 +215,16 @@
 						<div>
 							<h1 class="box-title">{box.title}</h1>
 							<p class="box-stats">
-								{items.length} {items.length === 1 ? 'item' : 'items'} stored
+								{items.length} {items.length === 1 ? $translateStore('item_singular') : $translateStore('items_plural')} {$translateStore('stored_suffix')}
 							</p>
 						</div>
 					</div>
 					<div class="box-actions">
 						<Button variant="primary" size="medium" on:click={openCreateModal}>
-							+ Add Item
+							{$translateStore('add_item')}
 						</Button>
 						<Button variant="secondary" size="medium" on:click={openUpdateModal}>
-							Edit Box
+							{$translateStore('edit_box')}
 						</Button>
 					</div>
 				</div>
@@ -233,7 +234,7 @@
 		<!-- Items List -->
 		{#if items.length > 0}
 			<div class="items-section">
-				<h2 class="section-title">Items in this box</h2>
+				<h2 class="section-title">{$translateStore('items_in_box')}</h2>
 				<div class="items-grid">
 					{#each items as item (item.id)}
 						<button
@@ -267,23 +268,23 @@
 			<div class="empty-items-state">
 				<div class="empty-content">
 					<div class="empty-icon">📋</div>
-					<h3>This box is empty</h3>
-					<p>No items have been added to "<strong>{box.title}</strong>" yet. Start organizing by adding your first item to keep track of what's stored in this box.</p>
+					<h3>{$translateStore('box_empty')}</h3>
+					<p>{$translateStore('no_items_added')} "<strong>{box.title}</strong>" {$translateStore('start_organizing')}</p>
 					<div class="empty-actions">
 						<Button variant="primary" size="large" on:click={openCreateModal}>
 							<span class="button-icon">+</span>
-							Add Your First Item
+							{$translateStore('add_first_item')}
 						</Button>
 						<Button variant="secondary" size="medium" href="/">
-							← Back to All Boxes
+							{$translateStore('back_to_boxes')}
 						</Button>
 					</div>
 					<div class="item-suggestions">
-						<h4>💡 Quick tips:</h4>
+						<h4>{$translateStore('quick_tips')}</h4>
 						<ul class="tips-list">
-							<li>🏷️ Give items descriptive names (e.g., "Winter Coat - Black", "Coffee Maker - Breville")</li>
-							<li>📊 Track quantities to know exactly what you have</li>
-							<li>🔍 Use consistent naming for easier searching later</li>
+							<li>{$translateStore('tip_descriptive')}</li>
+							<li>{$translateStore('tip_quantities')}</li>
+							<li>{$translateStore('tip_naming')}</li>
 						</ul>
 					</div>
 				</div>
