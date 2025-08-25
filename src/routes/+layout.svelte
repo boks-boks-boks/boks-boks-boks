@@ -2,7 +2,6 @@
 	import '../app.css';
 	import { page } from '$app/stores';
 	import { isAuthenticated, currentUser } from '$lib/stores/auth';
-	import { language } from '$lib';
 	import { translateStore } from '$lib/strings';
 	import LangSwitcher from '$lib/components/LangSwitcher.svelte';
 </script>

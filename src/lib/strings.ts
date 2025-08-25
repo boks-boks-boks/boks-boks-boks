@@ -1,6 +1,6 @@
-import { language } from "$lib";
 import { derived, get, writable } from "svelte/store";
 import { browser } from '$app/environment';
+import { language } from "$lib/stores/lang";
 
 let strings: Record<string, Record<string, string>> = {};
 export const stringsLoaded = writable(false);
@@ -15,13 +15,14 @@ if (browser) {
     .catch(err => console.error('Failed to load translations:', err));
 }
 
-export function t(id: string): string {
-    const lang = get(language) || 'En';
-    console.log(strings)
-    return strings[id]?.[lang] || strings[id]?.['En'] || id;
-}
+export const translateStore = derived([language, stringsLoaded], ([$language, $loaded]) => {
+    return (id: string) => {
+        if (!browser || !$loaded) {
+            return id;
+        }
 
-export const translateStore = derived([language, stringsLoaded], ([$lang, $loaded]) => (id: string) => {
-    if (!$loaded) return id;
-    return strings[id]?.[$lang] || strings[id]?.['En'] || id;
+        let currentLang = $language || 'En';
+        
+        return strings[id]?.[currentLang] || strings[id]?.['En'] || id;
+    };
 });
