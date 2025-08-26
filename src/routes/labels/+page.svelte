@@ -63,64 +63,64 @@
 <svelte:head>
 	<title>{$translateStore('labels')} - Boks-Boks-Boks</title>
 </svelte:head>
-
-<div class="box-header">
-    <div class="breadcrumbs">
-        <a href="/" class="breadcrumb-link">{$translateStore('home')}</a>
-        <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-current">{$translateStore('labels')}</span>
-    </div>
-    
-    <Card shadow="large">
-        <div class="label-info">
-            <div class="lable-title-section">
-                <div class="label-icon">🏷️</div>
-                <div>
-                    <h1 class="label-title">{$translateStore('labels')}</h1>
-                    <p class="label-stats">
-                        {labelCount} {labelCount === 1 ? $translateStore('label') : $translateStore('label_plural')}
-                    </p>
+<div class="labels-container">
+    <div class="box-header">
+        <div class="breadcrumbs">
+            <a href="/" class="breadcrumb-link">{$translateStore('home')}</a>
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">{$translateStore('labels')}</span>
+        </div>
+        
+        <Card shadow="large">
+            <div class="label-info">
+                <div class="lable-title-section">
+                    <div class="label-icon">🏷️</div>
+                    <div>
+                        <h1 class="label-title">{$translateStore('labels')}</h1>
+                        <p class="label-stats">
+                            {labelCount} {labelCount === 1 ? $translateStore('label') : $translateStore('label_plural')}
+                        </p>
+                    </div>
+                </div>
+                <div class="label-actions">
+                    <Button variant="primary" size="medium" on:click={openCreateLabelModal}>
+                        {$translateStore('add_label')}
+                    </Button>
                 </div>
             </div>
-            <div class="label-actions">
-                <Button variant="primary" size="medium" on:click={openCreateLabelModal}>
-                    {$translateStore('add_label')}
-                </Button>
-            </div>
-        </div>
-    </Card>
-</div>
+        </Card>
+    </div>
 
-<div class="label-container">
-    <div class="labels-header">
-        <h2 class="labels-section-title">{$translateStore('all_labels')}</h2>
-        {#if labelCount === 0}
-            <p class="empty-state">{$translateStore('no_labels_yet')}</p>
+    <div class="label-container">
+        <div class="labels-header">
+            <h2 class="labels-section-title">{$translateStore('all_labels')}</h2>
+            {#if labelCount === 0}
+                <p class="empty-state">{$translateStore('no_labels_yet')}</p>
+            {/if}
+        </div>
+        
+        {#if labelCount > 0}
+            <div class="labels-table">
+                <div class="table-header">
+                    <div class="table-header-cell label-column">{$translateStore('labels')}</div>
+                    <div class="table-header-cell description-column">{$translateStore('description')}</div>
+                    <div class="table-header-cell actions-column">{$translateStore('actions')}</div>
+                </div>
+                
+                {#each labels as label}
+                    {console.log(label)}
+                    <LableTableEntry 
+                        {label}
+                        on:update={(e) => handleLabelUpdated(e.detail)}
+                        on:delete={(e) => handleLabelDeleted(e.detail)}
+                    >
+                        <Label color={label.color}>{label.title}</Label>
+                    </LableTableEntry>
+                {/each}
+            </div>
         {/if}
     </div>
-    
-    {#if labelCount > 0}
-        <div class="labels-table">
-            <div class="table-header">
-                <div class="table-header-cell label-column">{$translateStore('labels')}</div>
-                <div class="table-header-cell description-column">{$translateStore('description')}</div>
-                <div class="table-header-cell actions-column">{$translateStore('actions')}</div>
-            </div>
-            
-            {#each labels as label}
-                {console.log(label)}
-                <LableTableEntry 
-                    {label}
-                    on:update={(e) => handleLabelUpdated(e.detail)}
-                    on:delete={(e) => handleLabelDeleted(e.detail)}
-                >
-                    <Label color={label.color}>{label.title}</Label>
-                </LableTableEntry>
-            {/each}
-        </div>
-    {/if}
 </div>
-
 <CreateLabelModal 
     isOpen={showCreateLabelModal}
     on:close={closeCreateLabelModal}
@@ -197,6 +197,10 @@
 
     .box-header {
         margin-bottom: 2rem;
+    }
+
+    .labels-container {
+        padding: 1rem;
     }
 
     .label-info {
@@ -337,7 +341,6 @@
 
         .breadcrumbs {
             margin-bottom: 1rem;
-            text-align: center;
         }
 
         .label-container {
