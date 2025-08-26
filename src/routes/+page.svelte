@@ -5,6 +5,7 @@
 	import { Button, FeatureCard, BoxCard, Alert, ItemSearch } from '$lib';
 	import CreateBoxModal from '$lib/components/CreateBoxModal.svelte';
 	import { getBoxes, type Box } from '$lib/api';
+	import { translateStore } from '$lib/strings';
 
 	let boxes: Box[] = [];
 	let loading = false;
@@ -63,7 +64,7 @@
 				console.log('Boxes length:', boxes.length);
 			} catch (err) {
 				console.error('Failed to load boxes:', err);
-				error = 'Failed to load your boxes. Please try again.';
+				error = $translateStore('failed_load_boxes');
 				boxes = []; // Ensure empty array on error
 			} finally {
 				loading = false;
@@ -99,13 +100,13 @@
 		<div class="dashboard-header">
 			<div class="header-content">
 				<h1 class="dashboard-title">
-					Welcome back, <span class="user-name">{$currentUser?.username || 'User'}</span>! 👋
+					{$translateStore('welcome_back_dashboard')} <span class="user-name">{$currentUser?.username || $translateStore('user_default')}</span>! 👋
 				</h1>
-				<p class="dashboard-subtitle">Manage your storage boxes and keep track of your belongings</p>
+				<p class="dashboard-subtitle">{$translateStore('manage_storage_subtitle')}</p>
 			</div>
 			<div class="header-actions">
 				<ItemSearch 
-					placeholder="Find items in your boxes..."
+					placeholder={$translateStore('find_items_placeholder')}
 					on:select={handleSearchBoxSelect}
 					on:input={handleSearchInput}
 					maxResults={5}
@@ -116,16 +117,16 @@
 		{#if loading}
 			<div class="loading-state">
 				<div class="loading-spinner"></div>
-				<p>Loading your boxes...</p>
+				<p>{$translateStore('loading_boxes')}</p>
 			</div>
 		{:else if error}
 			<Alert type="error">{error}</Alert>
 		{:else if boxes.length > 0}
 			<div class="boxes-section">
 				<div class="section-header">
-					<h2>Your Boxes ({boxes.length})</h2>
+					<h2>{$translateStore('your_boxes')} ({boxes.length})</h2>
 					<Button variant="primary" size="medium" on:click={openCreateModal}>
-						+ Add New Box
+						{$translateStore('add_new_box')}
 					</Button>
 				</div>
 				<div class="boxes-grid">
@@ -139,20 +140,20 @@
 			<div class="empty-boxes-state">
 				<div class="empty-content">
 					<div class="empty-icon">📦</div>
-					<h3>Welcome to your storage manager!</h3>
-					<p>You don't have any boxes yet. Start organizing by creating your first storage box to keep track of your belongings.</p>
+					<h3>{$translateStore('welcome_storage_manager')}</h3>
+					<p>{$translateStore('no_boxes_yet')}</p>
 					<div class="empty-actions">
 						<Button variant="primary" size="large" on:click={openCreateModal}>
 							<span class="button-icon">+</span>
-							Create Your First Box
+							{$translateStore('create_first_box')}
 						</Button>
 					</div>
 					<div class="getting-started">
-						<h4>Getting started is easy:</h4>
+						<h4>{$translateStore('getting_started')}</h4>
 						<ul class="steps-list">
-							<li>📦 Create a box (e.g., "Kitchen Items", "Winter Clothes")</li>
-							<li>📝 Add items to your box with quantities</li>
-							<li>🔍 Search and organize your belongings effortlessly</li>
+							<li>{$translateStore('step_create_box')}</li>
+							<li>{$translateStore('step_add_items')}</li>
+							<li>{$translateStore('step_organize')}</li>
 						</ul>
 					</div>
 				</div>
@@ -164,19 +165,18 @@
 	<div class="hero">
 		<div class="hero-content">
 			<h1 class="hero-title">
-				Welcome to <span class="brand-gradient">Boks-Boks-Boks</span>
+				{$translateStore('hero_title_prefix')} <span class="brand-gradient">{$translateStore('brand')}</span>
 			</h1>
 			<p class="hero-description">
-				Your comprehensive solution for organizing and managing storage boxes. 
-				Keep track of your belongings, categorize items, and never lose track of your stored items again.
+				{$translateStore('hero_description')}
 			</p>
 			
 			<div class="hero-actions">
 				<Button variant="primary" size="large" on:click={() => goto('/login')}>
-					Get Started
+					{$translateStore('get_started')}
 				</Button>
 				<Button variant="secondary" size="large" on:click={() => goto('/register')}>
-					Sign Up
+					{$translateStore('sign_up')}
 				</Button>
 			</div>
 		</div>
@@ -190,41 +190,41 @@
 	</div>
 
 	<div class="features">
-		<h2 class="features-title">Why Choose Boks-Boks-Boks?</h2>
+		<h2 class="features-title">{$translateStore('why_choose')}</h2>
 		<div class="features-grid">
 			<FeatureCard 
 				icon="📋"
-				title="Detailed Inventory"
-				description="Keep comprehensive records of all items in each box with descriptions, categories, and photos."
+				title={$translateStore('feature_inventory_title')}
+				description={$translateStore('feature_inventory_desc')}
 			/>
 			<FeatureCard 
 				icon="🔍"
-				title="Smart Search"
-				description="Quickly find any item across all your boxes with our powerful search and filtering system."
+				title={$translateStore('feature_search_title')}
+				description={$translateStore('feature_search_desc')}
 			/>
 			<FeatureCard 
 				icon="📊"
-				title="Organization Tools"
-				description="Categorize boxes by room, type, or custom labels to maintain perfect organization."
+				title={$translateStore('feature_org_title')}
+				description={$translateStore('feature_org_desc')}
 			/>
 			<FeatureCard 
 				icon="🏷️"
-				title="Label System"
-				description="Generate printable labels and QR codes to physically mark your boxes for easy identification."
+				title={$translateStore('feature_label_title')}
+				description={$translateStore('feature_label_desc')}
 			/>
 		</div>
 	</div>
 
 	<div class="cta-section">
 		<div class="cta-content">
-			<h2>Ready to Get Organized?</h2>
-			<p>Join thousands of users who have transformed their storage with Boks-Boks-Boks</p>
+			<h2>{$translateStore('cta_title')}</h2>
+			<p>{$translateStore('cta_desc')}</p>
 			<div class="auth-links">
 				<Button variant="primary" size="large" href="/login">
-					Login
+					{$translateStore('login')}
 				</Button>
 				<Button variant="secondary" size="large" href="/register">
-					Register
+					{$translateStore('register')}
 				</Button>
 			</div>
 		</div>

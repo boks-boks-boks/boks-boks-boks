@@ -4,10 +4,11 @@
 	import { currentUser, isAuthenticated, clearAuth } from '$lib/stores/auth';
 	import { Button, Card, Alert, getUserProfileMetadata, type UserProfile } from '$lib';
 	import type { PageProps } from './$types';
+  import { translateStore } from '$lib/strings';
 
-	let { data }: PageProps = $props();
-	
-	let userProfile: UserProfile = $state({
+  let { data }: PageProps = $props();
+
+  let userProfile: UserProfile = $state({
         username: data.username,
         id: undefined,
         total_boxes: 0,
@@ -51,7 +52,7 @@
 		} catch (err: any) {
 			console.error('Failed to load user profile:', err);
 			console.error('Error details:', err.message, err.stack);
-			error = 'Failed to load user profile. You might not have permission to view this profile.';
+			error = $translateStore('failed_load_profile');
 		} finally {
 			loading = false;
 			console.log('Loading set to false, final userProfile:', userProfile);
@@ -89,14 +90,14 @@
 		<Card>
 			<div class="loading-state">
 				<div class="loading-spinner"></div>
-				<p>Loading profile...</p>
+				<p>{$translateStore('loading_profile')}</p>
 			</div>
 		</Card>
 	{:else if error}
 		<Alert type="error">{error}</Alert>
 		<div class="profile-actions">
 			<Button href="/" variant="secondary">
-				← Back to Home
+				{$translateStore('back_to_home')}
 			</Button>
 		</div>
 	{:else if userProfile}
@@ -109,7 +110,7 @@
 				<div class="profile-info">
 					<h1 class="profile-name">{userProfile.username}</h1>
 					{#if isCurrentUser}
-						<span class="current-user-badge">Your Profile</span>
+						<span class="current-user-badge">{$translateStore('your_profile')}</span>
 					{/if}
 				</div>
 			</div>
@@ -117,16 +118,16 @@
 
 		<!-- Profile Details -->
 		<Card>
-			<h2 class="section-title">Profile Information</h2>
+			<h2 class="section-title">{$translateStore('profile_information')}</h2>
 			<div class="profile-details">
 				<div class="detail-item">
-					<span class="detail-label">Username:</span>
+					<span class="detail-label">{$translateStore('username')}:</span>
 					<span class="detail-value">{userProfile.username}</span>
 				</div>
 				
 				{#if isCurrentUser && userProfile.id}
 					<div class="detail-item">
-						<span class="detail-label">User ID:</span>
+						<span class="detail-label">{$translateStore('user_id')}</span>
 						<span class="detail-value">{userProfile.id}</span>
 					</div>
 				{/if}
@@ -135,19 +136,19 @@
 
 		<!-- Storage Stats (placeholder for future features) -->
 		<Card>
-			<h2 class="section-title">Storage Overview</h2>
+			<h2 class="section-title">{$translateStore('storage_overview')}</h2>
 			<div class="stats-grid">
 				<div class="stat-item">
 					<div class="stat-number">{userProfile.total_boxes}</div>
-					<div class="stat-label">Total Boxes</div>
+					<div class="stat-label">{$translateStore('total_boxes')}</div>
 				</div>
 				<div class="stat-item">
 					<div class="stat-number">{userProfile.total_items}</div>
-					<div class="stat-label">Items Stored</div>
+					<div class="stat-label">{$translateStore('items_stored')}</div>
 				</div>
 				<div class="stat-item">
 					<div class="stat-number">{userProfile.total_labels}</div>
-					<div class="stat-label">Labels</div>
+					<div class="stat-label">{$translateStore('labels')}</div>
 				</div>
 			</div>
 		</Card>
@@ -155,20 +156,20 @@
 		<!-- Actions -->
 		{#if isCurrentUser}
 			<Card>
-				<h2 class="section-title">Account Actions</h2>
+				<h2 class="section-title">{$translateStore('account_actions')}</h2>
 				<div class="profile-actions">
 					<Button variant="primary" href="/">
-						Manage Boxes
+						{$translateStore('manage_boxes')}
 					</Button>
 					<Button variant="secondary" on:click={handleLogout}>
-						Logout
+						{$translateStore('logout')}
 					</Button>
 				</div>
 			</Card>
 		{:else}
 			<div class="profile-actions">
 				<Button href="/" variant="secondary">
-					← Back to Home
+					{$translateStore('back_to_home')}
 				</Button>
 			</div>
 		{/if}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Box } from '../api';
 	import Card from './Card.svelte';
+	import { translateStore } from '../strings';
 	
 	export let box: Box;
 	export let href: string = '';
@@ -16,7 +17,7 @@
 			<div class="box-content">
 				<h3 class="box-title">{box.title}</h3>
 				<p class="box-stats">
-					Click to view items
+					{$translateStore('click_to_view')}
 				</p>
 			</div>
 			<div class="box-arrow">→</div>
