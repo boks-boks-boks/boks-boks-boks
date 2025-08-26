@@ -1,7 +1,7 @@
 import { browser } from "$app/environment";
 import { writable } from "svelte/store";
 
-enum Lang {
+export enum Lang {
     EN = "En",
     FR = "Fr"
 }
