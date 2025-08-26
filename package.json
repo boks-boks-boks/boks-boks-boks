@@ -12,13 +12,10 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^6.0.0",
 		"@sveltejs/kit": "^2.22.0",
 		"@sveltejs/vite-plugin-svelte": "^6.0.0",
-		"@tailwindcss/forms": "^0.5.9",
-		"@tailwindcss/typography": "^0.5.15",
-		"@tailwindcss/vite": "^4.0.0",
 		"@types/crypto-js": "^4.2.2",
+		"@types/node": "^24.3.0",
 		"svelte": "^5.0.0",
 		"svelte-awesome-color-picker": "^4.0.2",
 		"svelte-check": "^4.0.0",
