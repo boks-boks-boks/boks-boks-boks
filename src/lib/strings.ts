@@ -1,28 +1,17 @@
-import { derived, get, writable } from "svelte/store";
-import { browser } from '$app/environment';
+import { derived } from "svelte/store";
 import { language } from "$lib/stores/lang";
+import { page } from '$app/stores';
 
-let strings: Record<string, Record<string, string>> = {};
-export const stringsLoaded = writable(false);
-
-if (browser) {
-    fetch('/strings.json')
-    .then(res => res.json())
-    .then(data => { 
-        strings = data; 
-        stringsLoaded.set(true);
-    })
-    .catch(err => console.error('Failed to load translations:', err));
-}
-
-export const translateStore = derived([language, stringsLoaded], ([$language, $loaded]) => {
+export const translateStore = derived([language, page], ([$language, $page]) => {
     return (id: string) => {
-        if (!browser || !$loaded) {
-            return id;
-        }
-
-        let currentLang = $language || 'En';
+        const serverTranslations = $page.data?.translations;
+        const serverDetectedLang = $page.data?.userLanguage;
         
-        return strings[id]?.[currentLang] || strings[id]?.['En'] || id;
+        if (serverTranslations && Object.keys(serverTranslations).length > 0) {
+            const currentLang = $language || serverDetectedLang || 'En';
+            return serverTranslations[id]?.[currentLang] || serverTranslations[id]?.['En'] || id;
+        }
+        
+        return id;
     };
 });
