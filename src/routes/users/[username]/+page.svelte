@@ -3,21 +3,19 @@
 	import { goto } from '$app/navigation';
 	import { currentUser, isAuthenticated, clearAuth } from '$lib/stores/auth';
 	import { Button, Card, Alert, getUserProfileMetadata, type UserProfile } from '$lib';
-	import { translateStore } from '$lib/strings';
-	
-	interface Props {
-		username: string
-	}
-	
-	let { username }: Props = $props();
-	
-	let userProfile: UserProfile = $state({
-        username: username,
+	import type { PageProps } from './$types';
+  import { translateStore } from '$lib/strings';
+
+  let { data }: PageProps = $props();
+
+  let userProfile: UserProfile = $state({
+        username: data.username,
         id: undefined,
         total_boxes: 0,
         total_items: 0,
         total_labels: 0
     });
+
 	let loading: boolean = $state(true);
 	let error: string = $state('');
 	let isCurrentUser: boolean = $state(false);
@@ -37,23 +35,20 @@
 		}
 
 		try {
-			if ($currentUser?.username === username) {
-				isCurrentUser = true;
-			}
-
-			const metaData = await getUserProfileMetadata();
+			const metaData = await getUserProfileMetadata(userProfile.username);
 
 			if (!metaData) {
 				throw new Error('No metadata returned from API');
 			}
 
-			userProfile = {
-                username: metaData.username,
-                id: metaData.id,
-                total_boxes: metaData.total_boxes || 0,
-                total_items: metaData.total_items || 0,
-                total_labels: metaData.total_labels || 0
-            };
+			userProfile.id = metaData.id;
+			userProfile.total_boxes = metaData.total_boxes;
+			userProfile.total_items = metaData.total_items;
+			userProfile.total_labels = metaData.total_labels;
+
+			if ($currentUser?.username === userProfile.username) {
+				isCurrentUser = true;
+			}
 		} catch (err: any) {
 			console.error('Failed to load user profile:', err);
 			console.error('Error details:', err.message, err.stack);
@@ -87,7 +82,7 @@
 </script>
 
 <svelte:head>
-	<title>{username} - Profile | Boks-Boks-Boks</title>
+	<title>{userProfile.username} - Profile | Boks-Boks-Boks</title>
 </svelte:head>
 
 <div class="profile-container">
@@ -130,7 +125,7 @@
 					<span class="detail-value">{userProfile.username}</span>
 				</div>
 				
-				{#if userProfile.id}
+				{#if isCurrentUser && userProfile.id}
 					<div class="detail-item">
 						<span class="detail-label">{$translateStore('user_id')}</span>
 						<span class="detail-value">{userProfile.id}</span>

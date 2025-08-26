@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
-export async function load({ params }: { params: { username: string } }) {
+export const load: PageServerLoad = async ({ params }) => {
     const { username } = params;
     
     // Basic validation
@@ -10,7 +11,7 @@ export async function load({ params }: { params: { username: string } }) {
 
     // In a real app, you might validate the username format here
     // and check if the user exists in your database
-    
+
     return {
         username: username
     };
