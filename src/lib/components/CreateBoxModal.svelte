@@ -4,6 +4,7 @@
 	import Button from './Button.svelte';
 	import FormInput from './FormInput.svelte';
 	import { createBox, type Box } from '$lib/api';
+	import { translateStore } from '$lib/strings';
 	
 	export let isOpen = false;
 	
@@ -25,7 +26,7 @@
 		event.preventDefault();
 		
 		if (!title.trim()) {
-			error = 'Box title is required';
+			error = $translateStore('box_title_required');
 			return;
 		}
 		
@@ -42,7 +43,7 @@
 			closeModal();
 		} catch (err) {
 			console.error('Error creating box:', err);
-			error = err instanceof Error ? err.message : 'Failed to create box';
+			error = err instanceof Error ? err.message : $translateStore('failed_create_box');
 		} finally {
 			isLoading = false;
 		}
@@ -54,13 +55,13 @@
 	}
 </script>
 
-<Modal {isOpen} title="Create New Box" size="medium" on:close={closeModal}>
+<Modal {isOpen} title={$translateStore('create_new_box')} size="medium" on:close={closeModal}>
 	<form on:submit={handleSubmit} class="create-box-form">
 		<div class="form-group">
 			<FormInput
-				label="Box Title"
+				label={$translateStore('box_title')}
 				type="text"
-				placeholder="Enter box title..."
+				placeholder={$translateStore('enter_box_title')}
 				bind:value={title}
 				disabled={isLoading}
 				required
@@ -80,14 +81,14 @@
 				on:click={closeModal}
 				disabled={isLoading}
 			>
-				Cancel
+				{$translateStore('cancel')}
 			</Button>
 			<Button
 				type="submit"
 				variant="primary"
 				disabled={isLoading || !title.trim()}
 			>
-				{isLoading ? 'Creating...' : 'Create Box'}
+				{isLoading ? $translateStore('creating') : $translateStore('create_box')}
 			</Button>
 		</div>
 	</form>
