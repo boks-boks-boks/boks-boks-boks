@@ -65,6 +65,7 @@
 
 	:global(*) {
 		box-sizing: border-box;
+		font-family: inherit;
 	}
 
 	.app {
