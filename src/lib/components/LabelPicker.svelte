@@ -13,7 +13,7 @@
 	const dispatch = createEventDispatcher();
 
 	let { isOpen = false, availableLabels = [], selectedLabels = [] }: Props = $props();
-	let dropdownElement: HTMLDivElement;
+	let dropdownElement = $state<HTMLDivElement>();
 	let shouldPositionBelow = $state(false);
 
 	function isLabelSelected(label: LabelModel): boolean {
@@ -365,13 +365,12 @@
 	@media (max-width: 640px) and (min-width: 481px) {
 		.label-picker-dropdown {
 			position: fixed;
+			top: 20%;
 			left: 45%;
 			transform: translateX(-50%);
 			min-width: 420px;
 			max-width: calc(100vw - 2rem);
-			max-height: 60vh;
 			animation: slideUpMobile 0.25s ease-out;
-			bottom: 4rem;
 		}
 
 		.label-picker-dropdown.position-below {
@@ -410,7 +409,7 @@
 		}
 
 		.dropdown-content {
-			max-height: calc(60vh - 140px);
+			max-height: calc(80vh - 140px);
 		}
 
 		.clear-btn,
