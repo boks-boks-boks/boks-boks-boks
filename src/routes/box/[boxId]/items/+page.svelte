@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { isAuthenticated, currentUser } from '$lib/stores/auth';
+	import { isAuthenticated } from '$lib/stores/auth';
 	import { getBoxItems, getBoxes, type Item, type Box } from '$lib/api';
 	import { Button, Card, Alert, LabelList } from '$lib';
 	import { translateStore } from '$lib/strings';
@@ -22,6 +22,7 @@
 	let showUpdateModal = false;
 	let showItemUpdateModal = false;
 	let modifiedItem: Item | null = null
+	let container;
 
 	async function loadBoxItems() {
 		if (!$isAuthenticated) {
@@ -253,9 +254,9 @@
 										</div>
 										<div class="item-arrow">→</div>
 									</div>
-									<div class="label-container">
+									<div bind:this={container} class="label-container">
 										{#if item.labels && item.labels.length > 0}
-											<LabelList labels={item.labels} size="medium" />
+											<LabelList labels={item.labels} size="medium" container={container} />
 										{/if}
 									</div>
 								</div>
@@ -618,7 +619,7 @@
 		.box-title {
 			font-size: 1.75rem;
 		}
-		
+
 		.empty-items-state {
 			padding: 2rem 1rem;
 			margin: 1rem 0;
