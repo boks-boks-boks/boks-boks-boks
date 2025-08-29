@@ -597,6 +597,15 @@
 			text-align: center;
 		}
 
+		.hero-content {
+			max-width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			padding: 1rem 3rem;
+		}
+
 		.hero-title {
 			font-size: 2.5rem;
 		}
@@ -622,6 +631,12 @@
 			flex-direction: column;
 			align-items: center;
 		}
+
+		.box-icons {
+			flex-direction: row;
+			justify-content: center;
+			flex-wrap: wrap;
+		}
 	}
 
 	@media (max-width: 480px) {
@@ -631,6 +646,15 @@
 		
 		.dashboard-title {
 			font-size: 1.75rem;
+		}
+
+		.box-icons {
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		.hero-content {
+			padding: 0;
 		}
 	}
 </style>
