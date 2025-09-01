@@ -18,7 +18,7 @@
 	let {isOpen = false, item, boxId}: Props = $props()
 
 	let labels = $state<LabelModel[]>([]);
-	let selectLabels = $state<LabelModel[]>(item.labels || []);
+	let selectLabels = $state<LabelModel[]>(item?.labels || []);
 
 	const dispatch = createEventDispatcher();
 	
@@ -26,8 +26,8 @@
 	let error = $state('');
 	let showDeleteConfirm = $state(false);
 
-	let editTitle = $state(item.title);
-	let editAmount = $state(item.amount);
+	let editTitle = $state(item?.title || '');
+	let editAmount = $state(item?.amount || 1);
 	let amountStr = $derived(String(editAmount));
 
 	let isLabelPickerOpen = $state(false)
@@ -41,9 +41,9 @@
 		isLoading = false;
 		showDeleteConfirm = false;
 		// Reset form values to original item values
-		editTitle = item.title;
-		editAmount = item.amount;
-		selectLabels = item.labels || [];
+		editTitle = item?.title || '';
+		editAmount = item?.amount || 1;
+		selectLabels = item?.labels || [];
 	}
 
 	function closeModal() {
@@ -62,6 +62,12 @@
 
 	async function confirmDelete(event: Event) {
 		event.preventDefault();
+		
+		if (!item) {
+			console.error('Cannot delete item: item is null');
+			return;
+		}
+		
 		isLoading = true;
 
     try {
@@ -79,6 +85,12 @@
 
 	async function handleSubmit(event: Event) {
 		event.preventDefault();
+		
+		if (!item) {
+			console.error('Cannot update item: item is null');
+			return;
+		}
+		
 		isLoading = true
 
 		try {
@@ -127,6 +139,7 @@
 </script>
 
 <Modal {isOpen} title={$translateStore('update_item')} size="medium" on:close={() => closeModal()}>
+	{#if item}
 	<form onsubmit={handleSubmit} class="create-box-form">
 		{#if !showDeleteConfirm}
 			<div class="form-group">
@@ -242,6 +255,7 @@
 			</div>
 		{/if}
 	</form>
+	{/if}
 </Modal>
 
 <style>

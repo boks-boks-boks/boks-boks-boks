@@ -305,7 +305,7 @@ export async function updateBox(boxData: UpdateBoxRequest): Promise<void> {
     }
 }
 
-export async function deleteItem(boxId: string, itemId: string) {
+export async function deleteItem(boxId: string, itemId: string): Promise<void> {
     const response = await protectedRequest(`${baseUrl}/api/boxes/${boxId}/items/${itemId}`, {
         method: 'DELETE',
     })

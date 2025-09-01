@@ -167,6 +167,8 @@
 		const deletedId = event.detail
 
 		items = items.filter(item => item.id !== deletedId);
+		modifiedItem = null
+		showItemUpdateModal = false
 	}
 
 	function hanldeItemUpdated(event: CustomEvent<Item>) {
@@ -314,7 +316,7 @@
 />
 {/if}
 
-{#if modifiedItem}
+{#if modifiedItem && showItemUpdateModal}
 <UpdateItemModal
 	isOpen={showItemUpdateModal}
 	item={modifiedItem}
