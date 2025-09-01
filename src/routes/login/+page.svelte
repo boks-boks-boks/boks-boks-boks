@@ -2,7 +2,6 @@
 	import { login, setToken} from '$lib';
 	import { goto } from '$app/navigation';
 	import { FormInput, Button, Alert, Card } from '$lib';
-	import { setLabels } from '$lib/stores/labels';
 	import { translateStore } from '$lib/strings';
 	
 	let username = '';
@@ -33,14 +32,9 @@
 				throw new Error('No token received from server');
 			}
 			
-			// Set token first
 			setToken(token);
 			console.log('Token set in store');
 		
-			// Verify localStorage
-			console.log('localStorage auth_token:', localStorage.getItem('auth_token'));
-			
-			// Small delay to ensure stores are updated
 			await new Promise(resolve => setTimeout(resolve, 100));
 			// Navigate to home page
 			goto('/');

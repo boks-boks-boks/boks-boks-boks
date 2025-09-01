@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { isAuthenticated, currentUser } from '$lib';
+	import { isAuthenticated } from '$lib';
 	import { goto } from '$app/navigation';
-	import { Button, FeatureCard, BoxCard, Alert, ItemSearch } from '$lib';
+	import { Button, FeatureCard, BoxCard, Alert, ItemSearch, getUserProfile } from '$lib';
 	import CreateBoxModal from '$lib/components/CreateBoxModal.svelte';
 	import { getBoxes, type Box } from '$lib/api';
 	import { translateStore } from '$lib/strings';
@@ -22,6 +22,7 @@
 	let loadingPromise: Promise<void> | null = null;
 	let showCreateModal = $state(false);
 	let hasInitialized = $state(false);
+	let username: string | null = $state(null)
 
 	function openCreateModal() {
 		showCreateModal = true;
@@ -98,6 +99,12 @@
 			loading = false;
 			hasInitialized = true;
 		}
+
+		if (!username && $isAuthenticated) {
+			getUserProfile().then(userProfile => {
+				username = userProfile.username
+			})
+		}
 	})
 </script>
 
@@ -112,7 +119,7 @@
 		<div class="dashboard-header">
 			<div class="header-content">
 				<h1 class="dashboard-title">
-					{$translateStore('welcome_back_dashboard')} <span class="user-name">{$currentUser?.username || $translateStore('user_default')}</span>! 👋
+					{$translateStore('welcome_back_dashboard')} <span class="user-name">{username || $translateStore('user_default')}</span>! 👋
 				</h1>
 				<p class="dashboard-subtitle">{$translateStore('manage_storage_subtitle')}</p>
 			</div>

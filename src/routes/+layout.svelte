@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { isAuthenticated } from '$lib/stores/auth';
 	import { translateStore } from '$lib/strings';
+	import { getUserProfile } from '$lib';	
 	import LangSwitcher from '$lib/components/LangSwitcher.svelte';
 
 	interface Props {
@@ -12,6 +13,15 @@
 	let { data }: Props = $props()
 	let serverIsAuthenticated = $derived(data?.isAuthenticated ?? false);
 	let authState = $derived(serverIsAuthenticated || $isAuthenticated);
+	let username: string | null = $state(null)
+
+	$effect(() => {
+		if (!username && $isAuthenticated) {
+			getUserProfile().then(userProfile => {
+				username = userProfile.username
+			})
+		}
+	})
 </script>
 
 <div class="app">
@@ -32,7 +42,7 @@
 					<a href="/labels" class="nav-link" class:active={$page.url.pathname === '/labels'}>
 						{$translateStore('labels')}
 					</a>
-					<a href="/users/" class="nav-link" class:active={$page.url.pathname.startsWith('/users/')}>
+					<a href="/users/{username}" class="nav-link" class:active={$page.url.pathname.startsWith('/users/')}>
 						{$translateStore('profile')}
 					</a>
 				{:else}
