@@ -2,48 +2,37 @@ import { browser } from '$app/environment';
 import { derived, writable } from 'svelte/store';
 import type { UserProfile } from '../api';
 
-export const accessToken = writable<string | null>(null);
+export const userToken = writable<string | null>(null);
 export const currentUser = writable<UserProfile | null>(null);
-export const isAuthenticated = derived(accessToken, $accessToken => !!$accessToken);
+export const isHydrationComplete = writable<boolean>(false);
+export const isAuthenticated = derived([userToken, isHydrationComplete], ([$userToken, $isHydrationComplete]) => {
+    // During SSR or before hydration, use the userToken value directly
+    // After hydration, use the reactive userToken
+    return !!$userToken;
+});
 
-if (browser) {
-    const token = localStorage.getItem('auth_token');
-    const userJson = localStorage.getItem('current_user');
-    
-    if (token) {
-        accessToken.set(token);
-    }
-    
-    if (userJson) {
-        try {
-            const user = JSON.parse(userJson);
-            currentUser.set(user);
-        } catch (error) {
-            console.warn('Failed to parse stored user data:', error);
-            localStorage.removeItem('current_user');
+isAuthenticated.subscribe((value) => {
+    console.log('isAuthenticated:', value)
+})
+
+export function setHydrationComplete(complete: boolean) {
+    isHydrationComplete.set(complete);
+}
+
+export function setToken(token: string) {
+        userToken.set(token);
+        
+        if (browser) {
+            const twoYears = 2 * 365 * 24 * 60 * 60; 
+            document.cookie = `jwt=${token}; max-age=${twoYears}; path=/; SameSite=Lax`;
         }
-    }
-}
-
-export function setToken(token: string): void {
-    accessToken.set(token);
-    if (browser) {
-        localStorage.setItem('auth_token', token);
-    }
-}
-
-export function setUser(user: UserProfile): void {
-    currentUser.set(user);
-    if (browser) {
-        localStorage.setItem('current_user', JSON.stringify(user));
-    }
 }
 
 export function clearAuth(): void {
-    accessToken.set(null);
+    userToken.set(null);
     currentUser.set(null);
     if (browser) {
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('current_user');
+        // Clear the JWT cookie
+        document.cookie = 'jwt=; max-age=0; path=/; SameSite=Lax';
     }
 }

@@ -1,5 +1,5 @@
 <script>
-	import { getLabel, login, setToken, setUser } from '$lib';
+	import { login, setToken} from '$lib';
 	import { goto } from '$app/navigation';
 	import { FormInput, Button, Alert, Card } from '$lib';
 	import { setLabels } from '$lib/stores/labels';
@@ -36,15 +36,9 @@
 			// Set token first
 			setToken(token);
 			console.log('Token set in store');
-			
-			// Set user data
-			const userData = { username };
-			setUser(userData);
-			console.log('User set in store:', userData);
-			
+		
 			// Verify localStorage
 			console.log('localStorage auth_token:', localStorage.getItem('auth_token'));
-			console.log('localStorage current_user:', localStorage.getItem('current_user'));
 			
 			// Small delay to ensure stores are updated
 			await new Promise(resolve => setTimeout(resolve, 100));

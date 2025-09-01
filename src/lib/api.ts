@@ -1,5 +1,7 @@
 import { baseUrl } from './index';
 import CryptoJS from 'crypto-js';
+import { get } from 'svelte/store';
+import { userToken } from './index';
 
 export async function unprotectedRequest(url: string, options: RequestInit = {}): Promise<Response> {
     const response = await fetch(url, options);
@@ -85,7 +87,7 @@ export interface UserProfile {
 }
 
 export async function protectedRequest(url: string, options: RequestInit = {}): Promise<Response> {
-    const token = localStorage.getItem('auth_token');
+    const token = get(userToken)
     
     if (!token) {
         throw new Error('No authentication token found');

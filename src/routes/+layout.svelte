@@ -1,9 +1,17 @@
 <script lang="ts">
 	import '../app.css';
 	import { page } from '$app/stores';
-	import { isAuthenticated, currentUser } from '$lib/stores/auth';
+	import { isAuthenticated } from '$lib/stores/auth';
 	import { translateStore } from '$lib/strings';
 	import LangSwitcher from '$lib/components/LangSwitcher.svelte';
+
+	interface Props {
+		data: any
+	}
+	
+	let { data }: Props = $props()
+	let serverIsAuthenticated = $derived(data?.isAuthenticated ?? false);
+	let authState = $derived(serverIsAuthenticated || $isAuthenticated);
 </script>
 
 <div class="app">
@@ -17,14 +25,14 @@
 			</div>
 			<div class="nav-links">
 				<LangSwitcher />
-				{#if $isAuthenticated && $currentUser}
+				{#if authState === true}
 					<a href="/" class="nav-link" class:active={$page.url.pathname === '/'}>
 						{$translateStore('boxes')}
 					</a>
 					<a href="/labels" class="nav-link" class:active={$page.url.pathname === '/labels'}>
 						{$translateStore('labels')}
 					</a>
-					<a href="/users/{$currentUser.username}" class="nav-link" class:active={$page.url.pathname.startsWith('/users/')}>
+					<a href="/users/" class="nav-link" class:active={$page.url.pathname.startsWith('/users/')}>
 						{$translateStore('profile')}
 					</a>
 				{:else}
