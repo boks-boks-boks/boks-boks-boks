@@ -116,6 +116,7 @@
 {#if authState}
 	<!-- User Dashboard -->
 	<div class="dashboard">
+	{#if !loading}
 		<div class="dashboard-header">
 			<div class="header-content">
 				<h1 class="dashboard-title">
@@ -132,6 +133,7 @@
 				/>
 			</div>
 		</div>
+	{/if}
 
 		{#if loading}
 			<div class="loading-state">
