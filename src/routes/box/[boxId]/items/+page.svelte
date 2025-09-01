@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { isAuthenticated, currentUser } from '$lib/stores/auth';
+	import { isAuthenticated } from '$lib/stores/auth';
 	import { getBoxItems, getBoxes, type Item, type Box } from '$lib/api';
 	import { Button, Card, Alert, LabelList } from '$lib';
 	import { translateStore } from '$lib/strings';
