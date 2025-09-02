@@ -35,19 +35,9 @@
 			setToken(token);
 
 			console.debug('Token set in store');
-			
-			// Set user data
-			const userData = { username };
-			setUser(userData);
-			console.debug('User set in store:', userData);
-			
-			// Verify localStorage
-			console.debug('localStorage auth_token:', localStorage.getItem('auth_token'));
-			console.debug('localStorage current_user:', localStorage.getItem('current_user'));
-			
+		
 			// Small delay to ensure stores are updated
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
+			await new Promise(resolve => setTimeout(resolve, 100));
 			// Navigate to home page
 			goto('/');
 		} catch (error) {
