@@ -1,17 +1,28 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { isAuthenticated, currentUser } from '$lib';
+	import { isAuthenticated } from '$lib';
 	import { goto } from '$app/navigation';
-	import { Button, FeatureCard, BoxCard, Alert, ItemSearch } from '$lib';
+	import { Button, FeatureCard, BoxCard, Alert, ItemSearch, getUserProfile } from '$lib';
 	import CreateBoxModal from '$lib/components/CreateBoxModal.svelte';
 	import { getBoxes, type Box } from '$lib/api';
 	import { translateStore } from '$lib/strings';
 
-	let boxes: Box[] = [];
-	let loading = false;
-	let error = '';
-	let loadingPromise: Promise<void> | null = null; // Track loading promise to prevent duplicates
-	let showCreateModal = false;
+	interface Props {
+		data: any
+	}
+	
+	let { data }: Props = $props()
+	
+	let serverIsAuthenticated = $derived(data?.isAuthenticated ?? false);
+	let authState = $derived(serverIsAuthenticated || $isAuthenticated);
+
+	let boxes: Box[] = $state([]);
+	let loading = $state(true); 
+	let error = $state('');
+	let loadingPromise: Promise<void> | null = null;
+	let showCreateModal = $state(false);
+	let hasInitialized = $state(false);
+	let username: string | null = $state(null)
 
 	function openCreateModal() {
 		showCreateModal = true;
@@ -45,7 +56,12 @@
 	}
 
 	async function loadBoxes() {
-		if (!$isAuthenticated) return;
+		if (!authState) {
+			// If not authenticated, set loading to false and return
+			loading = false;
+			hasInitialized = true;
+			return;
+		}
 		
 		if (loadingPromise) {
 			console.log('Already loading boxes, waiting for existing request...');
@@ -68,25 +84,28 @@
 				boxes = []; // Ensure empty array on error
 			} finally {
 				loading = false;
-				loadingPromise = null; // Clear the promise
+				hasInitialized = true;
+				loadingPromise = null;
 			}
 		})();
 		
 		return loadingPromise;
 	}
 
-	onMount(() => {
-		if ($isAuthenticated) {
+	$effect(() => {
+		if (authState && !hasInitialized) {
 			loadBoxes();
+		} else if (!authState && !hasInitialized) {
+			loading = false;
+			hasInitialized = true;
 		}
-	});
 
-	// Watch for authentication changes, but prevent multiple calls
-	let hasLoadedOnce = false;
-	$: if ($isAuthenticated && !hasLoadedOnce && !loading) {
-		hasLoadedOnce = true;
-		loadBoxes();
-	}
+		if (!username && $isAuthenticated) {
+			getUserProfile().then(userProfile => {
+				username = userProfile.username
+			})
+		}
+	})
 </script>
 
 <svelte:head>
@@ -94,13 +113,14 @@
 	<meta name="description" content="Organize and manage your storage boxes efficiently" />
 </svelte:head>
 
-{#if $isAuthenticated}
+{#if authState}
 	<!-- User Dashboard -->
 	<div class="dashboard">
+	{#if !loading}
 		<div class="dashboard-header">
 			<div class="header-content">
 				<h1 class="dashboard-title">
-					{$translateStore('welcome_back_dashboard')} <span class="user-name">{$currentUser?.username || $translateStore('user_default')}</span>! 👋
+					{$translateStore('welcome_back_dashboard')} <span class="user-name">{username || $translateStore('user_default')}</span>! 👋
 				</h1>
 				<p class="dashboard-subtitle">{$translateStore('manage_storage_subtitle')}</p>
 			</div>
@@ -113,6 +133,7 @@
 				/>
 			</div>
 		</div>
+	{/if}
 
 		{#if loading}
 			<div class="loading-state">

@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { currentUser, isAuthenticated, clearAuth } from '$lib/stores/auth';
-	import { Button, Card, Alert, getUserProfileMetadata, type UserProfile } from '$lib';
+	import { isAuthenticated, clearAuth } from '$lib/stores/auth';
+	import { Button, Card, Alert, getUserProfileMetadata, type UserProfile, getUserProfile } from '$lib';
 	import type { PageProps } from './$types';
-  import { translateStore } from '$lib/strings';
+	import { translateStore } from '$lib/strings';
 
-  let { data }: PageProps = $props();
+	let { data }: PageProps = $props();
 
-  let userProfile: UserProfile = $state({
+	let userProfile: UserProfile = $state({
         username: data.username,
         id: undefined,
         total_boxes: 0,
@@ -23,7 +23,6 @@
 	onMount(async () => {
 		console.log('Profile page mounted');
 		console.log('isAuthenticated:', $isAuthenticated);
-		console.log('currentUser:', $currentUser);
 		console.log('localStorage auth_token:', localStorage.getItem('auth_token'));
 		console.log('localStorage current_user:', localStorage.getItem('current_user'));
 		
@@ -46,7 +45,9 @@
 			userProfile.total_items = metaData.total_items;
 			userProfile.total_labels = metaData.total_labels;
 
-			if ($currentUser?.username === userProfile.username) {
+			const currentUser = await getUserProfile()
+
+			if (currentUser.username === userProfile.username) {
 				isCurrentUser = true;
 			}
 		} catch (err: any) {
@@ -69,15 +70,6 @@
 			clearAuth();
 			goto('/');
 		}
-	}
-
-	function formatDate(dateString: string) {
-		if (!dateString) return 'N/A';
-		return new Date(dateString).toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric'
-		});
 	}
 </script>
 
