@@ -31,7 +31,7 @@
 		}
 
 		if (loadingPromise) {
-			console.log('Already loading items, waiting for existing request...');
+			console.debug('Already loading items, waiting for existing request...');
 			return loadingPromise; // Return existing promise if already loading
 		}
 
@@ -40,10 +40,10 @@
 
 		loadingPromise = (async () => {
 			try {
-				console.log('Loading items for box:', boxId);
+				console.debug('Loading items for box:', boxId);
 				// Fetch items from the API
 				const itemsResponse = await getBoxItems(boxId);
-				console.log('Items response:', itemsResponse);
+				console.debug('Items response:', itemsResponse);
 				items = itemsResponse || []; // Ensure it's always an array
 
 				// Try to get the box title by fetching all boxes and finding the matching one
@@ -66,8 +66,8 @@
 					items: items
 				};
 				
-				console.log('Final box object:', box);
-				console.log('Items length:', items.length);
+				console.debug('Final box object:', box);
+				console.debug('Items length:', items.length);
 				hasLoaded = true;
 			} catch (err) {
 				console.error('Failed to load box items:', err);
@@ -88,7 +88,7 @@
 	// Watch for boxId changes (navigation between different boxes)
 	let previousBoxId = '';
 	$: if (boxId && boxId !== previousBoxId) {
-		console.log('Box ID changed from', previousBoxId, 'to', boxId);
+		console.debug('Box ID changed from', previousBoxId, 'to', boxId);
 		previousBoxId = boxId;
 		hasLoaded = false;
 		box = null;
@@ -136,7 +136,7 @@
 
 	function handleItemCreated(event: CustomEvent<Item>) {
 		const newItem = event.detail;
-		console.log('New item created:', newItem);
+		console.debug('New item created:', newItem);
 		
 		// Add the new item to the list
 		items = [...items, newItem];
@@ -174,7 +174,7 @@
 	function hanldeItemUpdated(event: CustomEvent<Item>) {
 		const newItem = event.detail
 
-		console.log(newItem)
+		console.debug(newItem)
 
 		const updatedIndex = items.findIndex(e => e.id == newItem.id)
 		items[updatedIndex] = newItem

@@ -21,14 +21,15 @@
 	let isCurrentUser: boolean = $state(false);
 
 	onMount(async () => {
-		console.log('Profile page mounted');
-		console.log('isAuthenticated:', $isAuthenticated);
-		console.log('localStorage auth_token:', localStorage.getItem('auth_token'));
-		console.log('localStorage current_user:', localStorage.getItem('current_user'));
+		console.debug('Profile page mounted');
+		console.debug('isAuthenticated:', $isAuthenticated);
+		console.debug('currentUser:', $currentUser);
+		console.debug('localStorage auth_token:', localStorage.getItem('auth_token'));
+		console.debug('localStorage current_user:', localStorage.getItem('current_user'));
 		
 		// Check if user is authenticated
 		if (!$isAuthenticated) {
-			console.log('User not authenticated, redirecting to login');
+			console.debug('User not authenticated, redirecting to login');
 			goto('/login');
 			return;
 		}
@@ -56,7 +57,7 @@
 			error = $translateStore('failed_load_profile');
 		} finally {
 			loading = false;
-			console.log('Loading set to false, final userProfile:', userProfile);
+			console.debug('Loading set to false, final userProfile:', userProfile);
 		}
 	});
 
