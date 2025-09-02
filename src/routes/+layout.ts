@@ -6,11 +6,7 @@ export const load = async ({ data }) => {
         language.set(data.userLanguage as any);
     }
 
-    if (data?.userToken) {
-        userToken.set(data.userToken)
-    } else {
-        userToken.set(null);
-    }
+    userToken.set(data?.userLanguage)
 
     setHydrationComplete(true);
 
