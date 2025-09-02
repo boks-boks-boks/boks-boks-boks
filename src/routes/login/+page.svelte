@@ -20,13 +20,13 @@
 		errorMessage = '';
 
 		try {
-			console.log('Starting login process...');
+			console.debug('Starting login process...');
 			const response = await login({ username, password });
-			console.log('Login response:', response);
+			console.debug('Login response:', response);
 			
 			// Extract token from the correct location in response
 			const token = response.token || response.data?.token;
-			console.log('Extra	cted token:', token);
+			console.debug('Extra	cted token:', token);
 			
 			if (!token) {
 				console.error('Full response object:', response);
@@ -35,16 +35,16 @@
 			
 			// Set token first
 			setToken(token);
-			console.log('Token set in store');
+			console.debug('Token set in store');
 			
 			// Set user data
 			const userData = { username };
 			setUser(userData);
-			console.log('User set in store:', userData);
+			console.debug('User set in store:', userData);
 			
 			// Verify localStorage
-			console.log('localStorage auth_token:', localStorage.getItem('auth_token'));
-			console.log('localStorage current_user:', localStorage.getItem('current_user'));
+			console.debug('localStorage auth_token:', localStorage.getItem('auth_token'));
+			console.debug('localStorage current_user:', localStorage.getItem('current_user'));
 			
 			// Small delay to ensure stores are updated
 			await new Promise(resolve => setTimeout(resolve, 100));

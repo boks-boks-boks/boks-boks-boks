@@ -189,7 +189,7 @@ export async function getBoxes(): Promise<Box[]> {
     const response = await protectedRequest(`${baseUrl}/api/boxes`);
     const apiResponse: APIResponse<Box[]> = await response.json();
     
-    console.log('API boxes response:', apiResponse);
+    console.debug('API boxes response:', apiResponse);
     
     if (!apiResponse.success) {
         throw new Error(apiResponse.error || 'Failed to fetch boxes');
@@ -203,7 +203,7 @@ export async function getBoxItems(boxId: string): Promise<Item[]> {
     const response = await protectedRequest(`${baseUrl}/api/boxes/${boxId}/items`);
     const apiResponse: APIResponse<Item[]> = await response.json();
     
-    console.log('API items response:', apiResponse);
+    console.debug('API items response:', apiResponse);
     
     if (!apiResponse.success) {
         throw new Error(apiResponse.error || 'Failed to fetch items');
@@ -256,7 +256,7 @@ export async function createBox(boxData: CreateBoxRequest): Promise<Box> {
     
     const apiResponse: APIResponse<Box> = await response.json();
     
-    console.log('API create box response:', apiResponse);
+    console.debug('API create box response:', apiResponse);
     
     if (!apiResponse.success || !apiResponse.data) {
         throw new Error(apiResponse.error || 'Failed to create box');
