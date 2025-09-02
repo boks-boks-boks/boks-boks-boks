@@ -6,6 +6,7 @@ declare global {
 		// interface Locals {}
 		interface Locals {
 			language: string;
+			jwt: string | null;
 		}
 		// interface PageData {}
 		// interface PageState {}

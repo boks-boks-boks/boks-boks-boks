@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isAuthenticated, currentUser, accessToken } from '$lib/stores/auth';
+	import { isAuthenticated} from '$lib/stores/auth';
 	import { browser } from '$app/environment';
 	import { Button, Card, ItemSearch } from '$lib';
 	import { translateStore } from '$lib/strings';
@@ -102,8 +102,8 @@
 	<div class="debug-section">
 		<h2>{$translateStore('svelte_stores')}</h2>
 		<p><strong>isAuthenticated:</strong> {$isAuthenticated}</p>
-		<p><strong>accessToken:</strong> {$accessToken || 'null'}</p>
-		<p><strong>currentUser:</strong> {JSON.stringify($currentUser) || 'null'}</p>
+		<p><strong>accessToken:</strong> { 'null'}</p>
+		<p><strong>currentUser:</strong> {'null'}</p>
 	</div>
 
 	<div class="debug-section">
