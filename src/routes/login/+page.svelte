@@ -19,13 +19,13 @@
 		errorMessage = '';
 
 		try {
-			console.log('Starting login process...');
+			console.debug('Starting login process...');
 			const response = await login({ username, password });
-			console.log('Login response:', response);
+			console.debug('Login response:', response);
 			
 			// Extract token from the correct location in response
 			const token = response.token || response.data?.token;
-			console.log('Extra	cted token:', token);
+			console.debug('Extra	cted token:', token);
 			
 			if (!token) {
 				console.error('Full response object:', response);
@@ -33,8 +33,10 @@
 			}
 			
 			setToken(token);
-			console.log('Token set in store');
+
+			console.debug('Token set in store');
 		
+			// Small delay to ensure stores are updated
 			await new Promise(resolve => setTimeout(resolve, 100));
 			// Navigate to home page
 			goto('/');

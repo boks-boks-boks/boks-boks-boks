@@ -38,7 +38,7 @@
 		const button = document.querySelector('.add-label-container .action-btn');
 		
 		if (dropdown && !dropdown.contains(target) && button && !button.contains(target)) {
-			console.log('Clicking outside detected, closing dropdown');
+			console.debug('Clicking outside detected, closing dropdown');
 			dispatch('close');
 		}
 	}

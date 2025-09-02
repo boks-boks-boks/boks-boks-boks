@@ -42,7 +42,7 @@
 
     function handleLabelCreated(event: CustomEvent<LabelModel>) {
         const newLabel = event.detail;
-        console.log('New label received:', newLabel);
+        console.debug('New label received:', newLabel);
         labels = [...labels, newLabel];
         setLabels(labels)
     }
@@ -108,7 +108,7 @@
                 </div>
                 
                 {#each labels as label}
-                    {console.log(label)}
+                    {console.debug(label)}
                     <LableTableEntry 
                         {label}
                         on:update={(e) => handleLabelUpdated(e.detail)}

@@ -34,7 +34,7 @@
 
 	function handleBoxCreated(event: CustomEvent<Box>) {
 		const newBox = event.detail;
-		console.log('New box created:', newBox);
+		console.debug('New box created:', newBox);
 		
 		// Add the new box to the beginning of the list
 		boxes = [newBox, ...boxes];
@@ -45,14 +45,14 @@
 
 	function handleSearchBoxSelect(event: CustomEvent<{ box: any }>) {
 		const box = event.detail.box;
-		console.log('Box selected from search:', box);
+		console.debug('Box selected from search:', box);
 		// Navigate to the box page
 		goto(`/box/${box.id}/items`);
 	}
 
 	function handleSearchInput(event: CustomEvent<{ query: string }>) {
 		// Optional: You can track search queries here
-		console.log('Search query:', event.detail.query);
+		console.debug('Search query:', event.detail.query);
 	}
 
 	async function loadBoxes() {
@@ -64,7 +64,7 @@
 		}
 		
 		if (loadingPromise) {
-			console.log('Already loading boxes, waiting for existing request...');
+			console.debug('Already loading boxes, waiting for existing request...');
 			return loadingPromise; // Return existing promise if already loading
 		}
 		
@@ -73,11 +73,11 @@
 		
 		loadingPromise = (async () => {
 			try {
-				console.log('Loading boxes...');
+				console.debug('Loading boxes...');
 				const response = await getBoxes();
-				console.log('Boxes response:', response);
+				console.debug('Boxes response:', response);
 				boxes = response || []; // Ensure it's always an array
-				console.log('Boxes length:', boxes.length);
+				console.debug('Boxes length:', boxes.length);
 			} catch (err) {
 				console.error('Failed to load boxes:', err);
 				error = $translateStore('failed_load_boxes');

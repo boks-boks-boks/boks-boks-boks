@@ -30,16 +30,16 @@
 
 	function handleBoxSelect(event: CustomEvent<{ box: BoxWithMatch }>) {
 		selectedBox = event.detail.box;
-		console.log('Selected box:', selectedBox);
+		console.debug('Selected box:', selectedBox);
 	}
 
 	function handleSearchInput(event: CustomEvent<{ query: string }>) {
-		console.log('Search query:', event.detail.query);
+		console.debug('Search query:', event.detail.query);
 	}
 
 	function handleSearchClear() {
 		selectedBox = null;
-		console.log('Search cleared');
+		console.debug('Search cleared');
 	}
 
 	function navigateToBox() {
@@ -50,7 +50,7 @@
 
 	onMount(async () => {
 		const boxIds = await getBoxIdContainItemTitle("test2")
-		console.log(boxIds)
+		console.debug(boxIds)
 	})
 </script>
 
