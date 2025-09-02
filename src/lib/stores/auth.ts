@@ -8,7 +8,7 @@ export const isAuthenticated = derived([userToken, isHydrationComplete], ([$user
 });
 
 isAuthenticated.subscribe((value) => {
-    console.log('isAuthenticated:', value)
+    console.debug('isAuthenticated:', value)
 })
 
 export function setHydrationComplete(complete: boolean) {
