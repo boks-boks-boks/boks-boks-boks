@@ -23,7 +23,6 @@
 	onMount(async () => {
 		console.debug('Profile page mounted');
 		console.debug('isAuthenticated:', $isAuthenticated);
-		console.debug('currentUser:', $currentUser);
 		console.debug('localStorage auth_token:', localStorage.getItem('auth_token'));
 		console.debug('localStorage current_user:', localStorage.getItem('current_user'));
 		
