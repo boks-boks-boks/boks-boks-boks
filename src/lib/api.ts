@@ -1,7 +1,8 @@
-import { baseUrl } from './index';
+import { baseUrl, clearAuth } from './index';
 import CryptoJS from 'crypto-js';
 import { get } from 'svelte/store';
 import { userToken } from './index';
+import { goto } from '$app/navigation';
 
 export async function unprotectedRequest(url: string, options: RequestInit = {}): Promise<Response> {
     const response = await fetch(url, options);
@@ -104,9 +105,8 @@ export async function protectedRequest(url: string, options: RequestInit = {}): 
 
     if (!response.ok) {
         if (response.status === 401) {
-            // Token might be expired, clear it
-            localStorage.removeItem('auth_token');
-            throw new Error('Authentication failed');
+            clearAuth()
+            throw new Error('Authentication failed - token expired');
         }
         throw new Error(`Request failed with status ${response.status}`);
     }

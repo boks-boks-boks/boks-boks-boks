@@ -1,20 +1,20 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { isAuthenticated } from '$lib';
+	import { isAuthenticated, isHydrationComplete } from '$lib';
 	import { goto } from '$app/navigation';
 	import { Button, FeatureCard, BoxCard, Alert, ItemSearch, getUserProfile } from '$lib';
 	import CreateBoxModal from '$lib/components/CreateBoxModal.svelte';
 	import { getBoxes, type Box } from '$lib/api';
 	import { translateStore } from '$lib/strings';
+	import { type PageData } from './$types';
 
 	interface Props {
-		data: any
+		data: PageData
 	}
-	
+
 	let { data }: Props = $props()
 	
 	let serverIsAuthenticated = $derived(data?.isAuthenticated ?? false);
-	let authState = $derived(serverIsAuthenticated || $isAuthenticated);
+	let authState = $derived($isHydrationComplete ? $isAuthenticated : serverIsAuthenticated);
 
 	let boxes: Box[] = $state([]);
 	let loading = $state(true); 
@@ -78,8 +78,13 @@
 				console.debug('Boxes response:', response);
 				boxes = response || []; // Ensure it's always an array
 				console.debug('Boxes length:', boxes.length);
-			} catch (err) {
+			} catch (err: any) {
 				console.error('Failed to load boxes:', err);
+				if (err.message.includes('Authentication failed - token expired')) {
+					console.debug('Token expired, redirecting to home');
+					goto('/');
+					return;
+				}
 				error = $translateStore('failed_load_boxes');
 				boxes = []; // Ensure empty array on error
 			} finally {
@@ -95,15 +100,12 @@
 	$effect(() => {
 		if (authState && !hasInitialized) {
 			loadBoxes();
-		} else if (!authState && !hasInitialized) {
-			loading = false;
-			hasInitialized = true;
-		}
-
-		if (!username && $isAuthenticated) {
 			getUserProfile().then(userProfile => {
 				username = userProfile.username
 			})
+		} else if (!authState && !hasInitialized) {
+			loading = false;
+			hasInitialized = true;
 		}
 	})
 </script>
@@ -113,7 +115,7 @@
 	<meta name="description" content="Organize and manage your storage boxes efficiently" />
 </svelte:head>
 
-{#if authState}
+{#if authState === true}
 	<!-- User Dashboard -->
 	<div class="dashboard">
 	{#if !loading}
