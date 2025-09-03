@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { page } from '$app/stores';
-	import { isAuthenticated } from '$lib/stores/auth';
+	import { isAuthenticated, isHydrationComplete } from '$lib/stores/auth';
 	import { translateStore } from '$lib/strings';
 	import { getUserProfile } from '$lib';	
 	import LangSwitcher from '$lib/components/LangSwitcher.svelte';
@@ -12,7 +12,8 @@
 	
 	let { data }: Props = $props()
 	let serverIsAuthenticated = $derived(data?.isAuthenticated ?? false);
-	let authState = $derived(serverIsAuthenticated || $isAuthenticated);
+	// After hydration, prioritize client-side auth state over server-side
+	let authState = $derived($isHydrationComplete ? $isAuthenticated : serverIsAuthenticated);
 	let username: string | null = $state(null)
 
 	$effect(() => {
