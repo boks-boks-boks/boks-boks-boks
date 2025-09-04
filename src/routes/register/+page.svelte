@@ -1,5 +1,5 @@
 <script>
-	import { register } from '$lib';
+	import { login, register, setToken } from '$lib';
 	import { goto } from '$app/navigation';
 	import { FormInput, Button, Alert, Card } from '$lib';
 	import { translateStore } from '$lib/strings';
@@ -26,9 +26,20 @@
 			successMessage = $translateStore('registration_successful');
 			
 			// Redirect to login page after successful registration
-			setTimeout(() => {
-				goto('/login');
-			}, 2000);
+			setTimeout(async () => {
+				const response = await login({username, password})
+
+				const token = response.token || response.data?.token
+
+				if (!token) {
+					console.error('Full response object:', response)
+					throw new Error('No token received from server')
+				}
+
+				setToken(token)
+
+				goto("/")
+			}, 200);
 		} catch (error) {
 			errorMessage = $translateStore('registration_failed');
 			console.error('Registration error:', error);
