@@ -7,7 +7,9 @@ export const baseUrl =
 
 export * from './api';
 export * from './stores/auth';
-export * from './utils';
+export * from './utils/function-utils';
+export * from './utils/date-utils';
+export * from './utils/color-utils';
 export * from './stores/lang'
 
 // Components
