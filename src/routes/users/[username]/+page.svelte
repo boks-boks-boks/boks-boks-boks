@@ -5,6 +5,7 @@
 	import { Button, Card, Alert, getUserProfileMetadata, type UserProfile, getUserProfile } from '$lib';
 	import type { PageProps } from './$types';
 	import { translateStore } from '$lib/strings';
+    import { clearLabels } from '$lib/stores/labels';
 
 	let { data }: PageProps = $props();
 
@@ -23,8 +24,6 @@
 	onMount(async () => {
 		console.debug('Profile page mounted');
 		console.debug('isAuthenticated:', $isAuthenticated);
-		console.debug('localStorage auth_token:', localStorage.getItem('auth_token'));
-		console.debug('localStorage current_user:', localStorage.getItem('current_user'));
 		
 		// Check if user is authenticated
 		if (!$isAuthenticated) {
@@ -63,11 +62,13 @@
 	function handleLogout() {
 		try {
 			clearAuth();
+			clearLabels();
 			goto('/');
 		} catch (err) {
 			console.error('Logout failed:', err);
 			// Still clear auth even if server logout fails
 			clearAuth();
+			clearLabels();
 			goto('/');
 		}
 	}
