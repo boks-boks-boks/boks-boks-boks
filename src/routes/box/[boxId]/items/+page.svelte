@@ -181,6 +181,12 @@
 
 		closeItemUpdateModal()
 	}
+
+	function handleQrCodeClick(event: any) {
+		event.preventDefault()
+		console.debug("TODO: generate qr code")
+		showCreateModal = true
+	}
 </script>
 
 <svelte:head>
@@ -212,6 +218,9 @@
 			</div>
 			
 			<Card shadow="large">
+				<span class="qr-icon" onclick={(e) => handleQrCodeClick(e)}>
+					<img src="/assets/qr-code-icon.png" alt="QR Code" />
+				</span>
 				<div class="box-info">
 					<div class="box-title-section">
 						<div class="box-icon">📦</div>
@@ -243,7 +252,7 @@
 						<button
 							type="button"
 							class="item-card-btn"
-							on:click={() => openItemUpdateModal(item)}
+							onclick={() => openItemUpdateModal(item)}
 							aria-label="Edit item"
 						>
 							<Card padding="medium" height="min" hover>
@@ -329,6 +338,23 @@
 
 
 <style>
+	.qr-icon {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		z-index: 10;
+		margin: 0;
+		border: 1px solid #000000;
+		box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
+	}
+
+	.qr-icon img {
+		width: 24px;
+		height: 24px;
+		display: block;
+	}
+
 	.box-items-container {
 		max-width: 1200px;
 		margin: 0 auto;
