@@ -17,7 +17,7 @@
 	let username: string | null = $state(null)
 
 	$effect(() => {
-		if (!username && $isAuthenticated) {
+		if ($isAuthenticated) {
 			getUserProfile().then(userProfile => {
 				username = userProfile.username
 			})

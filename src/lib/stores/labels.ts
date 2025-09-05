@@ -6,3 +6,7 @@ export const userLabels = writable<LabelModel[] | null>(null);
 export function setLabels(labels: LabelModel[]): void {
     userLabels.set(labels);
 }
+
+export function clearLabels(): void {
+    userLabels.set(null);
+}
