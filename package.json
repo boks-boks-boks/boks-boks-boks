@@ -17,6 +17,7 @@
 		"@sveltejs/vite-plugin-svelte": "^6.0.0",
 		"@types/crypto-js": "^4.2.2",
 		"@types/node": "^24.3.0",
+		"@types/qrcode": "^1.5.6",
 		"svelte": "^5.0.0",
 		"svelte-awesome-color-picker": "^4.0.2",
 		"svelte-check": "^4.0.0",
@@ -25,6 +26,7 @@
 	},
 	"dependencies": {
 		"@sveltejs/adapter-node": "^5.2.13",
-		"crypto-js": "^4.2.0"
+		"crypto-js": "^4.2.0",
+		"qrcode": "^1.5.4"
 	}
 }

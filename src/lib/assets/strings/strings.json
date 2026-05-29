@@ -275,6 +275,14 @@
     "En": "stored",
     "Fr": "stockés"
 },
+"qr_code": {
+    "En": "QR Code",
+    "Fr": "QR Code"
+},
+"qr_save": {
+    "En": "Save image",
+    "Fr": "Enregistrer l'image"
+},
 "add_item": {
     "En": "+ Add Item",
     "Fr": "+ Ajouter un objet"
