@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { getBoxes, getBoxItems, type Item, type Box } from '$lib/api';
-	import { debounce } from '$lib/utils';
+	import { debounce } from '$lib/utils/function-utils';
 	import { translateStore } from '$lib/strings';
 
 	export let placeholder;

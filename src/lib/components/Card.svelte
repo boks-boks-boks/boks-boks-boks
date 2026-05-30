@@ -15,6 +15,7 @@
 <style>
 	.card {
 		background: white;
+		position: relative;
 		border-radius: 12px;
 		transition: transform 0.2s ease, box-shadow 0.2s ease;
 	}

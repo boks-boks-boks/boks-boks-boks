@@ -9,6 +9,7 @@
 	import CreateItemModal from '$lib/components/CreateItemModal.svelte';
 	import UpdateBoxModal from '$lib/components/UpdateBoxModal.svelte';
 	import UpdateItemModal from '$lib/components/UpdateItemModal.svelte';
+	import QRCodeModal from '$lib/components/QRCodeModal.svelte';
 
 	$: boxId = $page.params.boxId;
 
@@ -21,6 +22,7 @@
 	let showCreateModal = false;
 	let showUpdateModal = false;
 	let showItemUpdateModal = false;
+	let showQRModal = false;
 	let modifiedItem: Item | null = null
 	let container;
 
@@ -181,6 +183,11 @@
 
 		closeItemUpdateModal()
 	}
+
+	function handleQrCodeClick(event: any) {
+		event.preventDefault()
+		showQRModal = true
+	}
 </script>
 
 <svelte:head>
@@ -212,6 +219,11 @@
 			</div>
 			
 			<Card shadow="large">
+				<span class="qr-icon" onclick={(e) => handleQrCodeClick(e)}>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-label="QR Code" role="img">
+						<path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM17 13h2v2h-2zM19 15h2v2h-2zM17 17h2v2h-2zM19 19h2v2h-2zM15 19h2v2h-2zM13 19h-2v2h2zM21 13h-2v2h2z"/>
+					</svg>
+				</span>
 				<div class="box-info">
 					<div class="box-title-section">
 						<div class="box-icon">📦</div>
@@ -243,7 +255,7 @@
 						<button
 							type="button"
 							class="item-card-btn"
-							on:click={() => openItemUpdateModal(item)}
+							onclick={() => openItemUpdateModal(item)}
 							aria-label="Edit item"
 						>
 							<Card padding="medium" height="min" hover>
@@ -296,6 +308,13 @@
 	{/if}
 </div>
 
+<!-- QR Code Modal -->
+<QRCodeModal
+	isOpen={showQRModal}
+	url={`${$page.url.origin}/box/${boxId}/items`}
+	on:close={() => (showQRModal = false)}
+/>
+
 <!-- Create Item Modal -->
 <CreateItemModal
 	isOpen={showCreateModal} 
@@ -329,6 +348,23 @@
 
 
 <style>
+	.qr-icon {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		z-index: 10;
+		margin: 0;
+		border: 1px solid #000000;
+		box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
+	}
+
+	.qr-icon svg {
+		width: 24px;
+		height: 24px;
+		display: block;
+	}
+
 	.box-items-container {
 		max-width: 1200px;
 		margin: 0 auto;
