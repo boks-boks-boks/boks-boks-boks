@@ -3,7 +3,9 @@
 	import { goto } from '$app/navigation';
 	import { FormInput, Button, Alert, Card } from '$lib';
 	import { translateStore } from '$lib/strings';
-	
+
+	export let data;
+
 	let username = '';
 	let password = '';
 	let isLoading = false;
@@ -38,8 +40,8 @@
 		
 			// Small delay to ensure stores are updated
 			await new Promise(resolve => setTimeout(resolve, 100));
-			// Navigate to home page
-			goto('/');
+			// Navigate to redirectTo or home page
+			goto(data.redirectTo ?? '/');
 		} catch (error) {
 			errorMessage = $translateStore('login_failed');
 			console.error('Login error:', error);
